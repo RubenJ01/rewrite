@@ -20,7 +20,7 @@ async def on_ready():
 	print(f"I'm ready.\n{bot.user}\n{discver}")
 
 
-bot.load_extension('cogs.rollingcog')
+#bot.load_extension('cogs.rollingcog')
 bot.load_extension('cogs.taverncog')
 
 bot.run(environ.get('DISCORD_BOT_SECRET'))
