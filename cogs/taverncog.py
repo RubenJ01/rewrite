@@ -3,7 +3,6 @@ from discord.ext.commands import Cog, command
 
 from helpers.checks import is_tavern
 
-
 class TavernCog(Cog, name='Tavern'):
 
     def __init__(self, bot):
