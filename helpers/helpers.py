@@ -5,7 +5,7 @@ from discord.ext.commands import when_mentioned_or
 
 
 def prefix(bot, message):
-	prefixes = ';', '/t'
+	prefixes = '.', '/t'
 	if not message.guild:
 		return prefixes[0]
 	
