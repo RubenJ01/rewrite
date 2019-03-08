@@ -189,8 +189,8 @@ class TavernCog(Cog, name='Tavern'):
             rules_embed.description = desc
             rules_embed.set_footer(text='Use ;rules {rule_num} to get a specific rule')
             return await ctx.send(embed=rules_embed)
-        rules_embed.title = self.faq[rules_num][0]
-        rules_embed.description = self.faq[rules_num][1]
+        rules_embed.title = self.rules[rules_num][0]
+        rules_embed.description = self.rules[rules_num][1]
         return await ctx.send(embed=rules_embed)
 
 
