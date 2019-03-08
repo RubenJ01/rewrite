@@ -165,6 +165,8 @@ class TavernCog(Cog, name='Tavern'):
     @is_tavern()
     @command(name='faq')
     async def faq_command(self, ctx, faq_num: int = None):
+        """Command that contains a list of all the frequently asked questions in the Tavern.
+        It allows users to see a list of all the faq questions and it allows them to get their details."""
         faq_embed = Embed(colour=Colour.blurple())
         desc = ''
         if not faq_num or faq_num not in self.faq.keys():
@@ -181,6 +183,8 @@ class TavernCog(Cog, name='Tavern'):
     @is_tavern()
     @command(name='rules')
     async def rules_command(self, ctx, rules_num: int = None):
+        """Command that contains a list of all the rules in the Tavern.
+        It allows users to see a list of all the rules and it allows them to get their details."""
         rules_embed = Embed(colour=Colour.blurple())
         desc = ''
         if not rules_num or rules_num not in self.rules.keys():
