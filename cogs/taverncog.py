@@ -3,6 +3,7 @@ from discord.ext.commands import Cog, command
 
 from helpers.checks import is_tavern
 
+
 class TavernCog(Cog, name='Tavern'):
 
     def __init__(self, bot):
@@ -134,6 +135,7 @@ class TavernCog(Cog, name='Tavern'):
                 "Pieces, if at all. Don’t make our lives harder.* "
             ),
         }
+
     @command(name='tavern_help', aliases=['thelp'])
     async def tavern_help(self, ctx, cmd: str = "None"):
         """Enables users to request help for the various server-specific commands.
@@ -178,7 +180,7 @@ class TavernCog(Cog, name='Tavern'):
 
     @is_tavern()
     @command(name='rules')
-    async def faq_command(self, ctx, rules_num: int = None):
+    async def rules_command(self, ctx, rules_num: int = None):
         rules_embed = Embed(colour=Colour.blurple())
         desc = ''
         if not rules_num or rules_num not in self.rules.keys():
