@@ -6,8 +6,8 @@ Not much in its current state. Several cogs have to be rewritten, commands need 
 
 #### _Contributors_
 * **Lead**: Ruben#0229: https://github.com/RubenJ01
-* **Help**: Daan#2049
-* **Help**: willdda117#2904
+* **Help**: Daan#2049: https://github.com/DaanVanIJcken
+* **Help**: syntaxaire#9672: https://github.com/syntaxaire
 * **Help**: Refisio#9732: https://github.com/Refisio
 
 ### Can i contribute?
