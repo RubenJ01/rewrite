@@ -33,7 +33,7 @@ async def on_member_join(member):
         strings = f.readlines()
     greeting = random.choice(strings)
     message = "Welcome to The Tavern " + member.mention + ". " + greeting
-    channel = get(member.guild.channels, name="testing")
+    channel = get(member.guild.channels, name="general")
     await channel.send(message)
 
 # bot.load_extension('cogs.rollingcog')
