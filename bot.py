@@ -13,6 +13,7 @@ from helpers.helpers import prefix
 GREETFILE = Path('resources') / 'greetings.txt'  # messages for new members
 LOGDIR = Path('logs')
 
+startup_extensions =['cogs.taverncog']
 
 def setup_logger() -> logging.Logger:
     """Create and return the master Logger object."""
@@ -60,7 +61,13 @@ async def on_member_join(member):
     channel = get(member.guild.channels, name="general")
     await channel.send(message)
 
-# bot.load_extension('cogs.rollingcog')
-bot.load_extension('cogs.taverncog')
+if __name__ == '__main__':
+    """Reads all of the extensions, from startup_extensions"""
+    for extension in startup_extensions:
+        try:
+            bot.load_extension(extension)
+        except Exception as e:
+            print(f'Failed to load extension {extension}.', file=sys.stderr)
+            traceback.print_exc()
 
 bot.run(environ.get('DISCORD_BOT_SECRET'))
