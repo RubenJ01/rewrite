@@ -1,3 +1,5 @@
+import datetime
+import logging
 import random
 from os import environ
 from pathlib import Path
@@ -9,7 +11,29 @@ from discord.utils import get
 from helpers.helpers import prefix
 
 GREETFILE = Path('resources') / 'greetings.txt'  # messages for new members
+LOGDIR = Path('logs')
 
+
+def setup_logger() -> logging.Logger:
+    """Create and return the master Logger object."""
+    LOGDIR.mkdir(exist_ok=True)
+    timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H-%M-%S')
+    logfile = LOGDIR / f'{timestamp}.log'
+    logger = logging.getLogger(__name__)  # the actual logger instance
+    logger.setLevel(logging.DEBUG)  # capture all log levels
+    console_log = logging.StreamHandler()
+    console_log.setLevel(logging.DEBUG)  # log levels to be shown at the console
+    file_log = logging.FileHandler(logfile)
+    file_log.setLevel(logging.INFO)  # log levels to be written to file
+    formatter = logging.Formatter('{asctime} - {name} - {levelname} - {message}', style='{')
+    console_log.setFormatter(formatter)
+    file_log.setFormatter(formatter)
+    logger.addHandler(console_log)
+    logger.addHandler(file_log)
+    return logger
+
+
+log = setup_logger()
 bot = Bot(
     activity=Activity(
         name='.help | D&D 5e',
@@ -22,7 +46,7 @@ bot = Bot(
 
 @bot.event
 async def on_ready():
-    print(f"I'm ready.\n{bot.user}\n{discver}")
+    log.info(f"Connected as {bot.user}, using discord.py {discver}")
 
 
 @bot.event
