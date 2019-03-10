@@ -6,6 +6,7 @@ import yaml
 import sys
 
 from pathlib import Path
+from os import environ
 
 from discord import __version__ as discver, Activity, ActivityType
 from discord.ext.commands import Bot
@@ -73,7 +74,10 @@ if __name__ == '__main__':
             print(f'Failed to load extension {extension}.', file=sys.stderr)
             traceback.print_exc()
 
+try:
+    with open('config.yaml', 'r') as yaml_file:
+        config = yaml.safe_load(yaml_file)
+    bot.run(config['token'])
+except:
+    bot.run(environ.get('DISCORD_BOT_SECRET'))
 
-with open('config.yaml', 'r') as yaml_file:
-    config = yaml.safe_load(yaml_file)
-bot.run(config['token'])
