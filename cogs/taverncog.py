@@ -195,8 +195,8 @@ class TavernCog(Cog, name='Tavern'):
     @command(name='tavern_help', aliases=['thelp'])
     async def tavern_help(self, ctx, cmd: str = "None"):
         """Enables users to request help for the various server-specific commands.
-		This command should return all commands with basic descriptions on each if another isn't
-		called, or should return helpful information for the command that is."""
+        This command should return all commands with basic descriptions on each if another isn't
+        called, or should return helpful information for the command that is."""
         thelp_embed = Embed(
             colour=Colour.blurple()
         )

@@ -1,9 +1,7 @@
 import datetime
 import logging
 import random
-import traceback
 import yaml
-import sys
 
 from pathlib import Path
 from os import environ
@@ -14,10 +12,13 @@ from discord.utils import get
 
 from helpers.helpers import prefix
 
-GREETFILE = Path('resources') / 'greetings.txt'  # messages for new members
+CONFIG_FILE = Path('config.yaml')
+GREET_FILE = Path('resources') / 'greetings.txt'  # messages for new members
 LOGDIR = Path('logs')
 
-startup_extensions =['cogs.taverncog']
+startup_extensions = ['cogs.taverncog',
+                      ]
+
 
 def setup_logger() -> logging.Logger:
     """Create and return the master Logger object."""
@@ -29,7 +30,7 @@ def setup_logger() -> logging.Logger:
     console_log = logging.StreamHandler()
     console_log.setLevel(logging.DEBUG)  # log levels to be shown at the console
     file_log = logging.FileHandler(logfile)
-    file_log.setLevel(logging.INFO)  # log levels to be written to file
+    file_log.setLevel(logging.DEBUG)  # log levels to be written to file
     formatter = logging.Formatter('{asctime} - {name} - {levelname} - {message}', style='{')
     console_log.setFormatter(formatter)
     file_log.setFormatter(formatter)
@@ -58,26 +59,32 @@ async def on_ready():
 async def on_member_join(member):
     if member.guild.id != "362589385117401088":  # The Tavern
         return
-    with open(GREETFILE, 'r') as f:
+    with open(GREET_FILE, 'r') as f:
         strings = f.readlines()
     greeting = random.choice(strings)
     message = "Welcome to The Tavern " + member.mention + ". " + greeting
     channel = get(member.guild.channels, name="general")
     await channel.send(message)
 
-if __name__ == '__main__':
-    """Reads all of the extensions, from startup_extensions"""
+
+def main():
+    """Load cogs, configuration, and start the bot."""
     for extension in startup_extensions:
         try:
+            log.debug(f'Loading extension: {extension}')
             bot.load_extension(extension)
-        except Exception as e:
-            print(f'Failed to load extension {extension}.', file=sys.stderr)
-            traceback.print_exc()
+        except:  # noqa: E722
+            log.exception(f'Failed to load extension: {extension}')
 
-try:
-    with open('config.yaml', 'r') as yaml_file:
-        config = yaml.safe_load(yaml_file)
-    bot.run(config['token'])
-except:
-    bot.run(environ.get('DISCORD_BOT_SECRET'))
+    try:
+        with open(CONFIG_FILE, 'r') as yaml_file:
+            config = yaml.safe_load(yaml_file)
+        bot.run(config['token'])
+    except:  # noqa: E722
+        log.exception(f'Could not load configuration from {CONFIG_FILE}')
+        log.debug(f'Falling back to environment variable for token')
+        bot.run(environ.get('DISCORD_BOT_SECRET'))
 
+
+if __name__ == '__main__':
+    main()
