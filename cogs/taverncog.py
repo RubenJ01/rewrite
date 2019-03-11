@@ -1,7 +1,16 @@
-from discord import Colour, Embed
+import logging
+import random
+from pathlib import Path
+
+from discord import Colour, Embed, Member
 from discord.ext.commands import Cog, command
+from discord.utils import get
 
 from helpers.checks import is_tavern
+
+GREET_FILE = Path('resources') / 'tavern_greetings.txt'  # messages for new Tavern members
+
+log = logging.getLogger('bot.' + __name__)
 
 
 class TavernCog(Cog, name='Tavern'):
@@ -192,6 +201,21 @@ class TavernCog(Cog, name='Tavern'):
             ),
         }
 
+    @is_tavern()
+    @Cog.listener()
+    async def on_member_join(self, member: Member):
+        """Send a custom greeting to new members of The Tavern."""
+        log.debug(f'Sending greeting to new Tavern member {member}')
+        with open(GREET_FILE, 'r') as f:
+            strings = f.readlines()
+        greeting = random.choice(strings)
+        message = 'Welcome to The Tavern, ' + member.mention + '. ' + greeting
+        channel = get(member.guild.channels, name='general')
+        if channel is not None:
+            await channel.send(message)
+        else:
+            log.warning(f'Could not send greeting to {member} in guild {member.guild}: no #general')
+
     @command(name='tavern_help', aliases=['thelp'])
     async def tavern_help(self, ctx, cmd: str = "None"):
         """Enables users to request help for the various server-specific commands.
@@ -275,3 +299,4 @@ class TavernCog(Cog, name='Tavern'):
 
 def setup(bot):
     bot.add_cog(TavernCog(bot))
+    log.debug('Loaded')
