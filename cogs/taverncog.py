@@ -135,6 +135,62 @@ class TavernCog(Cog, name='Tavern'):
                 "Pieces, if at all. Don’t make our lives harder.* "
             ),
         }
+        self.rprules = {
+            1: (
+                "No ERP.",
+                "Any evidence of erotic roleplay will be punished, to allow as many players as possible to take part "
+                "in and enjoy the roleplaying experience here, we need to keep this age appropriate; any descriptions "
+                "of characters based purely on sexual characteristics are deemed inappropriate. Sexual harassment or "
+                "misbehaviour will result in an instant RP Ban. "
+            ),
+            2: (
+                "Respect.",
+                "Just treat fellow players with common decency, don't be cruel to anyone, especially if they're "
+                "asking for advice, at the same time, we understand that debates can break out but when they do keep "
+                "in mind that you are on a public platform and it's disrespectful to other players to be having large "
+                "debates. "
+            ),
+            3: (
+                "Keep OOC, OOC.",
+                "Out of character content should stay limited to the out of character channel, any content posted in "
+                "main hall and the other roleplaying channels should be deleted, and if you have to declare the "
+                "result from a roll or request another player make a roll just use the recommended format laid out "
+                "later on in the document. "
+            ),
+            4: (
+                "Approved Characters.",
+                "Please understand that in order to avoid any chaos created from having waves of unbalanced or unfair "
+                "characters you need to wait to have your character sheet approved by a Roleplay DM. To get your "
+                "character approved make sure you follow the character creation rules as laid out later on in the "
+                "document. "
+            ),
+            5: (
+                "Leave the DMing to the DMs.",
+                "Unless you ask a Roleplay DM, please leave DMing to the DMs; If there is an arc event going on and "
+                "you need a DM to help keep things going or make an event occur, just hop into an out of character "
+                "channel and ping the Roleplay DM you need or do a role ping for any Roleplay DM to come in. "
+            ),
+            6: (
+                "Avoid Spotlighting.",
+                "We understand you want your character to have a strong personality and that you want your character "
+                "to have character, but to keep things fair please avoid spotlighting (Trying to steal all the focus "
+                "on a scene) unless it's a specific arc that really is all about you, and even then, best to stay "
+                "respectful of your fellow players. "
+            ),
+            7: (
+                "Common Sense.",
+                "Unless any events spark new rules to be written here, that should be all the basic rules we need, "
+                "just use your common sense, be respectful, and remember to enjoy yourself while keeping things "
+                "enjoyable for others! "
+            ),
+            8: (
+                "RTFM.",
+                "Head on over here to the Public Google Drive for The Tavern and read the Player's Manual, "
+                "known as Rosegrove's Journal of Eden, once you've done that check out our stuff in the Rules, "
+                "Homebrew, and Resources folders, including such hits as Poisons, Mousefolk, Alchemists, "
+                "and much much more! https://drive.google.com/open?id=1IwfCygfjoQXQ5flXxeWbeG6pSgkBKC-V "
+            ),
+        }
 
     @command(name='tavern_help', aliases=['thelp'])
     async def tavern_help(self, ctx, cmd: str = "None"):
@@ -197,6 +253,24 @@ class TavernCog(Cog, name='Tavern'):
         rules_embed.title = self.rules[rules_num][0]
         rules_embed.description = self.rules[rules_num][1]
         return await ctx.send(embed=rules_embed)
+
+    @is_tavern()
+    @command(name='rprules')
+    async def rules_command(self, ctx, rprules_num: int = None):
+        """Command that contains a list of all the rprules for Eden.
+        It allows users to see a list of all the rprules and it allows them to get their details."""
+        rprules_embed = Embed(colour=Colour.blurple())
+        desc = ''
+        if not rprules_num or rprules_num not in self.rprules.keys():
+            rprules_embed.title = 'Roleplaying Rules for Eden'
+            for num, value in enumerate(self.rprules.values()):
+                desc += f'**{num + 1}**: {value[0]}\n'
+            rprules_embed.description = desc
+            rprules_embed.set_footer(text='Use ;rprules {rprule_num} to get a specific rule')
+            return await ctx.send(embed=rprules_embed)
+        rprules_embed.title = self.rprules[rprules_num][0]
+        rprules_embed.description = self.rprules[rprules_num][1]
+        return await ctx.send(embed=rprules_embed)
 
 
 def setup(bot):
