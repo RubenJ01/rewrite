@@ -256,7 +256,7 @@ class TavernCog(Cog, name='Tavern'):
 
     @is_tavern()
     @command(name='rprules')
-    async def rules_command(self, ctx, rprules_num: int = None):
+    async def rprules_command(self, ctx, rprules_num: int = None):
         """Command that contains a list of all the rprules for Eden.
         It allows users to see a list of all the rprules and it allows them to get their details."""
         rprules_embed = Embed(colour=Colour.blurple())
