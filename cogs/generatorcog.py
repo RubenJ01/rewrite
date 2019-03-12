@@ -1,5 +1,11 @@
+import random
+from pathlib import Path
+
 from discord import Colour, Embed
 from discord.ext.commands import Cog, command
+
+BONDS = Path('resources') / 'bonds.txt'  # list of bonds
+
 
 class GeneratorCog(Cog, name='Generator'):
 
@@ -21,8 +27,12 @@ class GeneratorCog(Cog, name='Generator'):
             generator_embed.description = desc
             generator_embed.set_footer(text='Use ;generate {command} to use one of the above commands.')
             return await ctx.send(embed=generator_embed)
-        return
+        if generate_num == "bond":
+            with open(BONDS, 'r') as f:
+                strings = f.readlines()
+        bond = random.choice(strings)
+        return await ctx.send(bond)
 
 
-def setup(bot)
+def setup(bot):
     bot.add_cog(GeneratorCog(bot))
