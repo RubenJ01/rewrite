@@ -28,7 +28,7 @@ class GeneratorCog(Cog, name='Generator'):
         if generate_num is None:
             generator_embed.title = 'All of the Generator Commands'
             for _ in commands:
-                desc += f'***{commands[num]}*** \n'
+                desc += f'**{commands[num]}** \n'
                 num = num + 1
             generator_embed.description = desc
             generator_embed.set_footer(text='Use ;generate {command} to use one of the above commands.')
