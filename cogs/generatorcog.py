@@ -14,14 +14,14 @@ class GeneratorCog(Cog, name='Generator'):
         self.bot = bot
 
     @command(name='generate')
-    async def generator_command(self, ctx, generate_num):
+    async def generator_command(self, ctx, generate_num=None):
         """All of the generate commands that are used to generate things, such as:
         characters, npc's and names."""
         generator_embed = Embed(colour=Colour.blurple())
         commands = ['bond', 'flaw']
         desc = ''
         num = 0
-        if not generate_num:
+        if generate_num is None:
             generator_embed.title = 'All of the Generator Commands'
             for _ in commands:
                 desc += f'***{commands[num]}*** \n'
