@@ -5,9 +5,10 @@ from discord import Colour, Embed
 from discord.ext.commands import Cog, command
 
 paths = {
-    "bond":  Path('resources') / 'bonds.txt',  # list of bonds
-    "flaw":  Path('resources') / 'flaws.txt', # list of flaws
+    "bond": Path('resources') / 'bonds.txt',  # list of bonds
+    "flaw": Path('resources') / 'flaws.txt',  # list of flaws
 }
+
 
 class GeneratorCog(Cog, name='Generator'):
 
