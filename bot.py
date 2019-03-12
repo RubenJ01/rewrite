@@ -17,6 +17,7 @@ GREET_FILE = Path('resources') / 'greetings.txt'  # messages for new members
 LOGDIR = Path('logs')
 
 startup_extensions = ['cogs.taverncog',
+                      'cogs.generatorcog'
                       ]
 
 
