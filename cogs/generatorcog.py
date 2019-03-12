@@ -33,7 +33,7 @@ class GeneratorCog(Cog, name='Generator'):
                 strings = f.readlines()
             bond = random.choice(strings)
             return await ctx.send(bond)
-        if generate_num == "flaw"
+        if generate_num == "flaw":
             with open(FLAWS, 'r') as f:
                 strings = f.readlines()
             flaw = random.choice(strings)
