@@ -1,0 +1,4 @@
+# Put your Discord bot token in the line below and copy this file to config.yaml.
+# Make sure config.yaml is listed in your .gitignore file!
+
+token: xxxxxxxxxxxxxxxxxxxxxxxx.xxxxxx.xxx-xxxxxxxxxxxxxxxxxxxxxxx
