@@ -29,12 +29,13 @@ class GeneratorCog(Cog, name='Generator'):
             generator_embed.description = desc
             generator_embed.set_footer(text='Use ;generate {command} to use one of the above commands.')
             return await ctx.send(embed=generator_embed)
-        if generate_num == "bond":
+        finalgen = str.casefold(generate_num)
+        if finalgen == "bond":
             with open(BONDS, 'r') as f:
                 strings = f.readlines()
             bond = random.choice(strings)
             return await ctx.send(bond)
-        if generate_num == "flaw":
+        if finalgen == "flaw":
             with open(FLAWS, 'r') as f:
                 strings = f.readlines()
             flaw = random.choice(strings)
