@@ -4,9 +4,10 @@ from pathlib import Path
 from discord import Colour, Embed
 from discord.ext.commands import Cog, command
 
-BONDS = Path('resources') / 'bonds.txt'  # list of bonds
-FLAWS = Path('resources') / 'flaws.txt'  # list of bonds
-
+paths = {
+    "bond":  Path('resources') / 'bonds.txt',  # list of bonds
+    "flaw":  Path('resources') / 'flaws.txt', # list of flaws
+}
 
 class GeneratorCog(Cog, name='Generator'):
 
@@ -28,16 +29,9 @@ class GeneratorCog(Cog, name='Generator'):
             generator_embed.description = desc
             generator_embed.set_footer(text='Use ;generate {command} to use one of the above commands.')
             return await ctx.send(embed=generator_embed)
-        if generate_num == "bond":
-            with open(BONDS, 'r') as f:
-                strings = f.readlines()
-            bond = random.choice(strings)
-            return await ctx.send(bond)
-        if generate_num == "flaw"
-            with open(FLAWS, 'r') as f:
-                strings = f.readlines()
-            flaw = random.choice(strings)
-            return await ctx.send(flaw)
+        with open(paths[generate_num], 'r') as f:
+            strings = f.readlines()
+        return await ctx.send(random.choice(strings))
 
 
 def setup(bot):
