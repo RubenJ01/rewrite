@@ -9,6 +9,7 @@ paths = {
     "flaw": Path('resources') / 'flaws.txt',  # list of flaws
     "ideal": Path('resources') / 'ideals.txt',  # list of ideals
     "trait": Path('resources') / 'traits.txt',  # list of traits
+    "townname": Path('resources') / 'townnames.txt',  # list of town names
 }
 
 
@@ -22,7 +23,7 @@ class GeneratorCog(Cog, name='Generator'):
         """All of the generate commands that are used to generate things, such as:
         characters, npc's and names."""
         generator_embed = Embed(colour=Colour.blurple())
-        commands = ['bond', 'flaw', 'ideal', 'trait']
+        commands = ['bond', 'flaw', 'ideal', 'townname', 'trait']
         desc = ''
         num = 0
         if generate_num is None:
