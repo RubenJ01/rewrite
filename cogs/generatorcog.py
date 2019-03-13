@@ -19,7 +19,7 @@ class GeneratorCog(Cog, name='Generator'):
         self.bot = bot
 
     @command(name='generate')
-    async def generator_command(self, ctx, generate_num=None):
+    async def generator_command(self, ctx, generate_num=None, amount=None):
         """All of the generate commands that are used to generate things, such as:
         characters, npc's and names."""
         generator_embed = Embed(colour=Colour.blurple())
@@ -37,7 +37,12 @@ class GeneratorCog(Cog, name='Generator'):
         final = str.casefold(generate_num)
         with open(paths[final], 'r') as f:
             strings = f.readlines()
-        return await ctx.send(random.choice(strings))
+        if amount is None:
+            return await ctx.send(random.choice(strings))
+        if amount > 10:
+            return await ctx.send("The amount you entered is to big, the maximum is 10")
+        return await ctx.send(random.choices(strings, amount))
+
 
 
 def setup(bot):
