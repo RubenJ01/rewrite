@@ -39,9 +39,9 @@ class GeneratorCog(Cog, name='Generator'):
             strings = f.readlines()
         if amount is None:
             return await ctx.send(random.choice(strings))
-        if amount > 10:
+        if amount > "10":
             return await ctx.send("The amount you entered is to big, the maximum is 10")
-        return await ctx.send(random.choices(strings, amount))
+        return await ctx.send(random.choices(strings, str(amount)))
 
 
 
