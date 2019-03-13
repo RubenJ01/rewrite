@@ -26,7 +26,7 @@ class GeneratorCog(Cog, name='Generator'):
         commands = ['bond', 'flaw', 'ideal', 'townname', 'trait']
         desc = ''
         num = 0
-        if generate_num is None:
+        if generate_num not in commands:
             generator_embed.title = 'All of the Generator Commands'
             for _ in commands:
                 desc += f'**{commands[num]}** \n'
