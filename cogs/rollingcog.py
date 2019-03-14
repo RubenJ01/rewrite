@@ -25,7 +25,7 @@ class RollingCog(Cog, name='Roller'):
             iamount = int(amount)
         except ValueError:
             return await ctx.send(f'{amount} is not a valid number of ability scores to generate.')
-        if not 1 < iamount <= 10:
+        if not 1 <= iamount <= 10:
             return await ctx.send(f'Please choose a number of ability scores between 2 and 10.')
         log.debug(f'roll ability scores with amount={amount}')
         for _ in range(int(amount)):
