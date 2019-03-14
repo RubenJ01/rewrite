@@ -14,7 +14,8 @@ CONFIG_FILE = Path('config.yaml')
 LOGDIR = Path('logs')
 
 startup_extensions = ['cogs.taverncog',
-                      'cogs.generatorcog'
+                      'cogs.generatorcog',
+                      'cogs.rollingcog'
                       ]
 
 
