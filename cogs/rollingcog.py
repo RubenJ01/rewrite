@@ -16,6 +16,7 @@ class RollingCog(Cog, name='Roller'):
 	async def rng_stat(self, ctx, amount=None):
 	"""Command that rolls up to 10 ability scores at a time"""
 	rngstat_embed = Embed(colour=Colour.blurple())
+	rngstat_embed.title = "Ability Scores"
 	counter = 0
 	desc = ''
 	if amount is None:
@@ -34,11 +35,11 @@ class RollingCog(Cog, name='Roller'):
 		for rank, (position, roll) in enumerate(sorted(enumerate(rolls), reverse=True, key=lambda item: item[1])):
 			rolls[position] = f"**{roll}**" if rank < 3 else f"{roll}"
 		desc += f'Roll {counter}' + " (" + ", ".join(rolls) + ") " + "= " + str(total) + "\n"
-	generator_embed.description = desc
-	generator_embed.set_footer(text='Use ;rngstat {optional amount}to roll up to 10 ability scores.')
+	rngstat_embed.description = desc
+	rngstat_embed.set_footer(text='Use ;rngstat {optional amount}to roll up to 10 ability scores.')
 	return await ctx.send(embed=rngstat_embed)
 	
 
 def setup(bot):
     bot.add_cog(GeneratorCog(bot))
-	log.debug('Loaded')
+    log.debug('Loaded')
