@@ -12,3 +12,6 @@ Not much in its current state. Several cogs have to be rewritten, commands need 
 
 ### Can i contribute?
 Yes! You can contribute to the bot by leaving a suggestion in ouher discord server, or in github. New suggestions or bug reports are always welcome. If you want to contribute by writing a command or improve on of ouher functions you can. Either hit us up in ouher discord server or send a dm to 1 of the **Contributors**.
+
+### Resources
+List of quests: https://www.dandwiki.com/wiki/100_Adventure_Ideas_(DnD_Other)
