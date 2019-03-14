@@ -1,8 +1,11 @@
+import logging
 import random
 from pathlib import Path
 
 from discord import Colour, Embed
 from discord.ext.commands import Cog, command
+
+log = logging.getLogger('bot.' + __name__)
 
 paths = {
     "bond": Path('resources') / 'bonds.txt',  # list of bonds
@@ -19,31 +22,38 @@ class GeneratorCog(Cog, name='Generator'):
         self.bot = bot
 
     @command(name='generate')
-    async def generator_command(self, ctx, generate_num=None, amount=None):
+    async def generator_command(self, ctx, generate=None, amount=None):
         """All of the generate commands that are used to generate things, such as:
-        characters, npc's and names."""
+        characters, NPCs and names."""
+        log.debug(f'generate request with type={generate} and amount={amount}')
         generator_embed = Embed(colour=Colour.blurple())
         commands = ['bond', 'flaw', 'ideal', 'townname', 'trait']
         desc = ''
         num = 0
-        if generate_num not in commands:
+        if generate not in commands:  # user requested an invalid option; show help
             generator_embed.title = 'All of the Generator Commands'
             for _ in commands:
                 desc += f'**{commands[num]}** \n'
                 num = num + 1
             generator_embed.description = desc
-            generator_embed.set_footer(text='Use ;generate {command} to use one of the above commands.')
+            generator_embed.set_footer(text='Use ;generate {command} {optional amount} to use one of the above commands.')
             return await ctx.send(embed=generator_embed)
-        final = str.casefold(generate_num)
-        with open(paths[final], 'r') as f:
+
+        final = str.casefold(generate)
+        with open(paths[final], 'r', encoding='utf-8') as f:
             strings = f.readlines()
         if amount is None:
             return await ctx.send(random.choice(strings))
-        if amount > "10":
-            return await ctx.send("The amount you entered is to big, the maximum is 10")
-        return await ctx.send(random.choices(strings, str(amount)))
-
+        try:
+            iamount = int(amount)
+        except ValueError:
+            return await ctx.send(f'{amount} is not a valid number of {final}s to generate.')
+        else:
+            if not 1 < iamount <= 10:
+                return await ctx.send(f'Please choose a number of {final}s between 2 and 10.')
+            return await ctx.send(''.join(random.choices(strings, k=iamount)))
 
 
 def setup(bot):
     bot.add_cog(GeneratorCog(bot))
+    log.debug('Loaded')

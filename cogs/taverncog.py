@@ -6,6 +6,7 @@ from discord import Colour, Embed, Member
 from discord.ext.commands import Cog, command
 from discord.utils import get
 
+
 from helpers.checks import is_tavern
 
 GREET_FILE = Path('resources') / 'tavern_greetings.txt'  # messages for new Tavern members
@@ -206,7 +207,7 @@ class TavernCog(Cog, name='Tavern'):
     async def on_member_join(self, member: Member):
         """Send a custom greeting to new members of The Tavern."""
         log.debug(f'Sending greeting to new Tavern member {member}')
-        with open(GREET_FILE, 'r') as f:
+        with open(GREET_FILE, 'r', encoding='utf-8') as f:
             strings = f.readlines()
         greeting = random.choice(strings)
         message = 'Welcome to The Tavern, ' + member.mention + '. ' + greeting
