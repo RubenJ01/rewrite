@@ -41,5 +41,5 @@ class RollingCog(Cog, name='Roller'):
 	
 
 def setup(bot):
-    bot.add_cog(GeneratorCog(bot))
+    bot.add_cog(RollingCog(bot))
     log.debug('Loaded')
