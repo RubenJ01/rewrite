@@ -2,7 +2,7 @@ import logging
 
 from discord.ext.commands import Cog, command
 
-log = logging.getLogger('bot.' + __name__
+log = logging.getLogger('bot.' + __name__)
 
 
 class SpecialCog(Cog, name='Special'):
