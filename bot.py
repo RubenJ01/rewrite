@@ -15,7 +15,8 @@ LOGDIR = Path('logs')
 
 startup_extensions = ['cogs.taverncog',
                       'cogs.generatorcog',
-                      'cogs.rollingcog'
+                      'cogs.rollingcog',
+                      'cogs.specialcog'
                       ]
 
 

@@ -36,7 +36,7 @@ class RollingCog(Cog, name='Roller'):
                 rolls[position] = f"**{roll}**" if rank < 3 else f"{roll}"
             desc += f'Roll {counter}' + " (" + ", ".join(rolls) + ") " + "= " + str(total) + "\n"
         rngstat_embed.description = desc
-        rngstat_embed.set_footer(text='Use ;rngstat {optional amount}to roll up to 10 ability scores.')
+        rngstat_embed.set_footer(text='Use ;rngstat {optional amount} to roll up to 10 ability scores.')
         return await ctx.send(embed=rngstat_embed)
 
 
