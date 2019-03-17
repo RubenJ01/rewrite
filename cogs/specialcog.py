@@ -5,7 +5,7 @@ from discord.ext.commands import Cog, command
 log = logging.getLogger('bot.' + __name__)
 
 
-class SpecialCog(Cog, name='Special'):
+class SpecialCog(Cog):
 
     def __init__(self, bot):
         self.bot = bot
