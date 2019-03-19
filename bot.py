@@ -49,6 +49,7 @@ bot = Bot(
     pm_help=True
 )
 
+bot.start_time = datetime.datetime.now()
 
 @bot.event
 async def on_ready():

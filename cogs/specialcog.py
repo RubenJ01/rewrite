@@ -1,3 +1,4 @@
+import datetime
 import logging
 
 from discord.ext.commands import Bot, Cog, command
@@ -23,7 +24,12 @@ class SpecialCog(Cog):
         log.debug('Sending the bot status.')
         members = len(list(self.bot.get_all_members()))
         guilds = len(self.bot.guilds)
-        await ctx.send(f'Bot up and running in {guilds} guilds with {members} members.')
+        uptime = datetime.datetime.now() - self.bot.start_time
+        uptime = datetime.timedelta(days=uptime.days, seconds=uptime.seconds)
+        message = f'Bot up and running in {guilds} guilds with {members} members.'
+        message += f'\nUptime: {uptime}'
+        log.debug(message)
+        await ctx.send(message)
 
 
 def setup(bot):
