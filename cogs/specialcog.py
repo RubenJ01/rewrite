@@ -32,7 +32,7 @@ class SpecialCog(Cog):
         message = f'Bot up and running in {guilds} guilds with {members} members.'
         message += f'\nUptime: {uptime}'
         status_embed.description = message
-        generator_embed.set_footer(text='Use ;help to get a list of available commands.')
+        status_embed.set_footer(text='Use ;help to get a list of available commands.')
         log.debug(message)
         await ctx.send(embed=status_embed)
 
