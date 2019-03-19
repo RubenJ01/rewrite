@@ -1,30 +1,29 @@
 import logging
 
-from discord.ext.commands import Cog, command
+from discord.ext.commands import Bot, Cog, command
 
 log = logging.getLogger('bot.' + __name__)
 
 
 class SpecialCog(Cog):
 
-    def __init__(self, bot):
+    def __init__(self, bot: Bot):
         self.bot = bot
 
     @command(name='invite')
     async def invite_command(self, ctx):
         """Invite the bot to your discord server."""
         log.debug('Sending an invite link for the bot')
-        await ctx.send('https://discordapp.com/oauth2/authorize?client_id=506541896630403080&scope=bot&permissions=0')
+        invite = 'https://discordapp.com/oauth2/authorize?client_id=506541896630403080&scope=bot&permissions=0'
+        await ctx.send(invite)
 
     @command(name='status')
     async def status_command(self, ctx):
         """Get the current status of the bot."""
         log.debug('Sending the bot status.')
         members = len(list(self.bot.get_all_members()))
-        servers = len(self.bot.servers)
-        strmembers = str(members)
-        strservers = str(servers)
-        await ctx.send(f'Bot up and running in {strservers} servers with {strmembers} members.')
+        guilds = len(self.bot.guilds)
+        await ctx.send(f'Bot up and running in {guilds} guilds with {members} members.')
 
 
 def setup(bot):
