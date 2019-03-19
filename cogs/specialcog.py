@@ -29,8 +29,9 @@ class SpecialCog(Cog):
         guilds = len(self.bot.guilds)
         uptime = datetime.datetime.now() - self.bot.start_time
         uptime = datetime.timedelta(days=uptime.days, seconds=uptime.seconds)
+        date = 'Created on 18-11-2018'
         message = f'Bot up and running in {guilds} guilds with {members} members.'
-        message += f'\nUptime: {uptime}'
+        message += f'\nUptime: {uptime}\n{date}'
         status_embed.description = message
         status_embed.set_footer(text='Use ;help to get a list of available commands.')
         log.debug(message)
