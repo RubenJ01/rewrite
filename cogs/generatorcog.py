@@ -14,6 +14,7 @@ paths = {
     "trait": Path('resources') / 'traits.txt',  # list of traits
     "townname": Path('resources') / 'townnames.txt',  # list of town names
     "quest": Path('resources') / 'quests.txt',  # list of quests
+    "backstory": Path('resources') / 'backstorys.txt',  # list of backstory's
 }
 
 
@@ -28,7 +29,7 @@ class GeneratorCog(Cog, name='Generator'):
         characters, NPCs and names."""
         log.debug(f'generate request with type={generate} and amount={amount}')
         generator_embed = Embed(colour=Colour.blurple())
-        commands = ['bond', 'flaw', 'ideal', 'quest', 'townname', 'trait']
+        commands = ['backstory', 'bond', 'flaw', 'ideal', 'quest', 'townname', 'trait']
         desc = ''
         num = 0
         if generate not in commands:  # user requested an invalid option; show help
