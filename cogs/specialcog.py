@@ -40,7 +40,12 @@ class SpecialCog(Cog):
     @command(name='basic')
     async def basic_rules(self, ctx):
         """Link to the basic rulebook for d&d 5e."""
-        await ctx.send('http://media.wizards.com/2018/dnd/downloads/DnD_BasicRules_2018.pdf')
+        log.debug('Sending the basic rules.')
+        basic_embed = Embed(colour=Colour.blurple())
+        basic_embed.title = 'Basic rulebook for d&d 5e.'
+        basic_embed.description = 'http://media.wizards.com/2018/dnd/downloads/DnD_BasicRules_2018.pdf'
+        basic_embed.set_footer(text='Use ;help to get a list of available commands.')
+        await ctx.send(embed=basic_embed)
 
 
 def setup(bot):
