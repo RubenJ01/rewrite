@@ -234,7 +234,7 @@ class TavernCog(Cog, name='Tavern'):
                     # ugly because library errors
                     value=_command.help.split('\n\n')[0],
                     inline=False)
-            thelp_embed.set_footer(text='Use ;tavern_help {command} to get info on a specific comma
+            thelp_embed.set_footer(text='Use ;tavern_help {command} to get info on a specific command.')
             return await ctx.send(embed=thelp_embed)
 
         thelp_embed.title = cmd.name
