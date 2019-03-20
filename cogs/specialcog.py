@@ -15,9 +15,9 @@ class SpecialCog(Cog):
     @command(name='invite')
     async def invite_command(self, ctx):
         """Invite the bot to your discord server."""
-        log.debug('Sending an invite link for the bot')
+        log.debug('Sending an invite link for the bot.')
         invite_embed = Embed(colour=Colour.blurple())
-        invite_embed.title = 'Invite link for The Tavern Bot.'
+        invite_embed.title = 'Invite link for The Tavern Bot'
         invite = 'https://discordapp.com/oauth2/authorize?client_id=506541896630403080&scope=bot&permissions=0'
         invite_embed.description = invite
         invite_embed.set_footer(text='Use ;help to get a list of available commands.')
