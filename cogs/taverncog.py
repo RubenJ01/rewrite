@@ -316,15 +316,15 @@ class TavernCog(Cog, name='Tavern'):
             format_embed.set_footer(text='Use ;format {command} to use one of the above commands.')
             return await ctx.send(embed=format_embed)
 
-        party-up =  f'**Format for when posting in #party-up, always stick to this when posting here:** \n' \
-                    f'```' \
-                    f'Type: lfp (looking for players), lfg (looking for group), lfdm (looking for DM) \n' \
-                    f'Game: the game type you are playing in or looking to play in: 3.5e, 5e etc. \n' \
-                    f'Platform: platform used to play d&d on such as: discord, roll20 etc... \n' \
-                    f'Date and time: time, date and availability for either the player or the dm. \n' \
-                    f'Info: a brief campaign description or some information about your character and anything in ' \
-                    f'between. \n' \
-                    f'```' \
+        partyup = f'**Format for when posting in #party-up, always stick to this when posting here:** \n' \
+                  f'```' \
+                  f'Type: lfp (looking for players), lfg (looking for group), lfdm (looking for DM) \n' \
+                  f'Game: the game type you are playing in or looking to play in: 3.5e, 5e etc. \n' \
+                  f'Platform: platform used to play d&d on such as: discord, roll20 etc... \n' \
+                  f'Date and time: time, date and availability for either the player or the dm. \n' \
+                  f'Info: a brief campaign description or some information about your character and anything in ' \
+                  f'between. \n' \
+                  f'```' \
 
         resources = 'more test'
 
@@ -332,7 +332,7 @@ class TavernCog(Cog, name='Tavern'):
         if final == 'resources':
             await ctx.send(resources)
         if final == 'party-up':
-            await ctx.send(party-up)
+            await ctx.send(partyup)
 
 
 def setup(bot):
