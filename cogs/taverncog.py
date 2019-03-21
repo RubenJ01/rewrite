@@ -318,7 +318,7 @@ class TavernCog(Cog, name='Tavern'):
 
         partyup = f'**Format for when posting in #party-up, always stick to this when posting here:** \n' \
                   f'```' \
-                  f'Type: lfp (looking for players), lfg (looking for group), lfdm (looking for DM) \n' \
+                  f'Type: lfp (looking for players), lfg (looking for group), lfdm (looking for DM). \n' \
                   f'Game: the game type you are playing in or looking to play in: 3.5e, 5e etc. \n' \
                   f'Platform: platform used to play d&d on such as: discord, roll20 etc... \n' \
                   f'Date and time: time, date and availability for either the player or the dm. \n' \
@@ -326,7 +326,13 @@ class TavernCog(Cog, name='Tavern'):
                   f'between. \n' \
                   f'```' \
 
-        resources = 'more test'
+        resources = f'**Format for when posting in #resources, always stick to this when posting here:** \n' \
+                    f'```' \
+                    f'Creator: who created the resource?' \
+                    f'Geared for: for who is this resource helpfull?' \
+                    f'Format: what is the format of the resource? (blog, website etc..)' \
+                    f'Name: what is the name of the resource?' \
+                    f'Link: a link to the resource.'
 
         final = str.casefold(formattype)
         if final == 'resources':
