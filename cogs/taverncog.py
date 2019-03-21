@@ -326,7 +326,7 @@ class TavernCog(Cog, name='Tavern'):
                     f'between. \n' \
                     f'```' \
 
-        resources = 'test'
+        resources = 'more test'
 
         final = str.casefold(formattype)
         if final == 'resources':
