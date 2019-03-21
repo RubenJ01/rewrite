@@ -6,7 +6,6 @@ from discord import Colour, Embed, Member
 from discord.ext.commands import Cog, command
 from discord.utils import get
 
-
 from helpers.checks import is_tavern
 
 GREET_FILE = Path('resources') / 'tavern_greetings.txt'  # messages for new Tavern members
@@ -298,6 +297,42 @@ class TavernCog(Cog, name='Tavern'):
         rprules_embed.title = self.rprules[rprules_num][0]
         rprules_embed.description = self.rprules[rprules_num][1]
         return await ctx.send(embed=rprules_embed)
+
+    @is_tavern()
+    @command(name='format')
+    async def format_command(self, ctx, formattype=None):
+        """Command that contains the formatting for some of the channels such as party-up."""
+        log.debug(f'loading format for {formattype}')
+        format_embed = Embed(colour=Colour.blurple())
+        formats = ['party-up', 'resources']
+        desc = ''
+        num = 0
+        if formattype not in formats:
+            format_embed.title = 'All of the format Commands'
+            for _ in formats:
+                desc += f'**{formats[num]}** \n'
+                num = num + 1
+            format_embed.description = desc
+            format_embed.set_footer(text='Use ;format {command} to use one of the above commands.')
+            return await ctx.send(embed=format_embed)
+
+        party-up =  f'**Format for when posting in #party-up, always stick to this when posting here:** \n' \
+                    f'```' \
+                    f'Type: lfp (looking for players), lfg (looking for group), lfdm (looking for DM) \n' \
+                    f'Game: the game type you are playing in or looking to play in: 3.5e, 5e etc. \n' \
+                    f'Platform: platform used to play d&d on such as: discord, roll20 etc... \n' \
+                    f'Date and time: time, date and availability for either the player or the dm. \n' \
+                    f'Info: a brief campaign description or some information about your character and anything in ' \
+                    f'between. \n' \
+                    f'```' \
+
+        resources = 'test'
+
+        final = str.casefold(formattype)
+        if final == 'resources':
+            await ctx.send(resources)
+        if final == 'party-up':
+            await ctx.send(party-up)
 
 
 def setup(bot):
