@@ -328,11 +328,11 @@ class TavernCog(Cog, name='Tavern'):
 
         resources = f'**Format for when posting in #resources, always stick to this when posting here:** \n' \
                     f'```' \
-                    f'Creator: who created the resource?' \
-                    f'Geared for: for who is this resource helpfull?' \
-                    f'Format: what is the format of the resource? (blog, website etc..)' \
-                    f'Name: what is the name of the resource?' \
-                    f'Link: a link to the resource.' \
+                    f'Creator: who created the resource? \n' \
+                    f'Geared for: for who is this resource helpfull? \n' \
+                    f'Format: what is the format of the resource? (blog, website etc..) \n' \
+                    f'Name: what is the name of the resource? \n' \
+                    f'Link: a link to the resource. \n' \
                     f'```' \
 
         final = str.casefold(formattype)
