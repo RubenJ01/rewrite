@@ -30,6 +30,7 @@ class GeneratorCog(Cog, name='Generator'):
         log.debug(f'generate request with type={generate} and amount={amount}')
         generator_embed = Embed(colour=Colour.blurple())
         commands = ['backstory', 'bond', 'flaw', 'ideal', 'quest', 'townname', 'trait']
+        commands.sort()
         desc = ''
         num = 0
         if generate not in commands:  # user requested an invalid option; show help

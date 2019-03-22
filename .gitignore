@@ -1,3 +1,4 @@
 logs/
+resources/srd/
 .flake8
 config.yaml
