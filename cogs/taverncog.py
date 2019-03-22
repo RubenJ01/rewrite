@@ -340,6 +340,12 @@ class TavernCog(Cog, name='Tavern'):
         if final == 'party-up':
             await ctx.send(partyup)
 
+    @is_tavern()
+    @command(name='role')
+    async def role_command(self, ctx):
+        roles = guild.roles
+        await ctx.send(roles)
+
 
 def setup(bot):
     bot.add_cog(TavernCog(bot))
