@@ -345,7 +345,7 @@ class TavernCog(Cog, name='Tavern'):
     @command(name='role')
     async def role_command(self, ctx):
         guild = '546007130902233088'
-        roles = guild.roles
+        roles = ctx.guild.roles
         await ctx.send(roles)
 
 
