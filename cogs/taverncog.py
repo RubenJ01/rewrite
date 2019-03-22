@@ -332,7 +332,8 @@ class TavernCog(Cog, name='Tavern'):
                     f'Geared for: for who is this resource helpfull?' \
                     f'Format: what is the format of the resource? (blog, website etc..)' \
                     f'Name: what is the name of the resource?' \
-                    f'Link: a link to the resource.'
+                    f'Link: a link to the resource.' \
+                    f'```' \
 
         final = str.casefold(formattype)
         if final == 'resources':
