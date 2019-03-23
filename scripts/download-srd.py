@@ -8,7 +8,7 @@ import zipfile
 from pathlib import Path
 import urllib.request
 
-ZIP_URL = 'https://github.com/adrpadua/5e-database/archive/master.zip'
+ZIP_URL = 'https://github.com/bagelbits/5e-database/archive/master.zip'
 
 # check if we have a resources directory
 bot_root = Path(os.getcwd())
