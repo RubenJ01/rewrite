@@ -40,7 +40,7 @@ class SpecialCog(Cog):
         status_embed.set_footer(text='Use ;help to get a list of available commands.')
         log.debug(message)
         await ctx.send(embed=status_embed)
-        
+
     @command(name='basic')
     async def basic_rules(self, ctx):
         """Link to the basic rulebook for d&d 5e."""

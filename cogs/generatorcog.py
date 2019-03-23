@@ -39,7 +39,8 @@ class GeneratorCog(Cog, name='Generator'):
                 desc += f'**{commands[num]}** \n'
                 num = num + 1
             generator_embed.description = desc
-            generator_embed.set_footer(text='Use ;generate {command} {optional amount} to use one of the above commands.')
+            help = 'Use ;generate {command} {optional amount} to use one of the above commands.'
+            generator_embed.set_footer(text=help)
             return await ctx.send(embed=generator_embed)
 
         final = str.casefold(generate)

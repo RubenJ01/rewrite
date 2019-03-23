@@ -345,7 +345,7 @@ class TavernCog(Cog, name='Tavern'):
     @command(name='role')
     async def role_command(self, ctx):
         role_embed = Embed(colour=Colour.blurple())
-        guild = '546007130902233088'
+        # guild = '546007130902233088'
         role_names = [i.name for i in ctx.guild.roles]
         num = 0
         desc = 0
@@ -355,9 +355,6 @@ class TavernCog(Cog, name='Tavern'):
         role_embed.description = desc
         role_embed.title = 'All of the server roles.'
         await ctx.send(embed=role_embed)
-
-
-
 
 
 def setup(bot):
