@@ -3,7 +3,7 @@ import random
 from pathlib import Path
 
 from discord import Colour, Embed, Member
-from discord.ext.commands import Cog, command
+from discord.ext.commands import Cog, command, group
 from discord.utils import get
 
 from helpers.checks import is_tavern
@@ -17,6 +17,7 @@ class TavernCog(Cog, name='Tavern'):
 
     def __init__(self, bot):
         self.bot = bot
+        self.role_id = 560407352826658837
         self.faq = {
             1: (
                 "I'm new to Dungeons and Dragons. Where should I start?",
@@ -355,6 +356,34 @@ class TavernCog(Cog, name='Tavern'):
         role_embed.description = desc
         role_embed.title = 'All of the server roles.'
         await ctx.send(embed=role_embed)
+
+    @is_tavern()
+    @command(name='sub', aliases=['subscribe'])
+    async def add_role(self, ctx):
+        """
+        This command adds the announcement role.
+        """
+        user = ctx.author
+        announcement_role = get(ctx.guild.roles, id=self.role_id)
+        if self.role_id not in [role.id for role in ctx.message.author.roles]:
+            await user.add_roles(announcement_role)
+            await ctx.send("The Announcement role has been added !")
+        else:
+            await ctx.send("You already have the role !")
+
+    @is_tavern()
+    @command(name="unsub", aliases=['unsubscribe'])
+    async def remove_role(self, ctx):
+        """
+        This command removes the announcement role.
+        """
+        user = ctx.author
+        announcement_role = get(ctx.guild.roles, id=self.role_id)
+        if self.role_id not in [role.id for role in ctx.message.author.roles]:
+            await ctx.send("You do not have the Announcement role.")
+        else:
+            await user.remove_roles(announcement_role)
+            await ctx.send("The Announcement role has been successfully removed !")
 
 
 def setup(bot):
