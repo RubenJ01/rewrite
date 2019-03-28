@@ -8,7 +8,7 @@ from backends.srd import srd
 log = logging.getLogger('bot.' + __name__)
 
 
-class InfoCog(Cog, name='Information'):
+class SRDCog(Cog, name='SRD Information'):
     def __init__(self, bot):
         self.bot = bot
 
@@ -30,5 +30,5 @@ class InfoCog(Cog, name='Information'):
 
 
 def setup(bot):
-    bot.add_cog(InfoCog(bot))
+    bot.add_cog(SRDCog(bot))
     log.debug('Loaded')
