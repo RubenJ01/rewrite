@@ -348,7 +348,7 @@ class TavernCog(Cog, name='Tavern'):
                   f'Info: a brief campaign description or some information about your character and anything in ' \
                   f'between. \n' \
                   f'```' \
-
+ \
         resources = f'**Format for when posting in #resources, always stick to this when posting here:** \n' \
                     f'```' \
                     f'Creator: who created the resource? \n' \
@@ -358,27 +358,12 @@ class TavernCog(Cog, name='Tavern'):
                     f'Link: a link to the resource. \n' \
                     f'```' \
                     f'**We do not allow pay to play services**' \
-
+ \
         final = str.casefold(formattype)
         if final == 'resources':
             await ctx.send(resources)
         if final == 'party-up':
             await ctx.send(partyup)
-
-    @is_tavern()
-    @command(name='role')
-    async def role_command(self, ctx):
-        role_embed = Embed(colour=Colour.blurple())
-        # guild = '546007130902233088'
-        role_names = [i.name for i in ctx.guild.roles]
-        num = 0
-        desc = 0
-        for _ in role_names:
-            desc = f'{role_names[num]} \n'
-            num = num + 1
-        role_embed.description = desc
-        role_embed.title = 'All of the server roles.'
-        await ctx.send(embed=role_embed)
 
     @is_tavern()
     @command(name='sub', aliases=['subscribe'])
@@ -407,6 +392,7 @@ class TavernCog(Cog, name='Tavern'):
         else:
             await user.remove_roles(announcement_role)
             await ctx.send("The Announcement role has been successfully removed !")
+
 
 def setup(bot):
     bot.add_cog(TavernCog(bot))
