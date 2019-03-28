@@ -1,7 +1,10 @@
-"""Load D&D 5e Systems Reference Document information from JSON files provided by dnd5eapi.co"""
+"""Load D&D 5e Systems Reference Document information from JSON files provided by dnd5eapi.co
+
+Import the 'srd' name from this module for access to the SRD."""
 
 import json
 import logging
+from collections import namedtuple
 from functools import lru_cache
 from pathlib import Path
 from time import perf_counter_ns
@@ -9,23 +12,58 @@ from time import perf_counter_ns
 log = logging.getLogger('bot.' + __name__)
 
 SRDPATH = Path('resources') / 'srd'
+NUM_ABBREVS = ('1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th')  # for spell levels
+
+SpellInfo = namedtuple('SpellInfo', 'name subhead casting_time casting_range components duration description page')
 
 
 def collapse(item) -> str:
-    """Given a JSON-derived data structure, collapse all found strings into one."""
+    """Given a JSON-derived data structure, collapse all found strings into one.
+
+    Use for text search of JSON objects."""
     result = ''
     if isinstance(item, str):
         return item
     elif isinstance(item, list):
         for subitem in item:
-            result += collapse(subitem)
+            result += '\n\n' + collapse(subitem)
         return result
     elif isinstance(item, dict):
         for subitem in item.values():
-            result += collapse(subitem)
+            result += '\n\n' + collapse(subitem)
         return result
     else:
         return ''
+
+
+def get_spell_info(spell) -> SpellInfo:
+    """Extract fields from a spell given in the dnd5eapi JSON schema.
+
+    Returns a namedtuple containing string fields as they would be found in
+    the Players' Handbook spell entry:
+    name, subhead, casting_time, casting_range, components, duration, description, page"""
+    name = spell['name']
+    if spell['level'] == 0:
+        # e.g. 'Evocation cantrip'
+        subhead = spell['School']['name'] + ' cantrip'
+    else:
+        # e.g. '5th level necromancy (ritual)'
+        subhead = NUM_ABBREVS[spell['level'] - 1] + '-level '
+        subhead += spell['school']['name'].lower()
+        if spell['ritual'] == 'yes':
+            subhead += ' (ritual)'
+    casting_time = spell['casting_time']
+    casting_range = spell['range']
+    components = ', '.join(spell['components'])
+    if 'M' in components:
+        components += ' (' + spell['material'] + ')'
+    duration = spell['duration']
+    description = spell['desc'][0]
+    if len(spell['desc']) > 1:  # if there is more than one paragraph of description, indent the subsequent ones
+        for para in spell['desc'][1:]:
+            description += '\n\u2001' + para  # EM QUAD space for indent
+    page = spell['page'].split()[-1]
+    return SpellInfo(name, subhead, casting_time, casting_range, components, duration, description, page)
 
 
 class __SRD:
@@ -41,13 +79,19 @@ class __SRD:
                     self.raw[resource] = json.load(handle)
 
     @lru_cache(maxsize=1024)
-    def search(self, resource: str, attr: str, request: str) -> (list, bool):
+    def search(self, resource: str, attr: str, request: str, trunc: int = 5) -> (list, bool):
         """Do a text search of one attribute of one SRD resource.
+
         Returns a list of results (empty if none) and a flag indicating whether or not the search
-        was truncated.
+        was truncated at 5 matches.
+
         Example:
             search('spells', 'name', 'missile')
-        will search the spells resource for a spell with 'missile' in the 'name' attribute.
+        will search the 'spells' resource for a spell with 'missile' in the 'name' attribute.
+
+        If the optional 'trunc' argument is given, will return up to 'trunc' matches, otherwise 5.
+        Pass trunc=0 for no truncation of results.
+
         Repeated identical searches will be cached by decorator."""
         log.debug(f'Searching \'{resource}\'->\'{attr}\' for \'{request}\'...')
         start_time = perf_counter_ns()
@@ -64,10 +108,10 @@ class __SRD:
         results, truncated = [], False
         for item in target:
             search_text = collapse(item[attr]).lower()
-            if request in search_text.lower():
+            if request in search_text:
                 results.append(item)
                 # stop matchy searches before they get too long
-                if len(results) > 5:
+                if trunc and len(results) > trunc:
                     truncated = True
                     break
         end_time = perf_counter_ns()
