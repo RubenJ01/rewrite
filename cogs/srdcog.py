@@ -30,9 +30,12 @@ class SRDCog(Cog, name='SRD Information'):
             return await ctx.send(f'Could be: {", ".join(spell_names)}.')
         spell = matches[0]
         info = get_spell_info(spell)
+        description = info.description
+        if info.higher_levels is not None:
+            description += f'\n\u2001**At Higher Levels. **' + info.higher_levels
         embed = Embed(title=info.name,
                       colour=PHB_COLOUR,
-                      description=f'*{info.subhead}*\n{info.description}')
+                      description=f'*{info.subhead}*\n{description}')
         embed.add_field(name="Casting Time", value=info.casting_time, inline=True)
         embed.add_field(name="Range", value=info.casting_range, inline=True)
         embed.add_field(name="Components", value=info.components, inline=True)

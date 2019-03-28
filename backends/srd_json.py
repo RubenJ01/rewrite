@@ -14,7 +14,8 @@ log = logging.getLogger('bot.' + __name__)
 SRDPATH = Path('resources') / 'srd'
 NUM_ABBREVS = ('1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th')  # for spell levels
 
-SpellInfo = namedtuple('SpellInfo', 'name subhead casting_time casting_range components duration description page')
+SpellInfo = namedtuple('SpellInfo',
+                       'name subhead casting_time casting_range components duration description higher_levels page')
 
 
 def collapse(item) -> str:
@@ -34,6 +35,16 @@ def collapse(item) -> str:
         return result
     else:
         return ''
+
+
+def list_to_paragraphs(items: list) -> str:
+    """Convert a list of strings to a single string of paragraphs,
+    with each paragraph after the first indented."""
+    text = items[0]
+    if len(items) > 1:  # if there is more than one paragraph of description, indent the subsequent ones
+        for para in items[1:]:
+            text += '\n\u2001' + para  # EM QUAD space for indent
+    return text
 
 
 def get_spell_info(spell) -> SpellInfo:
@@ -58,12 +69,13 @@ def get_spell_info(spell) -> SpellInfo:
     if 'M' in components:
         components += ' (' + spell['material'] + ')'
     duration = spell['duration']
-    description = spell['desc'][0]
-    if len(spell['desc']) > 1:  # if there is more than one paragraph of description, indent the subsequent ones
-        for para in spell['desc'][1:]:
-            description += '\n\u2001' + para  # EM QUAD space for indent
+    description = list_to_paragraphs(spell['desc'])
+    if 'higher_level' in spell:  # not all spells have a 'Higher levels:' section
+        higher_levels = list_to_paragraphs(spell['higher_level'])
+    else:
+        higher_levels = None
     page = spell['page'].split()[-1]
-    return SpellInfo(name, subhead, casting_time, casting_range, components, duration, description, page)
+    return SpellInfo(name, subhead, casting_time, casting_range, components, duration, description, higher_levels, page)
 
 
 class __SRD:
