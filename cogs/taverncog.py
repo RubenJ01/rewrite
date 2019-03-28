@@ -63,6 +63,20 @@ class TavernCog(Cog, name='Tavern'):
                 "of the Queen's Guard."
             ),
             7: (
+                "What do the Staff do?",
+                "Queen of the Tavern is the founder of the tavern. \n"
+                "Lords of the Tavern are Admins. In addition to the regular duties of an Innkeeper, each Lord brings "
+                "something unique to the Tavern. \n "
+                "Innkeepers have shown they are capable Moderators and are trusted with more responsibilities; given "
+                "the ability to create channels and roles, they can act more autonomously than Bartenders, "
+                "and help implement or temper the Lords’ ideas. \n "
+                "Bartenders are Moderators in the Tavern, and like any good Bartender, they are great with people. "
+                "They settle disputes that get out of hand, but more generally, they interact with the patrons, "
+                "providing a good face for the Tavern. \n "
+                "Advisors have no permissions or moderator abilities, they serve to help make decisions on moderation "
+                "issues, and exist as a step prior to becoming a mod. \n "
+            ),
+            8: (
                 "...how do I apply for staff here?",
                 "Staff applications are currently closed.\n"
                 # split is intentionally done so that it can be spotted in a crowd to change quickly
@@ -72,13 +86,21 @@ class TavernCog(Cog, name='Tavern'):
                 "Remember, we always are on the lookout for those with regular activity in the "
                 "server who show kindness, consideration, and helpfulness "
             ),
-            8: (
+            9: (
                 "What is the Hall of Fame?",
                 "The Hall of Fame is just that - a hall of fame for those users who have "
                 "distinguished themselves from the crowd in some way. Users who are particularly "
                 "funny, helpful, knowledgeable, clearheaded, or otherwise may one day find that "
                 "the staff have voted to give them a golden hero’s crest."
             ),
+            10: (
+                "What does [abbreviation] mean?",
+                "For more details check #faq."
+            ),
+            11: (
+                "How do I [do the thing] in Discord?",
+                "For more details check #faq."
+            )
         }
         self.rules = {
             1: (
@@ -335,6 +357,7 @@ class TavernCog(Cog, name='Tavern'):
                     f'Name: what is the name of the resource? \n' \
                     f'Link: a link to the resource. \n' \
                     f'```' \
+                    f'**We do not allow pay to play services**' \
 
         final = str.casefold(formattype)
         if final == 'resources':
@@ -384,7 +407,6 @@ class TavernCog(Cog, name='Tavern'):
         else:
             await user.remove_roles(announcement_role)
             await ctx.send("The Announcement role has been successfully removed !")
-
 
 def setup(bot):
     bot.add_cog(TavernCog(bot))
