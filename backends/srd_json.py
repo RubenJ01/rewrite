@@ -54,9 +54,10 @@ def get_spell_info(spell: dict) -> SpellInfo:
     the Players' Handbook spell entry:
     name, subhead, casting_time, casting_range, components, duration, description, page"""
     name = spell['name']
+    print(name)
     if spell['level'] == 0:
         # e.g. 'Evocation cantrip'
-        subhead = spell['School']['name'] + ' cantrip'
+        subhead = spell['school']['name'] + ' cantrip'
     else:
         # e.g. '5th level necromancy (ritual)'
         subhead = NUM_ABBREVS[spell['level'] - 1] + '-level '
