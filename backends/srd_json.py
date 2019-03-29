@@ -47,7 +47,7 @@ def list_to_paragraphs(items: list) -> str:
     return text
 
 
-def get_spell_info(spell) -> SpellInfo:
+def get_spell_info(spell: dict) -> SpellInfo:
     """Extract fields from a spell given in the dnd5eapi JSON schema.
 
     Returns a namedtuple containing string fields as they would be found in
@@ -121,7 +121,7 @@ class __SRD:
         for item in target:
             search_text = collapse(item[attr]).lower()
             if request in search_text:
-                results.append(item)
+                results.append(get_spell_info(item))
                 # stop matchy searches before they get too long
                 if trunc and len(results) > trunc:
                     truncated = True

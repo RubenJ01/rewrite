@@ -16,8 +16,8 @@ class SRDCog(Cog, name='SRD Information'):
 
     @command(name='spell')
     async def spell_command(self, ctx, *request):
-        # TODO: Handle spells that exceed Discord embed size limits, like Imprisonment
         """Give information on a spell by name."""
+        # TODO: Handle spells that exceed Discord embed size limits, like Imprisonment
         request = ' '.join(request).lower()
         log.debug(f'spell command called with request: {request}')
         if len(request) <= 2:
@@ -25,22 +25,27 @@ class SRDCog(Cog, name='SRD Information'):
         matches, truncated = srd.search('spells', 'name', request, trunc=0)
         if len(matches) == 0:
             return await ctx.send(f'Couldn\'t find any spells that match \'{request}\'.')
-        if len(matches) > 1:
-            spell_names = [match['name'] for match in matches]
+        spell_names = [match.name for match in matches]
+        spell_names_lower = [match.name.lower() for match in matches]
+        # guard against instances where request is an exact match of one result but also
+        # part of another match, e.g. 'mass heal' and 'mass healing word'
+        if len(matches) > 1 and request not in spell_names_lower:
             return await ctx.send(f'Could be: {", ".join(spell_names)}.')
-        spell = matches[0]
-        info = get_spell_info(spell)
-        description = info.description
-        if info.higher_levels is not None:
-            description += f'\n\u2001**At Higher Levels. **' + info.higher_levels
-        embed = Embed(title=info.name,
+        if request not in spell_names_lower:
+            spell = matches[0]
+        else:
+            spell = matches[spell_names_lower.index(request)]
+        description = f'*{spell.subhead}*\n{spell.description}'
+        if spell.higher_levels is not None:
+            description += f'\n\u2001**At Higher Levels. **' + spell.higher_levels
+        embed = Embed(title=spell.name,
                       colour=PHB_COLOUR,
-                      description=f'*{info.subhead}*\n{description}')
-        embed.add_field(name="Casting Time", value=info.casting_time, inline=True)
-        embed.add_field(name="Range", value=info.casting_range, inline=True)
-        embed.add_field(name="Components", value=info.components, inline=True)
-        embed.add_field(name="Duration", value=info.duration, inline=True)
-        embed.set_footer(text=f'Player\'s Handbook, page {info.page}.')
+                      description=description)
+        embed.add_field(name="Casting Time", value=spell.casting_time, inline=True)
+        embed.add_field(name="Range", value=spell.casting_range, inline=True)
+        embed.add_field(name="Components", value=spell.components, inline=True)
+        embed.add_field(name="Duration", value=spell.duration, inline=True)
+        embed.set_footer(text=f'Player\'s Handbook, page {spell.page}.')
         return await ctx.send(embed=embed)
 
 
