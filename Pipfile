@@ -9,6 +9,7 @@ flake8 = "*"
 [packages]
 PyYAML = "*"
 "discord.py" = {extras = ["voice"],git = "https://github.com/Rapptz/discord.py",ref = "rewrite"}
+pytest = "*"
 
 [requires]
 python_version = "3.7"
