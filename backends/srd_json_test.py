@@ -32,4 +32,10 @@ def test_get_spell_info():
     spells = srd.search('spells', 'name', 'magic missile')
     info = get_spell_info(spells[0])
     assert info.name == 'Magic Missile'
-    # assert info.
+    assert info.casting_range == '120 feet'
+    assert info.duration == 'Instantaneous'
+    assert info.casting_time == '1 action'
+
+    spells = srd.search('spells', 'name', 'identify')
+    info = get_spell_info(spells[0])
+    assert info.subhead == '1st-level divination (ritual)'
