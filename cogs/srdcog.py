@@ -1,9 +1,11 @@
 import logging
+from time import perf_counter_ns
 
 from discord import Colour, Embed
 from discord.ext.commands import Cog, command
 
-from backends.srd_json import srd, get_spell_info
+
+from backends.srd_json import srd
 from helpers import helpers
 
 log = logging.getLogger('bot.' + __name__)
@@ -18,29 +20,33 @@ class SRDCog(Cog, name='SRD Information'):
     @command(name='spell')
     async def spell_command(self, ctx, *request):
         """Give information on a spell by name."""
-        # TODO: Handle spells that exceed Discord embed size limits, like Imprisonment
-        request = ' '.join(request).lower()
+        # TODO: use multipage embeds with reactions instead of continuation embeds
+        start_time = perf_counter_ns()
+        request = ' '.join(request)
         log.debug(f'spell command called with request: {request}')
         if len(request) <= 2:
             return await ctx.send('Request too short.')
-        matches, truncated = srd.search('spells', 'name', request, trunc=0)
+        matches = srd.search_spell(request)
         if len(matches) == 0:
             return await ctx.send(f'Couldn\'t find any spells that match \'{request}\'.')
         spell_names = [match.name for match in matches]
         spell_names_lower = [match.name.lower() for match in matches]
         # guard against instances where request is an exact match of one result but also
         # part of another match, e.g. 'mass heal' and 'mass healing word'
-        if len(matches) > 1 and request not in spell_names_lower:
+        if len(matches) > 1 and request.lower() not in spell_names_lower:
             return await ctx.send(f'Could be: {", ".join(spell_names)}.')
-        if request not in spell_names_lower:
+        if request.lower() not in spell_names_lower:
             spell = matches[0]
         else:
-            spell = matches[spell_names_lower.index(request)]
+            spell = matches[spell_names_lower.index(request.lower())]
         description = f'*{spell.subhead}*\n{spell.description}'
         if spell.higher_levels is not None:
             description += f'\n\u2001**At Higher Levels. **' + spell.higher_levels
         # is this description too long for a single embed?
         descriptions = helpers.split_text(description, 2000)
+        end_time = perf_counter_ns()
+        elapsed_ms = (end_time - start_time) / 1_000_000
+        log.debug(f'Finished spell search in {elapsed_ms}ms')
         if len(descriptions) == 1:  # only one embed required
             embed = Embed(title=spell.name,
                           colour=PHB_COLOUR,

@@ -7,7 +7,7 @@ import logging
 from collections import namedtuple
 from functools import lru_cache
 from pathlib import Path
-from time import perf_counter_ns
+from typing import List
 
 log = logging.getLogger('bot.' + __name__)
 
@@ -91,22 +91,17 @@ class __SRD:
                     self.raw[resource] = json.load(handle)
 
     @lru_cache(maxsize=1024)
-    def search(self, resource: str, attr: str, request: str, trunc: int = 5) -> (list, bool):
+    def search(self, resource: str, attr: str, request: str) -> list:
         """Do a text search of one attribute of one SRD resource.
 
-        Returns a list of results (empty if none) and a flag indicating whether or not the search
-        was truncated at 5 matches.
+        Returns a list of results (empty if none)
 
         Example:
-            search('spells', 'name', 'missile')
-        will search the 'spells' resource for a spell with 'missile' in the 'name' attribute.
-
-        If the optional 'trunc' argument is given, will return up to 'trunc' matches, otherwise 5.
-        Pass trunc=0 for no truncation of results.
+            search('spells', 'name', 'Missile')
+        will search the 'spells' resource for spells with 'missile' in the 'name' attribute.
 
         Repeated identical searches will be cached by decorator."""
-        log.debug(f'Searching \'{resource}\'->\'{attr}\' for \'{request}\'...')
-        start_time = perf_counter_ns()
+        request = request.lower()
         # check if the request makes sense
         try:
             target = self.raw[resource]
@@ -117,19 +112,20 @@ class __SRD:
             log.debug(f'Invalid search: \'{resource}\' does not have attribute \'{attr}\'')
             return []
         # do the search
-        results, truncated = [], False
+        results = []
         for item in target:
             search_text = collapse(item[attr]).lower()
             if request in search_text:
-                results.append(get_spell_info(item))
-                # stop matchy searches before they get too long
-                if trunc and len(results) > trunc:
-                    truncated = True
-                    break
-        end_time = perf_counter_ns()
-        elapsed_ms = (end_time - start_time) / 1_000_000
-        log.debug(f'Finished search in {elapsed_ms}ms')
-        return results, truncated
+                results.append(item)
+        return results
+
+    def search_condition(self, request: str) -> List[ConditionInfo]:
+        results = self.search('conditions', 'name', request)
+        return [get_condition_info(result) for result in results]
+
+    def search_spell(self, request: str) -> List[SpellInfo]:
+        results = self.search('spells', 'name', request)
+        return [get_spell_info(result) for result in results]
 
 
 srd = __SRD(SRDPATH)  # for export: for access to the SRD
