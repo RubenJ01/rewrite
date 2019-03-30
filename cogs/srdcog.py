@@ -4,6 +4,7 @@ from discord import Colour, Embed
 from discord.ext.commands import Cog, command
 
 from backends.srd_json import srd, get_spell_info
+from helpers import helpers
 
 log = logging.getLogger('bot.' + __name__)
 
@@ -38,15 +39,34 @@ class SRDCog(Cog, name='SRD Information'):
         description = f'*{spell.subhead}*\n{spell.description}'
         if spell.higher_levels is not None:
             description += f'\n\u2001**At Higher Levels. **' + spell.higher_levels
-        embed = Embed(title=spell.name,
-                      colour=PHB_COLOUR,
-                      description=description)
-        embed.add_field(name="Casting Time", value=spell.casting_time, inline=True)
-        embed.add_field(name="Range", value=spell.casting_range, inline=True)
-        embed.add_field(name="Components", value=spell.components, inline=True)
-        embed.add_field(name="Duration", value=spell.duration, inline=True)
-        embed.set_footer(text=f'Player\'s Handbook, page {spell.page}.')
-        return await ctx.send(embed=embed)
+        # is this description too long for a single embed?
+        descriptions = helpers.split_text(description, 2000)
+        if len(descriptions) == 1:  # only one embed required
+            embed = Embed(title=spell.name,
+                          colour=PHB_COLOUR,
+                          description=description)
+            embed.add_field(name="Casting Time", value=spell.casting_time, inline=True)
+            embed.add_field(name="Range", value=spell.casting_range, inline=True)
+            embed.add_field(name="Components", value=spell.components, inline=True)
+            embed.add_field(name="Duration", value=spell.duration, inline=True)
+            embed.set_footer(text=f'Player\'s Handbook, page {spell.page}.')
+            return await ctx.send(embed=embed)
+        else:
+            for i, description in enumerate(descriptions):
+                if i == 0:  # first embed?
+                    title = spell.name
+                else:
+                    title = spell.name + ' *(continued)*'
+                embed = Embed(title=title,
+                              colour=PHB_COLOUR,
+                              description=description)
+                if i == len(descriptions) - 1:  # final embed?
+                    embed.add_field(name="Casting Time", value=spell.casting_time, inline=True)
+                    embed.add_field(name="Range", value=spell.casting_range, inline=True)
+                    embed.add_field(name="Components", value=spell.components, inline=True)
+                    embed.add_field(name="Duration", value=spell.duration, inline=True)
+                    embed.set_footer(text=f'Player\'s Handbook, page {spell.page}.')
+                await ctx.send(embed=embed)
 
 
 def setup(bot):

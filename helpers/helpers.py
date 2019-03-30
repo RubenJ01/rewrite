@@ -27,3 +27,19 @@ def roll_dice(dice: str = '1d20'):
 async def api_request(ctx, endpoint, value):
     async with ctx.bot._http.session.get(f'http://dnd5eapi.co/api/{endpoint}/{value}') as req:
         return await req.json()
+
+
+def split_text(text: str, length: int) -> list:
+    """Split text into strings of at most 'length' characters.
+
+    Returns a list of strings.
+    """
+    if len(text) <= length:
+        return [text]
+    splits = []
+    while len(text) > length:
+        splits.append(text[:length])
+        text = text[length:]
+    if len(text) > 0:
+        splits.append(text)
+    return splits
