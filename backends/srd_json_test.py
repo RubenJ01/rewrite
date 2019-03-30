@@ -1,12 +1,35 @@
-"""Tests for srd_json.py"""
+"""Pytest tests for srd_json.py"""
 
 from srd_json import collapse, list_to_paragraphs, get_spell_info, srd
 
-def test_spell_search():
+
+def test_collapse():
+    test = {1: ['one', 'two'], 2: 'three'}
+    output = collapse(test)
+    assert type(output) == str
+    assert all(x in output for x in ['one', 'two', 'three'])
+
+
+def test_list_to_paragraphs():
+    input = ['One.', 'Two.']
+    output = list_to_paragraphs(input)
+    assert output == 'One.\n\u2001Two.'
+
+
+def test_srd_spell_search():
     for raw_spell in srd.raw['spells']:
         name = raw_spell['name'].lower()
         results = srd.search_spell(name)
         result_names = [result.name.lower() for result in results]
-        if name not in result_names:
-            print(name, result_names)
         assert name in result_names
+    spells = srd.search('spells', 'name', 'healing word')
+    assert len(spells) == 2
+    spells = srd.search('spells', 'name', 'conjure')
+    assert len(spells) == 6
+
+
+def test_get_spell_info():
+    spells = srd.search('spells', 'name', 'magic missile')
+    info = get_spell_info(spells[0])
+    assert info.name == 'Magic Missile'
+    # assert info.
