@@ -358,7 +358,7 @@ class TavernCog(Cog, name='Tavern'):
                     f'Link: a link to the resource. \n' \
                     f'```' \
                     f'**We do not allow pay to play services**' \
-        
+
         final = str.casefold(formattype)
         if final == 'resources':
             await ctx.send(resources)
