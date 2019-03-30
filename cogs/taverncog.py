@@ -348,7 +348,7 @@ class TavernCog(Cog, name='Tavern'):
                   f'Info: a brief campaign description or some information about your character and anything in ' \
                   f'between. \n' \
                   f'```' \
- \
+
         resources = f'**Format for when posting in #resources, always stick to this when posting here:** \n' \
                     f'```' \
                     f'Creator: who created the resource? \n' \
@@ -358,7 +358,7 @@ class TavernCog(Cog, name='Tavern'):
                     f'Link: a link to the resource. \n' \
                     f'```' \
                     f'**We do not allow pay to play services**' \
- \
+        
         final = str.casefold(formattype)
         if final == 'resources':
             await ctx.send(resources)
