@@ -20,6 +20,9 @@ SpellInfo = namedtuple('SpellInfo',
 ConditionInfo = namedtuple('ConditionInfo',
                            'name description')
 
+FeatureInfo = namedtuple('FeatureInfo',
+                         'name featureclass level description')
+
 
 def collapse(item) -> str:
     """Given a JSON-derived data structure, collapse all found strings into one.
@@ -87,6 +90,15 @@ def get_condition_info(condition: dict) -> ConditionInfo:
     return ConditionInfo(name, description)
 
 
+def get_feature_info(feature: dict) -> FeatureInfo:
+    name = feature['name']
+    featureclass = feature['class']['name']
+    level = feature['level']
+    description = feature['desc']
+    description = '\n'.join(description)
+    return FeatureInfo(name, featureclass, level, description)
+
+
 class __SRD:
     """Contains the imported SRD data and methods to search it."""
     def __init__(self, data_path: Path):
@@ -135,6 +147,10 @@ class __SRD:
     def search_spell(self, request: str) -> List[SpellInfo]:
         results = self.search('spells', 'name', request)
         return [get_spell_info(result) for result in results]
+
+    def search_feature(self, request: str) -> List['FeatureInfo']:
+        results = self.search('features', 'name', request)
+        return [get_feature_info(result) for result in results]
 
 
 srd = __SRD(SRDPATH)  # for export: for access to the SRD
