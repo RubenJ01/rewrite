@@ -95,6 +95,30 @@ class SRDCog(Cog, name='SRD Information'):
         embed.add_field(name=condition.name, value=condition.description, inline=True)
         return await ctx.send(embed=embed)
 
+    @command(name='feature')
+    async def feature_command(self, ctx, *request):
+        """Give information on a condition by name."""
+        request = ' '.join(request)
+        log.debug(f'feature command called with request: {request}')
+        if len(request) <= 2:
+            return await ctx.send('Request too short.')
+        matches = srd.search_feature(request)
+        if len(matches) == 0:
+            return await ctx.send(f'Couldn\'t find any features that match \'{request}\'.')
+        feature_names = [match.name for match in matches]
+        feature_names_lower = [match.name.lower() for match in matches]
+        if len(matches) > 1 and request.lower() not in feature_names_lower:
+            return await ctx.send(f'Could be: {", ".join(feature_names)}.')
+        if request.lower() not in feature_names_lower:
+            feature = matches[0]
+        else:
+            feature = matches[feature_names_lower.index(request.lower())]
+        content = f'*Level {feature.level} {feature.featureclass} feature* \n'
+        content += feature.description
+        embed = Embed(colour=PHB_COLOUR)
+        embed.add_field(name=feature.name, value=content, inline=False)
+        return await ctx.send(embed=embed)
+
 
 def setup(bot):
     bot.add_cog(SRDCog(bot))
