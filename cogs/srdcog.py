@@ -4,7 +4,6 @@ from time import perf_counter_ns
 from discord import Colour, Embed
 from discord.ext.commands import Cog, command
 
-
 from backends.srd_json import srd
 from helpers import helpers
 
@@ -73,6 +72,28 @@ class SRDCog(Cog, name='SRD Information'):
                     embed.add_field(name="Duration", value=spell.duration, inline=True)
                     embed.set_footer(text=f'Player\'s Handbook, page {spell.page}.')
                 await ctx.send(embed=embed)
+
+    @command(name='condition')
+    async def condition_command(self, ctx, *request):
+        """Give information on a condition by name."""
+        request = ' '.join(request)
+        log.debug(f'spell command called with request: {request}')
+        if len(request) <= 2:
+            return await ctx.send('Request too short.')
+        matches = srd.search_condition(request)
+        if len(matches) == 0:
+            return await ctx.send(f'Couldn\'t find any conditions that match \'{request}\'.')
+        condition_names = [match.name for match in matches]
+        condition_names_lower = [match.name.lower() for match in matches]
+        if len(matches) > 1 and request.lower() not in condition_names_lower:
+            return await ctx.send(f'Could be: {", ".join(condition_names)}.')
+        if request.lower() not in condition_names_lower:
+            condition = matches[0]
+        else:
+            condition = matches[condition_names_lower.index(request.lower())]
+        embed = Embed(colour=PHB_COLOUR)
+        embed.add_field(name=condition.name, value=condition.description, inline=True)
+        return await ctx.send(embed=embed)
 
 
 def setup(bot):
