@@ -84,6 +84,7 @@ def get_spell_info(spell: dict) -> SpellInfo:
 def get_condition_info(condition: dict) -> ConditionInfo:
     name = condition['name']
     description = condition['desc']
+    description = '\n'.join(description)
     return ConditionInfo(name, description)
 
 
