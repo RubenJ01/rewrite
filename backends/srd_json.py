@@ -17,6 +17,9 @@ NUM_ABBREVS = ('1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th')  #
 SpellInfo = namedtuple('SpellInfo',
                        'name subhead casting_time casting_range components duration description higher_levels page')
 
+ConditionInfo = namedtuple('ConditionInfo',
+                           'name description')
+
 
 def collapse(item) -> str:
     """Given a JSON-derived data structure, collapse all found strings into one.
@@ -76,6 +79,12 @@ def get_spell_info(spell: dict) -> SpellInfo:
         higher_levels = None
     page = spell['page'].split()[-1]
     return SpellInfo(name, subhead, casting_time, casting_range, components, duration, description, higher_levels, page)
+
+
+def get_condition_info(condition: dict) -> ConditionInfo:
+    name = condition['name']
+    description = condition['desc']
+    return ConditionInfo(name, description)
 
 
 class __SRD:
