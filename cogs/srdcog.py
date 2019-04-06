@@ -139,7 +139,7 @@ class SRDCog(Cog, name='SRD Information'):
             language = matches[language_names_lower.index(request.lower())]
         embed = Embed(colour=PHB_COLOUR)
         content = f'{language.name} is a {language.languagetype} language spoken mainly by {language.typicalspeakers}'
-        embed.add_field(name=language.name, value=content, inline=False)
+        embed.add_field(name=language.name, value=language.description, inline=False)
         return await ctx.send(embed=embed)
 
     @command(name='school')
