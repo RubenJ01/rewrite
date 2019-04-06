@@ -119,6 +119,51 @@ class SRDCog(Cog, name='SRD Information'):
         embed.add_field(name=feature.name, value=content, inline=False)
         return await ctx.send(embed=embed)
 
+    @command(name='language')
+    async def language_command(self, ctx, *request):
+        """Give information on a language by name."""
+        request = ' '.join(request)
+        log.debug(f'language command called with request: {request}')
+        if len(request) <= 2:
+            return await ctx.send('Request too short.')
+        matches = srd.search_language(request)
+        if len(matches) == 0:
+            return await ctx.send(f'Couldn\'t find any languages that match \'{request}\'.')
+        language_names = [match.name for match in matches]
+        language_names_lower = [match.name.lower() for match in matches]
+        if len(matches) > 1 and request.lower() not in language_names_lower:
+            return await ctx.send(f'Could be: {", ".join(language_names)}.')
+        if request.lower() not in language_names_lower:
+            language = matches[0]
+        else:
+            language = matches[language_names_lower.index(request.lower())]
+        embed = Embed(colour=PHB_COLOUR)
+        content = f'{language.name} is a {language.languagetype} language spoken mainly by {language.typicalspeakers}'
+        embed.add_field(name=language.name, value=content, inline=False)
+        return await ctx.send(embed=embed)
+
+    @command(name='school')
+    async def language_command(self, ctx, *request):
+        """Give information on a school by name."""
+        request = ' '.join(request)
+        log.debug(f'school command called with request: {request}')
+        if len(request) <= 2:
+            return await ctx.send('Request too short.')
+        matches = srd.search_school(request)
+        if len(matches) == 0:
+            return await ctx.send(f'Couldn\'t find any schools that match \'{request}\'.')
+        school_names = [match.name for match in matches]
+        school_names_lower = [match.name.lower() for match in matches]
+        if len(matches) > 1 and request.lower() not in school_names_lower:
+            return await ctx.send(f'Could be: {", ".join(school_names)}.')
+        if request.lower() not in school_names_lower:
+            school = matches[0]
+        else:
+            school = matches[school_names_lower.index(request.lower())]
+        embed = Embed(colour=PHB_COLOUR)
+        embed.add_field(name=school.name, value=school.description, inline=False)
+        return await ctx.send(embed=embed)
+
 
 def setup(bot):
     bot.add_cog(SRDCog(bot))

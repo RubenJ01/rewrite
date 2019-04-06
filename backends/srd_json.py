@@ -23,6 +23,12 @@ ConditionInfo = namedtuple('ConditionInfo',
 FeatureInfo = namedtuple('FeatureInfo',
                          'name featureclass level description')
 
+LanguageInfo = namedtuple('LanguageInfo',
+                          'name languagetype typicalspeakers')
+
+SchoolInfo = namedtuple('SchoolInfo',
+                        'name description')
+
 
 def collapse(item) -> str:
     """Given a JSON-derived data structure, collapse all found strings into one.
@@ -100,6 +106,20 @@ def get_feature_info(feature: dict) -> FeatureInfo:
     return FeatureInfo(name, featureclass, level, description)
 
 
+def get_language_info(language: dict) -> LanguageInfo:
+    name = language['name']
+    languagetype = language['type']
+    speakers = language['typical_speakers']
+    speakers = ', '.join(speakers)
+    return LanguageInfo(name, languagetype, speakers)
+
+
+def get_school_info(school: dict) -> SchoolInfo:
+    name = school['name']
+    description = school['desc']
+    return SchoolInfo(name, description)
+
+
 class __SRD:
     """Contains the imported SRD data and methods to search it."""
     def __init__(self, data_path: Path):
@@ -152,6 +172,14 @@ class __SRD:
     def search_feature(self, request: str) -> List['FeatureInfo']:
         results = self.search('features', 'name', request)
         return [get_feature_info(result) for result in results]
+
+    def search_language(self, request: str) -> List['LanguageInfo']:
+        results = self.search('languages', 'name', request)
+        return [get_language_info(result) for result in results]
+
+    def search_school(self, request: str) -> List['SchoolInfo']:
+        results = self.search('magic-schools', 'name', request)
+        return [get_school_info(result) for result in results]
 
 
 srd = __SRD(SRDPATH)  # for export: for access to the SRD
