@@ -143,7 +143,7 @@ class SRDCog(Cog, name='SRD Information'):
         return await ctx.send(embed=embed)
 
     @command(name='school')
-    async def language_command(self, ctx, *request):
+    async def school_command(self, ctx, *request):
         """Give information on a school by name."""
         request = ' '.join(request)
         log.debug(f'school command called with request: {request}')
