@@ -164,6 +164,53 @@ class SRDCog(Cog, name='SRD Information'):
         embed.add_field(name=school.name, value=school.description, inline=False)
         return await ctx.send(embed=embed)
 
+    @command(name='damagetype')
+    async def school_command(self, ctx, *request):
+        """Give information on a damage-type by name."""
+        request = ' '.join(request)
+        log.debug(f'damage command called with request: {request}')
+        if len(request) <= 2:
+            return await ctx.send('Request too short.')
+        matches = srd.search_damage(request)
+        if len(matches) == 0:
+            return await ctx.send(f'Couldn\'t find any damage types that match \'{request}\'.')
+        damage_names = [match.name for match in matches]
+        damage_names_lower = [match.name.lower() for match in matches]
+        if len(matches) > 1 and request.lower() not in damage_names_lower:
+            return await ctx.send(f'Could be: {", ".join(damage_names)}.')
+        if request.lower() not in damage_names_lower:
+            damage = matches[0]
+        else:
+            damage = matches[damage_names_lower.index(request.lower())]
+        embed = Embed(colour=PHB_COLOUR)
+        embed.add_field(name=damage.name, value=damage.description, inline=False)
+        embed.set_footer(text='Use ;damage {type} to look up any of the damage types.')
+        return await ctx.send(embed=embed)
+
+    @command(name='trait')
+    async def trait_command(self, ctx, *request):
+        """Give information on a trait by name."""
+        request = ' '.join(request)
+        log.debug(f'trait command called with request: {request}')
+        if len(request) <= 2:
+            return await ctx.send('Request too short.')
+        matches = srd.search_trait(request)
+        if len(matches) == 0:
+            return await ctx.send(f'Couldn\'t find any traits that match \'{request}\'.')
+        trait_names = [match.name for match in matches]
+        trait_names_lower = [match.name.lower() for match in matches]
+        if len(matches) > 1 and request.lower() not in trait_names_lower:
+            return await ctx.send(f'Could be: {", ".join(trait_names)}.')
+        if request.lower() not in trait_names_lower:
+            trait = matches[0]
+        else:
+            trait = matches[trait_names_lower.index(request.lower())]
+        embed = Embed(colour=PHB_COLOUR)
+        embed.add_field(name=trait.name, value=trait.description, inline=False)
+        embed.add_field(name='Races', value=f'The following races can get this trait: {trait.finalraces}', inline=False)
+        embed.set_footer(text='Use ;trait {type} to look up any of the traits.')
+        return await ctx.send(embed=embed)
+
 
 def setup(bot):
     bot.add_cog(SRDCog(bot))

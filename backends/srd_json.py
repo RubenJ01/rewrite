@@ -29,6 +29,12 @@ LanguageInfo = namedtuple('LanguageInfo',
 SchoolInfo = namedtuple('SchoolInfo',
                         'name description')
 
+DamageInfo = namedtuple('DamageInfo',
+                        'name description')
+
+TraitInfo = namedtuple('TraitInfo',
+                       'name finalraces description')
+
 
 def collapse(item) -> str:
     """Given a JSON-derived data structure, collapse all found strings into one.
@@ -119,6 +125,24 @@ def get_school_info(school: dict) -> SchoolInfo:
     description = school['desc']
     return SchoolInfo(name, description)
 
+def get_damage_info(damage: dict) -> DamageInfo:
+    name = damage['name']
+    description = damage['desc']
+    description = '\n'.join(description)
+    return DamageInfo(name, description)
+
+
+def get_trait_info(trait: dict) -> TraitInfo:
+    name = trait['name']
+    races = trait['races']
+    finalraces = []
+    for values in races:
+        finalraces.append(values['name'])
+    finalraces = ', '.join(finalraces)
+    description = trait['desc']
+    description = '\n'.join(description)
+    return TraitInfo(name, finalraces, description)
+
 
 class __SRD:
     """Contains the imported SRD data and methods to search it."""
@@ -180,6 +204,14 @@ class __SRD:
     def search_school(self, request: str) -> List['SchoolInfo']:
         results = self.search('magic-schools', 'name', request)
         return [get_school_info(result) for result in results]
+
+    def search_damage(self, request: str) -> List['DamageInfo']:
+        results = self.search('damage-types', 'name', request)
+        return [get_damage_info(result) for result in results]
+
+    def search_trait(self, request: str) -> List['TraitInfo']:
+        results = self.search('traits', 'name', request)
+        return [get_trait_info(result) for result in results]
 
 
 srd = __SRD(SRDPATH)  # for export: for access to the SRD
