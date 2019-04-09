@@ -97,7 +97,7 @@ class SRDCog(Cog, name='SRD Information'):
 
     @command(name='feature')
     async def feature_command(self, ctx, *request):
-        """Give information on a condition by name."""
+        """Give information on a feature by name."""
         request = ' '.join(request)
         log.debug(f'feature command called with request: {request}')
         if len(request) <= 2:
@@ -184,7 +184,7 @@ class SRDCog(Cog, name='SRD Information'):
             damage = matches[damage_names_lower.index(request.lower())]
         embed = Embed(colour=PHB_COLOUR)
         embed.add_field(name=damage.name, value=damage.description, inline=False)
-        embed.set_footer(text='Use ;damage {type} to look up any of the damage types.')
+        embed.set_footer(text='Use ;damagetype {type} to look up any of the damage types.')
         return await ctx.send(embed=embed)
 
     @command(name='trait')
@@ -209,6 +209,34 @@ class SRDCog(Cog, name='SRD Information'):
         embed.add_field(name=trait.name, value=trait.description, inline=False)
         embed.add_field(name='Races', value=f'The following races can get this trait: {trait.finalraces}', inline=False)
         embed.set_footer(text='Use ;trait {type} to look up any of the traits.')
+        return await ctx.send(embed=embed)
+
+    @command(name='monster')
+    async def monster_command(self, ctx, *request):
+        """Give information on a monster by name."""
+        request = ' '.join(request)
+        log.debug(f'monster command called with request: {request}')
+        if len(request) <= 2:
+            return await ctx.send('Request too short.')
+        matches = srd.search_monster(request)
+        if len(matches) == 0:
+            return await ctx.send(f'Couldn\'t find any monsters that match \'{request}\'.')
+        monster_names = [match.name for match in matches]
+        monster_names_lower = [match.name.lower() for match in matches]
+        if len(matches) > 1 and request.lower() not in monster_names_lower:
+            return await ctx.send(f'Could be: {", ".join(monster_names)}.')
+        if request.lower() not in monster_names_lower:
+            monster = matches[0]
+        else:
+            monster = matches[monster_names_lower.index(request.lower())]
+        embed = Embed(colour=PHB_COLOUR)
+        embed.add_field(name=monster.name, value=monster.subhead, inline=False)
+        embed.add_field(name='Attributes', value=monster.attributes, inline=False)
+        embed.add_field(name='Ability Scores', value=monster.abilityscores, inline=False)
+        embed.add_field(name='Details', value=monster.details, inline=False)
+        embed.add_field(name='Features', value=monster.features, inline=False)
+        embed.add_field(name='Actions', value=monster.actions, inline=False)
+        embed.set_footer(text='Use ;monster {type} to look up any of the monsters.')
         return await ctx.send(embed=embed)
 
 
