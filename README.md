@@ -6,10 +6,9 @@ Not much in its current state. Several cogs have to be rewritten, commands need 
 
 #### _Contributors_
 * **Lead**: Ruben#0069: https://github.com/RubenJ01
-* **Help**: Daan#2049: https://github.com/DaanVanIJcken
 * **Help**: syntaxaire#9672: https://github.com/syntaxaire
 * **Help**: Refisio#9732: https://github.com/Refisio
-* **help**: Iceman#6508: Iceman#6508 https://github.com/RohanJnr
+* **help**: Iceman#6508: https://github.com/RohanJnr
 
 ### Can i contribute?
 Yes! You can contribute to the bot by leaving a suggestion in ouher discord server, or in github. New suggestions or bug reports are always welcome. If you want to contribute by writing a command or improve on of ouher functions you can. Either hit us up in ouher discord server or send a dm to 1 of the **Contributors**.
