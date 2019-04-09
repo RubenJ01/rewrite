@@ -281,16 +281,16 @@ def get_monster_info(monster: dict) -> MonsterInfo:
     features = []
     special_abilities = monster['special_abilities']
     for value in special_abilities:
-        name = f"**{value['name']}**"
-        features.append(name)
+        actionname = f"**{value['name']}**"
+        features.append(actionname)
         desc = value['desc']
         features.append(desc)
     features = '\n'.join(features)
     actions = []
     all_actions = monster['actions']
     for value in all_actions:
-        name = f"**{value['name']}**"
-        actions.append(name)
+        specialname = f"**{value['name']}**"
+        actions.append(specialname)
         desc = value['desc']
         actions.append(desc)
     actions = '\n'.join(actions)
