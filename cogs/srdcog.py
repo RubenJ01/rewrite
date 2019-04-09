@@ -239,6 +239,29 @@ class SRDCog(Cog, name='SRD Information'):
         embed.set_footer(text='Use ;monster {type} to look up any of the monsters.')
         return await ctx.send(embed=embed)
 
+    @command(name='equipment')
+    async def equipment_command(self, ctx, *request):
+        """Give information on a equipment piece by name."""
+        request = ' '.join(request)
+        log.debug(f'equipment command called with request: {request}')
+        if len(request) <= 2:
+            return await ctx.send('Request too short.')
+        matches = srd.search_equipment(request)
+        if len(matches) == 0:
+            return await ctx.send(f'Couldn\'t find any equipment pieces that match \'{request}\'.')
+        equipment_names = [match.name for match in matches]
+        equipment_names_lower = [match.name.lower() for match in matches]
+        if len(matches) > 1 and request.lower() not in equipment_names_lower:
+            return await ctx.send(f'Could be: **{" - ".join(equipment_names)}**.')
+        if request.lower() not in equipment_names_lower:
+            equipment = matches[0]
+        else:
+            equipment = matches[equipment_names_lower.index(request.lower())]
+        embed = Embed(colour=PHB_COLOUR)
+        embed.add_field(name=equipment.name, value=equipment.context, inline=False)
+        embed.set_footer(text='Use ;equipment {type} to look up any of the equipment items.')
+        return await ctx.send(embed=embed)
+
 
 def setup(bot):
     bot.add_cog(SRDCog(bot))

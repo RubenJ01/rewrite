@@ -38,6 +38,9 @@ TraitInfo = namedtuple('TraitInfo',
 MonsterInfo = namedtuple('MonsterInfo',
                          'name subhead attributes abilityscores details features actions')
 
+EquipmentInfo = namedtuple('EquipmentInfo',
+                           'name context')
+
 
 def collapse(item) -> str:
     """Given a JSON-derived data structure, collapse all found strings into one.
@@ -307,6 +310,43 @@ def get_monster_info(monster: dict) -> MonsterInfo:
     return MonsterInfo(name, subhead, attributes, abilityscores, details, features, actions)
 
 
+def get_equipment_info(equipment: dict) -> EquipmentInfo:
+    name = equipment['name']
+    context = ''
+    # forming a proper subheader
+    subhead = ''
+    if 'category_range' in equipment:
+        category_range = equipment['category_range']
+        subhead += f'*{category_range}*'
+    if 'equipment_category' in equipment:
+        equipment_category = equipment['equipment_category']
+        subhead += f' *{equipment_category}*'
+    if 'gear_category' in equipment:
+        gear_category = equipment['gear_category']
+        subhead += f' *{gear_category}*'
+    if 'vehicle_category' in equipment:
+        vehicle_category = equipment['vehicle_category']
+        subhead += f' *{vehicle_category}*'
+    subhead += '\n'
+    context += subhead
+    # forming the description
+    description = ''
+    if 'cost' in equipment:
+        cost = f"**Cost** {equipment['cost']['quantity']} {equipment['cost']['unit']} \n"
+        description += cost
+    if 'damage' in equipment:
+        damage = f"**Damage** {equipment['damage']['dice_count']}d{equipment['damage']['dice_value']}"
+        damage += f"{equipment['damage']['damage_type']['name']} \n"
+        description += damage
+    if 'speed' in equipment:
+        speed = f"**Speed** {equipment['speed']['quantity']} {equipment['speed']['unit']} \n"
+        description += speed
+    if 'desc' in equipment:
+        desc = f"**Description** \n {''.join(equipment['desc'])}"
+        description += desc
+    context += description
+
+
 class __SRD:
     """Contains the imported SRD data and methods to search it."""
     def __init__(self, data_path: Path):
@@ -379,6 +419,10 @@ class __SRD:
     def search_monster(self, request: str) -> List['MonsterInfo']:
         results = self.search('monsters', 'name', request)
         return [get_monster_info(result) for result in results]
+
+    def search_equipment(self, request: str) -> List['EquipmentInfo']:
+        results = self.search('equipment', 'name', request)
+        return [get_equipment_info(result) for result in results]
 
 
 srd = __SRD(SRDPATH)  # for export: for access to the SRD
