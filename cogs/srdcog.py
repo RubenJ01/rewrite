@@ -33,7 +33,7 @@ class SRDCog(Cog, name='SRD Information'):
         # guard against instances where request is an exact match of one result but also
         # part of another match, e.g. 'mass heal' and 'mass healing word'
         if len(matches) > 1 and request.lower() not in spell_names_lower:
-            return await ctx.send(f'Could be: {", ".join(spell_names)}.')
+            return await ctx.send(f'Could be: **{" - ".join(spell_names)}**.')
         if request.lower() not in spell_names_lower:
             spell = matches[0]
         else:
@@ -86,7 +86,7 @@ class SRDCog(Cog, name='SRD Information'):
         condition_names = [match.name for match in matches]
         condition_names_lower = [match.name.lower() for match in matches]
         if len(matches) > 1 and request.lower() not in condition_names_lower:
-            return await ctx.send(f'Could be: {", ".join(condition_names)}.')
+            return await ctx.send(f'Could be: **{" - ".join(condition_names)}**.')
         if request.lower() not in condition_names_lower:
             condition = matches[0]
         else:
@@ -108,7 +108,7 @@ class SRDCog(Cog, name='SRD Information'):
         feature_names = [match.name for match in matches]
         feature_names_lower = [match.name.lower() for match in matches]
         if len(matches) > 1 and request.lower() not in feature_names_lower:
-            return await ctx.send(f'Could be: {", ".join(feature_names)}.')
+            return await ctx.send(f'Could be: **{" - ".join(feature_names)}**.')
         if request.lower() not in feature_names_lower:
             feature = matches[0]
         else:
@@ -132,7 +132,7 @@ class SRDCog(Cog, name='SRD Information'):
         language_names = [match.name for match in matches]
         language_names_lower = [match.name.lower() for match in matches]
         if len(matches) > 1 and request.lower() not in language_names_lower:
-            return await ctx.send(f'Could be: {", ".join(language_names)}.')
+            return await ctx.send(f'Could be: **{" - ".join(language_names)}**.')
         if request.lower() not in language_names_lower:
             language = matches[0]
         else:
@@ -155,7 +155,7 @@ class SRDCog(Cog, name='SRD Information'):
         school_names = [match.name for match in matches]
         school_names_lower = [match.name.lower() for match in matches]
         if len(matches) > 1 and request.lower() not in school_names_lower:
-            return await ctx.send(f'Could be: {", ".join(school_names)}.')
+            return await ctx.send(f'Could be: **{" - ".join(school_names)}**.')
         if request.lower() not in school_names_lower:
             school = matches[0]
         else:
@@ -177,7 +177,7 @@ class SRDCog(Cog, name='SRD Information'):
         damage_names = [match.name for match in matches]
         damage_names_lower = [match.name.lower() for match in matches]
         if len(matches) > 1 and request.lower() not in damage_names_lower:
-            return await ctx.send(f'Could be: {", ".join(damage_names)}.')
+            return await ctx.send(f'Could be: **{" - ".join(damage_names)}**.')
         if request.lower() not in damage_names_lower:
             damage = matches[0]
         else:
@@ -200,7 +200,7 @@ class SRDCog(Cog, name='SRD Information'):
         trait_names = [match.name for match in matches]
         trait_names_lower = [match.name.lower() for match in matches]
         if len(matches) > 1 and request.lower() not in trait_names_lower:
-            return await ctx.send(f'Could be: {", ".join(trait_names)}.')
+            return await ctx.send(f'Could be: **{" - ".join(trait_names)}**.')
         if request.lower() not in trait_names_lower:
             trait = matches[0]
         else:
@@ -224,7 +224,7 @@ class SRDCog(Cog, name='SRD Information'):
         monster_names = [match.name for match in matches]
         monster_names_lower = [match.name.lower() for match in matches]
         if len(matches) > 1 and request.lower() not in monster_names_lower:
-            return await ctx.send(f'Could be: {", ".join(monster_names)}.')
+            return await ctx.send(f'Could be: **{" - ".join(monster_names)}**.')
         if request.lower() not in monster_names_lower:
             monster = matches[0]
         else:
