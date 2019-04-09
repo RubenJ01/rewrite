@@ -345,6 +345,7 @@ def get_equipment_info(equipment: dict) -> EquipmentInfo:
         desc = f"**Description** \n {''.join(equipment['desc'])}"
         description += desc
     context += description
+    return EquipmentInfo(name, context)
 
 
 class __SRD:
