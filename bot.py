@@ -8,7 +8,7 @@ from os import environ
 from discord import __version__ as discver, Activity, ActivityType
 from discord.ext.commands import Bot
 
-from helpers.helpers import prefix
+from utils.helpers import prefix
 
 CONFIG_FILE = Path('config.yaml')
 LOGDIR = Path('logs')

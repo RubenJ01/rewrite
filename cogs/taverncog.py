@@ -6,7 +6,7 @@ from discord import Colour, Embed, Member
 from discord.ext.commands import Cog, command, group
 from discord.utils import get
 
-from helpers.checks import is_tavern
+from utils.checks import is_tavern
 
 GREET_FILE = Path('resources') / 'tavern_greetings.txt'  # messages for new Tavern members
 

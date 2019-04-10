@@ -5,7 +5,7 @@ from discord import Colour, Embed
 from discord.ext.commands import Cog, command
 
 from backends.srd_json import srd
-from helpers import helpers
+from utils import helpers
 
 log = logging.getLogger('bot.' + __name__)
 
