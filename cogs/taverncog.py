@@ -8,7 +8,10 @@ from discord.utils import get
 
 from utils.checks import is_tavern
 
-GREET_FILE = Path('resources') / 'tavern_greetings.txt'  # messages for new Tavern members
+GREET_FILE = Path('resources') / 'tavern' / 'greetings.txt'  # messages for new Tavern members
+FAQ_FILE = Path('resources') / 'tavern' / 'faq.yaml'  # Tavern FAQ
+RULES_FILE = Path('resources') / 'tavern' / 'rules.yaml'  # Tavern rules
+RP_RULES_FILE = Path('resources') / 'tavern' / 'rp_rules.yaml'  # Tavern roleplaying rules
 
 log = logging.getLogger('bot.' + __name__)
 
