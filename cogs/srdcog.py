@@ -247,6 +247,12 @@ class SRDCog(Cog, name='SRD Information'):
         if len(request) <= 2:
             return await ctx.send('Request too short.')
         matches = srd.search_equipment(request)
+        # If it found no matches
+        if len(matches) == 0:
+            # Re-join the request with commas
+            request = ', '.join(request.split())
+            # Re-search
+            matches = srd.search_equipment(request)
         if len(matches) == 0:
             return await ctx.send(f'Couldn\'t find any equipment pieces that match \'{request}\'.')
         equipment_names = [match.name for match in matches]

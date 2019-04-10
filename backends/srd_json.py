@@ -338,6 +338,15 @@ def get_equipment_info(equipment: dict) -> EquipmentInfo:
         damage = f"**Damage** {equipment['damage']['dice_count']}d{equipment['damage']['dice_value']}"
         damage += f"{equipment['damage']['damage_type']['name']} \n"
         description += damage
+    if 'range' in equipment:
+        if equipment['range']['normal'] > 0:
+            equipmentrange = f"**Range** {equipment['range']['normal']} feet "
+        else:
+            equipmentrange = f"**Range** {equipment['range']['long']} feet "
+    if 'throw_range' in equipment:
+        throw_range = f"({equipment['throw_range']['normal']}/{equipment['throw_range']['long']})"
+        equipmentrange += throw_range
+        description += equipmentrange
     if 'speed' in equipment:
         speed = f"**Speed** {equipment['speed']['quantity']} {equipment['speed']['unit']} \n"
         description += speed
