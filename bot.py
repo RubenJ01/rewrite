@@ -17,7 +17,8 @@ startup_extensions = ['cogs.taverncog',
                       'cogs.generatorcog',
                       'cogs.rollingcog',
                       'cogs.specialcog',
-                      'cogs.srdcog',
+                      'cogs.infocog',
+                      'cogs.reddit'
                       ]
 
 

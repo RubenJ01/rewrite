@@ -21,7 +21,7 @@
                 "voice"
             ],
             "git": "https://github.com/Rapptz/discord.py",
-            "ref": "dea3ba5eb7c99f54c72b11f3e3f7b8f41649e779"
+            "ref": "7b95611e62eb426734787e8b506168728250fbc0"
         },
         "discord.py": {
             "extras": [
