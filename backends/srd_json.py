@@ -200,7 +200,7 @@ def get_monster_info(monster: dict) -> MonsterInfo:
         saving_throws = ', '.join(saving_throws)
         details = f'**Saving Throws** {saving_throws} \n'
     # skills
-    skills =[]
+    skills = []
     if 'acrobatics' in monster:
         acrobatics = f"Acrobatics +{str(monster['acrobatics'])}"
         skills.append(acrobatics)

@@ -3,7 +3,7 @@ import random
 from pathlib import Path
 
 from discord import Colour, Embed, Member
-from discord.ext.commands import Cog, command, group
+from discord.ext.commands import Cog, command
 from discord.utils import get
 
 from utils.checks import is_tavern

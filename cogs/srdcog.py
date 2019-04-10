@@ -165,7 +165,7 @@ class SRDCog(Cog, name='SRD Information'):
         return await ctx.send(embed=embed)
 
     @command(name='damagetype')
-    async def school_command(self, ctx, *request):
+    async def damagetype_command(self, ctx, *request):
         """Give information on a damage-type by name."""
         request = ' '.join(request)
         log.debug(f'damage command called with request: {request}')

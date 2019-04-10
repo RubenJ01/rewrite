@@ -1,6 +1,5 @@
 import re
 from random import randint
-from re import findall
 
 from discord.ext.commands import when_mentioned_or
 
