@@ -8,8 +8,8 @@ from utils.helpers import dice_roller
 log = logging.getLogger('bot.' + __name__)
 
 
-class RollingCog(Cog, name='Roller'):
-
+class RollingCog(Cog, name='Dice Rolling'):
+    """These are all the commands that are used to roll dice and stats in d&d."""
     def __init__(self, bot):
         self.bot = bot
 

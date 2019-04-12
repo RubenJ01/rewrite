@@ -17,7 +17,7 @@ log = logging.getLogger('bot.' + __name__)
 
 
 class TavernCog(Cog, name='Tavern'):
-
+    """These are all of the commands used in The Tavern."""
     def __init__(self, bot):
         self.bot = bot
         self.role_id = 560407352826658837

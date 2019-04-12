@@ -13,6 +13,7 @@ PHB_COLOUR = Colour(0xeeeea0)
 
 
 class SRDCog(Cog, name='SRD Information'):
+    """These are all of the commands used to look up SRD content."""
     def __init__(self, bot):
         self.bot = bot
 

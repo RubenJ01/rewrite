@@ -19,7 +19,7 @@ paths = {
 
 
 class GeneratorCog(Cog, name='Generator'):
-
+    """These are all the commands that are used to generate things for d&d."""
     def __init__(self, bot):
         self.bot = bot
 

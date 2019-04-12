@@ -7,8 +7,8 @@ from discord.ext.commands import Bot, Cog, command
 log = logging.getLogger('bot.' + __name__)
 
 
-class SpecialCog(Cog):
-
+class SpecialCog(Cog, name='Special'):
+    """These are all the commands that don't fit into any of the other categories."""
     def __init__(self, bot: Bot):
         self.bot = bot
 
