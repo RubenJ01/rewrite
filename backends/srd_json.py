@@ -336,7 +336,7 @@ def get_equipment_info(equipment: dict) -> EquipmentInfo:
         description += cost
     if 'damage' in equipment:
         damage = f"**Damage** {equipment['damage']['dice_count']}d{equipment['damage']['dice_value']}"
-        damage += f"{equipment['damage']['damage_type']['name']} \n"
+        damage += f"{ equipment['damage']['damage_type']['name']} \n"
         description += damage
     if 'range' in equipment:
         if equipment['range']['normal'] > 0:

@@ -1,6 +1,6 @@
 """Pytest tests for srd_json.py"""
 
-from srd_json import collapse, list_to_paragraphs, get_spell_info, srd
+from srd_json import collapse, list_to_paragraphs, get_spell_info, get_equipment_info, srd
 
 
 def test_collapse():
@@ -39,3 +39,4 @@ def test_get_spell_info():
     spells = srd.search('spells', 'name', 'identify')
     info = get_spell_info(spells[0])
     assert info.subhead == '1st-level divination (ritual)'
+

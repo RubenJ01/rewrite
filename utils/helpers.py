@@ -19,7 +19,6 @@ async def api_request(ctx, endpoint, value):
 
 def split_text(text: str, length: int) -> list:
     """Split text into strings of at most 'length' characters.
-
     Returns a list of strings.
     """
     if len(text) <= length:
