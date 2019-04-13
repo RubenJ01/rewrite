@@ -47,6 +47,7 @@ The bot can connect with reddit and send memes/posts from your favorite subreddi
 * dndnext
 * dnd
 * dndmemes
+
 You can use this command like so: ;reddit {subreddit} the default one is dndmemes. Feel free to suggest any new subreddits and we can add them to the list.
 
 ### Special
