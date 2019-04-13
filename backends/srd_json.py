@@ -36,7 +36,7 @@ TraitInfo = namedtuple('TraitInfo',
                        'name finalraces description')
 
 MonsterInfo = namedtuple('MonsterInfo',
-                         'name subhead attributes abilityscores details features actions')
+                         'name subhead attributes abilityscores features actions')
 
 EquipmentInfo = namedtuple('EquipmentInfo',
                            'name context')
@@ -165,7 +165,7 @@ def get_monster_info(monster: dict) -> MonsterInfo:
     speed = monster['speed']
     attributes = f'**Armor Class** {armor_class} \n'
     attributes += f'**Hit Points** {hit_points} ({hit_dice}) \n'
-    attributes += f'**Speed** {speed} '
+    attributes += f'**Speed** {speed} \n'
     # ability scores
     strength = monster['strength']
     dexterity = monster['dexterity']
@@ -173,8 +173,8 @@ def get_monster_info(monster: dict) -> MonsterInfo:
     intelligence = monster['intelligence']
     wisdom = monster['wisdom']
     charisma = monster['charisma']
-    abilityscores = f'**STR** {strength} \n **DEX** {dexterity} \n **CON** {constitution} \n'
-    abilityscores += f'**INT** {intelligence} \n **WIS** {wisdom} \n **CHA** {charisma}'
+    abilityscores = f'**STR** {strength} **DEX** {dexterity} **CON** {constitution} \n'
+    abilityscores += f'**INT** {intelligence} **WIS** {wisdom} **CHA** {charisma}'
     # saving throws
     details = ''
     saving_throws = []
@@ -280,6 +280,7 @@ def get_monster_info(monster: dict) -> MonsterInfo:
     details += f'**Languages** {languages} \n'
     challenge = monster['challenge_rating']
     details += f'**Challenge** {str(challenge)}'
+    attributes += details
     # features
     features = []
     special_abilities = monster['special_abilities']
@@ -307,7 +308,7 @@ def get_monster_info(monster: dict) -> MonsterInfo:
             legendary_actions.append(desc)
             legendary_actions = '\n'.join(legendary_actions)
             actions += f'\n __Legendary Actions__ \n {legendary_actions}'
-    return MonsterInfo(name, subhead, attributes, abilityscores, details, features, actions)
+    return MonsterInfo(name, subhead, attributes, abilityscores, features, actions)
 
 
 def get_equipment_info(equipment: dict) -> EquipmentInfo:
@@ -336,7 +337,7 @@ def get_equipment_info(equipment: dict) -> EquipmentInfo:
         description += cost
     if 'damage' in equipment:
         damage = f"**Damage** {equipment['damage']['dice_count']}d{equipment['damage']['dice_value']}"
-        damage += f"{ equipment['damage']['damage_type']['name']} \n"
+        damage += f"{equipment['damage']['damage_type']['name']} \n"
         description += damage
     if 'range' in equipment:
         if equipment['range']['normal'] > 0:
@@ -351,8 +352,18 @@ def get_equipment_info(equipment: dict) -> EquipmentInfo:
         speed = f"**Speed** {equipment['speed']['quantity']} {equipment['speed']['unit']} \n"
         description += speed
     if 'desc' in equipment:
-        desc = f"**Description** \n {''.join(equipment['desc'])}"
+        desc = f"**Description** \n {''.join(equipment['desc'])} \n"
         description += desc
+    if 'armor_class' in equipment:
+        armor_class = f"**AC** {equipment['armor_class']['base']}"
+        if equipment['armor_class']['dex_bonus']:
+            armor_class += f"+ dex modifier"
+        armor_class += '\n'
+        context += armor_class
+    if 'stealth_disadvantage' in equipment:
+        if equipment['stealth_disadvantage']:
+            disadv = f"This item gives you a disadvantage on stealth checks.\n"
+            context += disadv
     context += description
     return EquipmentInfo(name, context)
 

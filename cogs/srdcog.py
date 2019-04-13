@@ -234,7 +234,6 @@ class SRDCog(Cog, name='SRD Information'):
         embed.add_field(name=monster.name, value=monster.subhead, inline=False)
         embed.add_field(name='Attributes', value=monster.attributes, inline=False)
         embed.add_field(name='Ability Scores', value=monster.abilityscores, inline=False)
-        embed.add_field(name='Details', value=monster.details, inline=False)
         embed.add_field(name='Features', value=monster.features, inline=False)
         embed.add_field(name='Actions', value=monster.actions, inline=False)
         embed.set_footer(text='Use ;monster {type} to look up any of the monsters.')
