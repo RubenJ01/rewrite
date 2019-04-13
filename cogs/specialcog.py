@@ -91,7 +91,15 @@ class SpecialCog(Cog):
             elif second_help.lower() in cmd_names:
                 cmd = self.bot.get_command(second_help)
                 embed.add_field(name=cmd.name, value=cmd.help, inline=False)
-
+                value = ''
+                if cmd.aliases:
+                    for alias in cmd.aliases:
+                        value += f'{str(alias)}, '
+                    value = value[0:-2]
+                    value = value + '.'
+                else:
+                    value = None
+                embed.add_field(name="Aliases", value=f'*{value}*', inline=False)
                 params_list = list(cmd.params.keys())
                 req_params = []
                 for value in params_list:
@@ -105,6 +113,9 @@ class SpecialCog(Cog):
                     embed.add_field(name='Usage', value=param_message + '**', inline=False)
                 else:
                     embed.add_field(name='Usage', value=param_message + 'None**', inline=False)
+
+            else:
+                return await ctx.send(f"{str(second_help)} command/category does not exist!")
         await ctx.send(embed=embed)
 
 
