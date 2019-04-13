@@ -37,3 +37,21 @@ The bot is capable of generating the following things:
 
 All of the above can be used with 1 command: ;generate it takes 2 parameters, what you want to genarate and how much. <br>
 ;generate quest 3 will generate 3 random quests.
+
+### Reddit
+The bot can connect with reddit and send memes/posts from your favorite subreddits:
+* dndiy
+* dungeons_and_dragons
+* roll20
+* unearthedarcana
+* dndnext
+* dnd
+* dndmemes
+You can use this command like so: ;reddit {subreddit} the default one is dndmemes. Feel free to suggest any new subreddits and we can add them to the list.
+
+### Special
+We have a few extra commands that don't fit into any of the other categories:
+* invite - Sends an invite link to the bot.
+* status - Sends the bot status.
+* basic - Sends a link to the basic rulebook pdf.
+* help - Shows all of the commands.
