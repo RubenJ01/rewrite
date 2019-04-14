@@ -302,8 +302,8 @@ def get_monster_info(monster: dict) -> MonsterInfo:
         legendary_actions = []
         legendaryactions = monster['legendary_actions']
         for value in legendaryactions:
-            name = f"**{value['name']}**"
-            legendary_actions.append(name)
+            actionname = f"**{value['name']}**"
+            legendary_actions.append(actionname)
             desc = value['desc']
             legendary_actions.append(desc)
         legendary_actions = '\n'.join(legendary_actions)
