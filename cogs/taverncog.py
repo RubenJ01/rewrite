@@ -41,7 +41,6 @@ class TavernCog(Cog, name='Tavern'):
             rprules = yaml.safe_load(faq_file)
         return rprules
 
-    @is_tavern()
     @Cog.listener()
     async def on_member_join(self, member: Member):
         """Send a custom greeting to new members of The Tavern."""
