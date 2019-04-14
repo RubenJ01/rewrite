@@ -84,6 +84,7 @@ class TavernCog(Cog, name='Tavern'):
             thelp_embed.add_field(name='Aliases', value=', '.join(cmd.aliases))
         return await ctx.send(embed=thelp_embed)
 
+    @is_tavern()
     @command(name='faq')
     async def faq_command(self, ctx, faq_num: int = None):
         """Command that contains a list of all the frequently asked questions in the Tavern.
@@ -109,6 +110,7 @@ class TavernCog(Cog, name='Tavern'):
                 embed.description += faq_desc
         await ctx.send(embed=embed)
 
+    @is_tavern()
     @command(name='rules', aliases=['rule'])
     async def rules(self, ctx, rule_num: int = None):
         """Command that contains a list of all the rules in the Tavern.
@@ -118,6 +120,7 @@ class TavernCog(Cog, name='Tavern'):
         embed = self.any_rules_embed(rule_num, rule_type, title)
         await ctx.send(embed=embed)
 
+    @is_tavern()
     @command(name='rprules', aliases=['rprule'])
     async def rp_rules(self, ctx, rule_num: int = None):
         """Command that contains a list of all the rprules for Eden.
