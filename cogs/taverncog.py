@@ -46,7 +46,7 @@ class TavernCog(Cog, name='Tavern'):
     @Cog.listener()
     async def on_member_join(self, member: Member):
         """Send a custom greeting to new members of The Tavern."""
-        if member.guild not in TAVERN_SERVERS:
+        if member.guild.id not in TAVERN_SERVERS:
             log.debug(f'Not sending greeting to new member {member} of {member.guild}')
             return
         log.debug(f'Sending greeting to new Tavern member {member}')
