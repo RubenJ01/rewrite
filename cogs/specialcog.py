@@ -75,7 +75,7 @@ class SpecialCog(Cog, name='Special'):
                 commands = cog.get_commands()
                 message = f'{cog.description}\nCommands under this category:\n**'
                 for cmd in commands:
-                    message += '.' + cmd.name + '\n'
+                    message += ';' + cmd.name + '\n'
                 embed.add_field(name=cog_name, value=message + '**', inline=False)
             embed.set_footer(text="Use .help {category}/{command} for more information.")
         else:
