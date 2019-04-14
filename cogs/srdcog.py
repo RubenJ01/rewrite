@@ -116,9 +116,14 @@ class SRDCog(Cog, name='SRD Information'):
             feature = matches[feature_names_lower.index(request.lower())]
         content = f'*Level {feature.level} {feature.featureclass} feature* \n'
         content += feature.description
-        embed = Embed(colour=PHB_COLOUR)
-        embed.add_field(name=feature.name, value=content, inline=False)
-        return await ctx.send(embed=embed)
+        if len(content) < 2048:
+            embed = Embed(title=feature.name, colour=PHB_COLOUR, description=content)
+            return await ctx.send(embed=embed)
+        else:
+            embed = Embed(title=feature.name, colour=PHB_COLOUR, description=content[:2048])
+            embedtwo = Embed(title=f"{feature.name} *continued*", colour=PHB_COLOUR, description=content[2048:])
+            await ctx.send(embed=embed)
+            return await ctx.send(embed=embedtwo)
 
     @command(name='language')
     async def language_command(self, ctx, *request):
@@ -235,9 +240,16 @@ class SRDCog(Cog, name='SRD Information'):
         embed.add_field(name='Attributes', value=monster.attributes, inline=False)
         embed.add_field(name='Ability Scores', value=monster.abilityscores, inline=False)
         embed.add_field(name='Features', value=monster.features, inline=False)
-        embed.add_field(name='Actions', value=monster.actions, inline=False)
-        embed.set_footer(text='Use ;monster {type} to look up any of the monsters.')
-        return await ctx.send(embed=embed)
+        await ctx.send(embed=embed)
+        length = len(monster.actions)
+        if length < 2048:
+            action = Embed(title='Actions', colour=PHB_COLOUR, description=monster.actions)
+            return await ctx.send(embed=action)
+        else:
+            action = Embed(title='Actions', colour=PHB_COLOUR, description=monster.actions[:2048])
+            actiontwo = Embed(title=F"Actions *continued*", colour=PHB_COLOUR, description=monster.actions[2048:])
+            await ctx.send(embed=action)
+            return await ctx.send(embed=actiontwo)
 
     @command(name='equipment')
     async def equipment_command(self, ctx, *request):
