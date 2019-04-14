@@ -13,7 +13,9 @@ GREET_FILE = Path('resources') / 'tavern' / 'greetings.txt'  # messages for new 
 FAQ_FILE = Path('resources') / 'tavern' / 'faq.yaml'  # Tavern FAQ
 RULES_FILE = Path('resources') / 'tavern' / 'rules.yaml'  # Tavern rules
 RP_RULES_FILE = Path('resources') / 'tavern' / 'rp_rules.yaml'  # Tavern roleplaying rules
-
+# TODO: Move constants into config.yaml
+TAVERN_SERVERS = (362589385117401088,   # The Tavern
+                  546007130902233088,)  # The Tavern Bot Support
 log = logging.getLogger('bot.' + __name__)
 
 
@@ -44,6 +46,9 @@ class TavernCog(Cog, name='Tavern'):
     @Cog.listener()
     async def on_member_join(self, member: Member):
         """Send a custom greeting to new members of The Tavern."""
+        if member.guild not in TAVERN_SERVERS:
+            log.debug(f'Not sending greeting to new member {member} of {member.guild}')
+            return
         log.debug(f'Sending greeting to new Tavern member {member}')
         with open(GREET_FILE, 'r', encoding='utf-8') as f:
             strings = f.readlines()
