@@ -51,6 +51,7 @@ bot = Bot(
     pm_help=True
 )
 
+bot.remove_command('help')
 bot.start_time = datetime.datetime.now()
 
 
