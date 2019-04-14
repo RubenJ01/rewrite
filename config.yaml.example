@@ -2,3 +2,5 @@
 # Make sure config.yaml is listed in your .gitignore file!
 
 token: xxxxxxxxxxxxxxxxxxxxxxxx.xxxxxx.xxx-xxxxxxxxxxxxxxxxxxxxxxx
+# prefix is quoted to allow use of exclamation mark as prefix
+prefix: ";"

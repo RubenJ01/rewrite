@@ -8,8 +8,6 @@ from os import environ
 from discord import __version__ as discver, Activity, ActivityType
 from discord.ext.commands import Bot
 
-from utils.helpers import prefix
-
 CONFIG_FILE = Path('config.yaml')
 LOGDIR = Path('logs')
 
@@ -22,6 +20,7 @@ startup_extensions = ['cogs.taverncog',
                       ]
 
 
+# Set up logging
 def setup_logger() -> logging.Logger:
     """Create and return the root Logger object for the bot."""
     LOGDIR.mkdir(exist_ok=True)
@@ -42,12 +41,23 @@ def setup_logger() -> logging.Logger:
 
 
 log = setup_logger()
+
+
+# Load configuration
+try:
+    with open(CONFIG_FILE, 'r') as yaml_file:
+        config = yaml.safe_load(yaml_file)
+except:  # noqa: E722
+    log.exception(f'Could not load configuration from {CONFIG_FILE}')
+
+# Use configuration to start the bot
+# TODO: dynamic per-server prefixes using utils.helpers.prefix
 bot = Bot(
     activity=Activity(
         name='.help | D&D 5e',
         type=ActivityType.watching
     ),
-    command_prefix=prefix,
+    command_prefix=config['prefix'],
     pm_help=True
 )
 
@@ -69,14 +79,7 @@ def main():
         except:  # noqa: E722
             log.exception(f'Failed to load extension: {extension}')
 
-    try:
-        with open(CONFIG_FILE, 'r') as yaml_file:
-            config = yaml.safe_load(yaml_file)
-        bot.run(config['token'])
-    except:  # noqa: E722
-        log.exception(f'Could not load configuration from {CONFIG_FILE}')
-        log.debug(f'Falling back to environment variable for token')
-        bot.run(environ.get('DISCORD_BOT_SECRET'))
+    bot.run(config['token'])
 
 
 if __name__ == '__main__':
