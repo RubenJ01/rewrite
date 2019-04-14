@@ -54,7 +54,7 @@ except:  # noqa: E722
 # TODO: dynamic per-server prefixes using utils.helpers.prefix
 bot = Bot(
     activity=Activity(
-        name='.help | D&D 5e',
+        name=f'{config["prefix"]}help | D&D 5e',
         type=ActivityType.watching
     ),
     command_prefix=config['prefix'],
