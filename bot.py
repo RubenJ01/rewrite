@@ -3,7 +3,6 @@ import logging
 import yaml
 
 from pathlib import Path
-from os import environ
 
 from discord import __version__ as discver, Activity, ActivityType
 from discord.ext.commands import Bot

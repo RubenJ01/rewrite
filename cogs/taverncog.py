@@ -139,7 +139,8 @@ class TavernCog(Cog, name='Tavern'):
         embed.colour = Colour.blurple()
         if rule_num is None or rule_num not in list(getattr(self, rule_type)):
             if rule_num is not None and rule_num not in list(getattr(self, rule_type).keys()):
-                embed.title = f'{rule_type[0:-1].capitalize()} no.{rule_num} does not exist!\nThe following {title} are:'
+                embed.title = f'{rule_type[0:-1].capitalize()} no.{rule_num} does not exist!\n'
+                embed.title += 'The following {title} are:'
             else:
                 embed.title = title
             embed.description = ''
