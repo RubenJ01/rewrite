@@ -76,8 +76,9 @@ def encounter_gen(possiblemonsters, xp):
     return encounteredMonsters
 
 
-def final_encounter(encounter):
+def final_encounter(encounter, xp):
     enc = f'Generated an encounter: \n'
     for m in encounter:
         enc += f"**{str(m[0].capitalize())}**, type: {str(m[2])}, XP value of: {str(m[4])} (MM pg. {m[3]}) \n"
+    enc += f"XP threshold is: {xp}xp"
     return enc

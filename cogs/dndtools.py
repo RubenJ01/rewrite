@@ -43,6 +43,8 @@ class DndTools(Cog, name='D&D Tools'):
             plevel = int(plevel)
         except ValueError:
             return await ctx.send('Party size and level must be numbers between 1 and 20.')
+        if plevel and psize > 20:
+            return await ctx.send('Party size and level must be numbers between 1 and 20.')
         if difficulty in difficulties:
             if difficulty == 'easy':
                 difficulty = 1
@@ -60,7 +62,7 @@ class DndTools(Cog, name='D&D Tools'):
         monsterdata = load_monsters()
         possiblemonsters = create_monster_list(monsterdata, environment)
         encounter = encounter_gen(possiblemonsters, xp)
-        final = final_encounter(encounter)
+        final = final_encounter(encounter, xp)
         return await ctx.send(final)
 
 
