@@ -4,6 +4,8 @@ import logging
 from discord import Colour, Embed
 from discord.ext.commands import Bot, Cog, command
 
+from utils.checks import is_admin
+
 log = logging.getLogger('bot.' + __name__)
 
 
@@ -23,6 +25,7 @@ class SpecialCog(Cog, name='Special'):
         invite_embed.set_footer(text='Use ;help to get a list of available commands.')
         await ctx.send(embed=invite_embed)
 
+    @is_admin()
     @command(name='status')
     async def status_command(self, ctx):
         """Get the current status of the bot."""
@@ -30,15 +33,19 @@ class SpecialCog(Cog, name='Special'):
         status_embed = Embed(colour=Colour.blurple())
         status_embed.title = 'Status'
         members = len(list(self.bot.get_all_members()))
-        guilds = len(self.bot.guilds)
+        guilds = self.bot.guilds
+        guild_names = 'The Bot is running in the following Guilds:\n'
+        for guild in guilds:
+            guild_names += '**' + str(guild) + '** , '
+        guild_names = guild_names[:-3] + '.'
         uptime = datetime.datetime.now() - self.bot.start_time
         uptime = datetime.timedelta(days=uptime.days, seconds=uptime.seconds)
         date = 'Created on 18-11-2018'
-        message = f'Bot up and running in {guilds} guilds with {members} members.'
-        message += f'\nUptime: {uptime}\n{date}'
-        status_embed.description = message
+        status_embed.description = f'Bot up and running in {len(guilds)} guilds with {members} members.\n'
+        status_embed.description += f'\nUptime: {uptime}\n{date}'
+        status_embed.description += '\n\n' + guild_names
         status_embed.set_footer(text='Use ;help to get a list of available commands.')
-        log.debug(message)
+        log.debug(status_embed.description)
         await ctx.send(embed=status_embed)
 
     @command(name='basic')
