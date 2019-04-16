@@ -13,9 +13,6 @@ GREET_FILE = Path('resources') / 'tavern' / 'greetings.txt'  # messages for new 
 FAQ_FILE = Path('resources') / 'tavern' / 'faq.yaml'  # Tavern FAQ
 RULES_FILE = Path('resources') / 'tavern' / 'rules.yaml'  # Tavern rules
 RP_RULES_FILE = Path('resources') / 'tavern' / 'rp_rules.yaml'  # Tavern roleplaying rules
-# TODO: Move constants into config.yaml
-TAVERN_SERVERS = (362589385117401088,   # The Tavern
-                  546007130902233088,)  # The Tavern Bot Support
 log = logging.getLogger('bot.' + __name__)
 
 
@@ -23,7 +20,7 @@ class TavernCog(Cog, name='Tavern'):
     """These are all of the commands used in The Tavern."""
     def __init__(self, bot):
         self.bot = bot
-        self.role_id = 560407352826658837
+        self.announcement_role_id = bot.config['tavern']['announcement_role_id']
         self.all_faq = self.load_faq()
         self.rules = self.load_rules()
         self.rprules = self.load_rprules()
@@ -46,19 +43,19 @@ class TavernCog(Cog, name='Tavern'):
     @Cog.listener()
     async def on_member_join(self, member: Member):
         """Send a custom greeting to new members of The Tavern."""
-        if member.guild.id not in TAVERN_SERVERS:
-            log.debug(f'Not sending greeting to new member {member} of {member.guild}')
-            return
-        log.debug(f'Sending greeting to new Tavern member {member}')
-        with open(GREET_FILE, 'r', encoding='utf-8') as f:
-            strings = f.readlines()
-        greeting = random.choice(strings)
-        message = 'Welcome to The Tavern, ' + member.mention + '. ' + greeting
-        channel = get(member.guild.channels, name='general')
-        if channel is not None:
-            await channel.send(message)
+        if member.guild.id in self.bot.config['tavern']['guilds']:
+            log.debug(f'Sending greeting to new Tavern member {member}')
+            with open(GREET_FILE, 'r', encoding='utf-8') as f:
+                strings = f.readlines()
+            greeting = random.choice(strings)
+            message = 'Welcome to The Tavern, ' + member.mention + '. ' + greeting
+            channel = get(member.guild.channels, name='general')
+            if channel is not None:
+                await channel.send(message)
+            else:
+                log.warning(f'Could not send greeting to {member} in guild {member.guild}: no #general')
         else:
-            log.warning(f'Could not send greeting to {member} in guild {member.guild}: no #general')
+            log.debug(f'Not sending greeting to new member {member} of {member.guild}')
 
     @command(name='tavern_help', aliases=['thelp'])
     async def tavern_help(self, ctx, cmd: str = "None"):
@@ -205,26 +202,26 @@ class TavernCog(Cog, name='Tavern'):
         This command adds the announcement role.
         """
         user = ctx.author
-        announcement_role = get(ctx.guild.roles, id=self.role_id)
-        if self.role_id not in [role.id for role in ctx.message.author.roles]:
+        if self.announcement_role_id not in [role.id for role in ctx.message.author.roles]:
+            announcement_role = get(ctx.guild.roles, id=self.announcement_role_id)
             await user.add_roles(announcement_role)
-            await ctx.send("The Announcement role has been added !")
+            await ctx.send("The Announcements role has been added.")
         else:
-            await ctx.send("You already have the role !")
+            await ctx.send("You already have the Announcements role.")
 
     @is_tavern()
     @command(name="unsub", aliases=['unsubscribe'])
     async def remove_role(self, ctx):
         """
-        This command removes the announcement role.
+        This command removes the announcements role.
         """
         user = ctx.author
-        announcement_role = get(ctx.guild.roles, id=self.role_id)
-        if self.role_id not in [role.id for role in ctx.message.author.roles]:
-            await ctx.send("You do not have the Announcement role.")
+        if self.announcement_role_id not in [role.id for role in ctx.message.author.roles]:
+            await ctx.send("You do not have the Announcements role.")
         else:
+            announcement_role = get(ctx.guild.roles, id=self.announcement_role_id)
             await user.remove_roles(announcement_role)
-            await ctx.send("The Announcement role has been successfully removed !")
+            await ctx.send("The Announcements role has been successfully removed.")
 
 
 def setup(bot):

@@ -10,14 +10,6 @@ from discord.ext.commands import Bot
 CONFIG_FILE = Path('config.yaml')
 LOGDIR = Path('logs')
 
-startup_extensions = ['cogs.taverncog',
-                      'cogs.generatorcog',
-                      'cogs.rollingcog',
-                      'cogs.specialcog',
-                      'cogs.srdcog',
-                      'cogs.reddit'
-                      ]
-
 
 # Set up logging
 def setup_logger() -> logging.Logger:
@@ -36,6 +28,11 @@ def setup_logger() -> logging.Logger:
     file_log.setFormatter(formatter)
     logger.addHandler(console_log)
     logger.addHandler(file_log)
+    # additionally, do some of the same configuration for the discord.py logger
+    discord_logger = logging.getLogger('discord')  # the discord.py logging instance
+    discord_logger.setLevel(logging.INFO)  # DEBUG has far too much info
+    discord_logger.addHandler(console_log)
+    discord_logger.addHandler(file_log)
     return logger
 
 
@@ -43,11 +40,8 @@ log = setup_logger()
 
 
 # Load configuration
-try:
-    with open(CONFIG_FILE, 'r') as yaml_file:
-        config = yaml.safe_load(yaml_file)
-except:  # noqa: E722
-    log.exception(f'Could not load configuration from {CONFIG_FILE}')
+with open(CONFIG_FILE, 'r') as yaml_file:
+    config = yaml.safe_load(yaml_file)
 
 # Use configuration to start the bot
 # TODO: dynamic per-server prefixes using utils.helpers.prefix
@@ -59,6 +53,7 @@ bot = Bot(
     command_prefix=config['prefix'],
     pm_help=True
 )
+bot.config = config  # assign configuration to a bot attribute for access from cogs
 
 bot.remove_command('help')
 bot.start_time = datetime.datetime.now()
@@ -71,7 +66,7 @@ async def on_ready():
 
 def main():
     """Load cogs, configuration, and start the bot."""
-    for extension in startup_extensions:
+    for extension in bot.config['load_extensions']:
         try:
             log.debug(f'Loading extension: {extension}')
             bot.load_extension(extension)
