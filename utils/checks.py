@@ -1,6 +1,6 @@
 from discord.ext.commands import check
 
-
+# TODO: move constants into config, and make config available here.
 dev_team = (
     263560579770220554,
     391583287652515841,

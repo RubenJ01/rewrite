@@ -2,5 +2,38 @@
 # Make sure config.yaml is listed in your .gitignore file!
 
 token: xxxxxxxxxxxxxxxxxxxxxxxx.xxxxxx.xxx-xxxxxxxxxxxxxxxxxxxxxxx
+
 # prefix is quoted to allow use of exclamation mark as prefix
 prefix: ";"
+
+invite: ""  # invite link for the bot
+
+load_extensions:
+  - cogs.generatorcog
+  - cogs.rollingcog
+  - cogs.specialcog
+  - cogs.srdcog
+  - cogs.reddit
+  - cogs.taverncog
+
+# COG SETTINGS BELOW THIS LINE
+# cog: reddit
+reddit:
+  subreddits:
+    - dndmemes
+    - dndiy
+    - dungeons_and_dragons
+    - roll20
+    - unearthedarcana
+    - dndnext
+    - dnd
+  upvote_emoji_id: 565550541137117194
+  downvote_emoji_id: 565550586146324500
+  comment_emoji_id: 565577972812349498
+
+# cog: taverncog
+tavern:
+  # guilds to consider part of The Tavern
+  guilds:
+    - 362589385117401088 # The Tavern
+  announcement_role_id: 560407352826658837

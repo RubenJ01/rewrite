@@ -20,7 +20,7 @@ class SpecialCog(Cog, name='Special'):
         log.debug('Sending an invite link for the bot.')
         invite_embed = Embed(colour=Colour.blurple())
         invite_embed.title = 'Invite link for The Tavern Bot'
-        invite = 'https://discordapp.com/oauth2/authorize?client_id=506541896630403080&scope=bot&permissions=0'
+        invite = self.bot.config['invite']
         invite_embed.description = invite
         invite_embed.set_footer(text='Use ;help to get a list of available commands.')
         await ctx.send(embed=invite_embed)

@@ -8,21 +8,12 @@ from discord.ext import commands
 
 log = logging.getLogger('bot.' + __name__)
 
-DND_SUBREDDITS = [
-    'dndmemes',
-    'dndiy',
-    'dungeons_and_dragons',
-    'roll20',
-    'unearthedarcana',
-    'dndnext',
-    'dnd'
-]
-
 
 class DndReddit(commands.Cog, name='D&D Reddit'):
     """These are all the commands that have to do with the reddit part of the bot."""
     def __init__(self, bot):
         self.bot = bot
+        self.subreddits = bot.config['reddit']['subreddits']
 
     async def fetch(self, session, url):
         params = {
@@ -44,13 +35,13 @@ class DndReddit(commands.Cog, name='D&D Reddit'):
         """
         subreddit = subreddit.lower()
 
-        if subreddit not in DND_SUBREDDITS:
+        if subreddit not in self.subreddits:
             embed = discord.Embed()
             embed.title = 'Please choose from this list of subreddits:'
             embed.colour = discord.Colour.blue()
             embed.description = '```'
 
-            for sr in DND_SUBREDDITS:
+            for sr in self.subreddits:
                 embed.description += sr + '\n'
 
             embed.description += '```'
@@ -66,9 +57,9 @@ class DndReddit(commands.Cog, name='D&D Reddit'):
         if not posts:
             return await ctx.send('No posts available!')
 
-        upvote = self.bot.get_emoji(565550541137117194)
-        downvote = self.bot.get_emoji(565550586146324500)
-        comment = self.bot.get_emoji(565577972812349498)
+        upvote = self.bot.get_emoji(self.bot.config['reddit']['upvote_emoji_id'])
+        downvote = self.bot.get_emoji(self.bot.config['reddit']['downvote_emoji_id'])
+        comment = self.bot.get_emoji(self.bot.config['reddit']['comment_emoji_id'])
         post = random.choice(posts)
 
         embed = discord.Embed()
@@ -91,4 +82,4 @@ class DndReddit(commands.Cog, name='D&D Reddit'):
 def setup(bot):
     bot.http_session = aiohttp.ClientSession()
     bot.add_cog(DndReddit(bot))
-    log.debug('Reddit cog loaded.')
+    log.debug('Loaded')
