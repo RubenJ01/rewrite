@@ -1,0 +1,266 @@
+doppelganger,city,monstrosity,82,700
+gargoyle,city,elemental,140,450
+wererat,city,humanoid,209,450
+rakshasa,city,fiend,257,10000
+revenant,city,undead,259,1800
+vampire,city,undead,297,10000
+vampire spawn,city,undead,298,1800
+blink dog,city,fey,318,50
+acolyte,city,humanoid,342,50
+assassin,city,humanoid,343,3900
+commoner,city,humanoid,345,10
+cultist,city,humanoid,345,25
+guard,city,humanoid,347,25
+thug,city,humanoid,350,100
+animated armor,dungeon,construct,19,200
+flying sword,dungeon,construct,20,50
+rug of smothering,dungeon,construct,20,450
+banshee,dungeon,undead,23,1100
+beholder,dungeon,aberration,28,10000
+death tyrant,dungeon,undead,29,11500
+spectator,dungeon,aberration,30,700
+crawling claw,dungeon,undead,44,10
+death knight,dungeon,undead,47,18000
+demilich,dungeon,undead,48,20000
+flameskull,dungeon,undead,134,1100
+ghost,dungeon,undead,147,1100
+ghast,dungeon,undead,148,450
+ghoul,dungeon,undead,148,200
+gibbering mouther,dungeon,aberration,157,450
+clay golem,dungeon,construct,168,5000
+flesh golem,dungeon,construct,169,1800
+iron golem,dungeon,construct,170,15000
+stone golem,dungeon,construct,170,5900
+gorgon,dungeon,monstrosity,171,1800
+grell,dungeon,aberration,172,700
+helmed horror,dungeon,construct,183,1100
+homunculus,dungeon,construct,188,10
+intellect devourer,dungeon,aberration,191,450
+invisible stalker,dungeon,elemental,192,2300
+lamia,dungeon,monstrosity,201,1100
+lich,dungeon,undead,202,33000
+medusa,dungeon,monstrosity,214,2300
+dust mephit,dungeon,elemental,215,100
+ice mephit,dungeon,elemental,215,100
+magma mephit,dungeon,elemental,216,100
+mud mephit,dungeon,elemental,216,50
+smoke mephit,dungeon,elemental,217,50
+steam mephit,dungeon,elemental,217,50
+mimic,dungeon,monstrosity,220,450
+mind flayer,dungeon,aberration,222,2900
+minotaur,dungeon,monstrosity,223,700
+monodrone,dungeon,construct,224,25
+duodrone,dungeon,construct,225,50
+tridrone,dungeon,construct,225,100
+quadrone,dungeon,construct,226,200
+pentadrone,dungeon,construct,226,450
+mummy,dungeon,undead,228,700
+mummy lord,dungeon,undead,229,13000
+bone naga,dungeon,undead,233,1100
+spirit naga,dungeon,monstrosity,234,3900
+guardian naga,dungeon,monstrosity,234,5900
+black pudding,dungeon,ooze,241,1100
+gelatinous cube,dungeon,ooze,242,450
+gray ooze,dungeon,ooze,243,100
+ochre jelly,dungeon,ooze,243,450
+shadow,dungeon,undead,269,100
+shield guardian,dungeon,construct,271,2900
+skeleton,dungeon,undead,272,50
+minotaur skeleton,dungeon,undead,273,450
+warhorse skeleton,dungeon,undead,273,100
+specter,dungeon,undead,279,200
+wight,dungeon,undead,300,700
+wraith,dungeon,undead,302,1800
+zombie,dungeon,undead,316,50
+beholder zombie,dungeon,undead,316,1800
+ogre zombie,dungeon,undead,316,450
+aarakocra,other plane,humanoid,12,50
+azer,other plane,elemental,22,450
+cambion,other plane,fiend,36,1800
+couatl,other plane,celestial,43,1100
+balor,other plane,fiend,55,22000
+barlgura,other plane,fiend,56,1800
+chasme,other plane,fiend,57,2300
+dretch,other plane,fiend,57,50
+glabrezu,other plane,fiend,58,5000
+goristo,other plane,fiend,59,18000
+hezrou,other plane,fiend,60,3900
+manes,other plane,fiend,60,25
+marilith,other plane,fiend,61,15000
+nalfeshnee,other plane,fiend,62,10000
+quasit,other plane,fiend,63,200
+shadow demon,other plane,fiend,64,1100
+vrock,other plane,fiend,64,2300
+yochlol,other plane,fiend,65,5900
+barbed devil,other plane,fiend,70,1800
+bearded devil,other plane,fiend,70,700
+bone devil,other plane,fiend,71,5000
+chain devil,other plane,fiend,72,3900
+erinyes,other plane,fiend,73,8400
+horned devil,other plane,fiend,74,7200
+ice devil,other plane,fiend,75,11500
+imp,other plane,fiend,76,200
+lemure,other plane,fiend,76,10
+pit fiend,other plane,fiend,77,25000
+spined devil,other plane,fiend,78,450
+air elemental,other plane,elemental,124,1800
+earth elemental,other plane,elemental,124,1800
+fire elemental,other plane,elemental,125,1800
+water elemental,other plane,elemental,125,1800
+dao,other plane,elemental,143,7200
+djinni,other plane,elemental,144,7200
+efreeti,other plane,elemental,145,7200
+marid,other plane,elemental,146,7200
+hell hound,other plane,fiend,182,700
+needle blight,forest,plant,32,50
+twig blight,forest,plant,32,25
+vine blight,forest,plant,32,100
+driad,forest,fey,121,200
+pixie,forest,fey,253,50
+bugbear,nature,goblinoid,33,200
+bugbear chief,nature,goblinoid,33,700
+bulette,nature,monstrosity,34,1800
+bullywug,nature,humanoid,35,50
+centaur,nature,monstrosity,38,450
+chimera,nature,monstrosity,39,2300
+cockatrice,nature,monstrosity,43,100
+cyclops,nature,giant,45,2300
+displacer beast,nature,monstrosity,81,700
+dracolich,nature,undead,84,18000
+ettin,nature,giant,132,1100
+faerie dragon r/o/y,nature,fey,133,200
+faerie dragon g/b/i/v,nature,fey,133,450
+galeb duhr,nature,elemental,139,2300
+cloud giant,nature,giant,154,5000
+fire giant,nature,giant,154,5000
+frost giant,nature,giant,155,3900
+hill giant,nature,giant,155,1800
+stone giant,nature,giant,156,2900
+storm giant,nature,giant,156,10000
+gnoll,nature,humanoid,163,100
+gnoll pack lord,nature,humanoid,163,450
+gnoll fang of yeenoghu,nature,humanoid,163,1100
+goblin,nature,goblinoid,166,50
+goblin boss,nature,goblinoid,166,200
+griffon,nature,monstrosity,174,450
+night hag,nature,fey,178,1800
+half-dragon,nature,humanoid,180,1800
+harpy,nature,monstrosity,181,200
+hippogriff,nature,monstrosity,184,200
+hobgoblin,nature,goblinoid,186,100
+hobgoblin captain,nature,goblinoid,186,700
+hobgoblin warlord,nature,goblinoid,187,2300
+hydra,nature,monstrosity,190,3900
+jackalwere,nature,humanoid,193,100
+kenku,nature,humanoid,194,50
+winged kobold,nature,humanoid,195,50
+kobold,nature,humanoid,195,25
+kraken,nature,monstrosity,197,50000
+lizardfolk,nature,humanoid,204,100
+lizardfolk shaman,nature,humanoid,205,450
+lizardfolk royal,nature,humanoid,205,1100
+werebear,nature,humanoid,208,1800
+wereboar,nature,humanoid,209,1100
+weretiger,nature,humanoid,210,1100
+werewolf,nature,humanoid,211,700
+manticore,nature,monstrosity,213,700
+merfolk,nature,humanoid,218,25
+merrow,nature,monstrosity,219,450
+nightmare,nature,fiend,235,700
+ogre,nature,giant,237,450
+half-ogre,nature,giant,238,200
+oni,nature,giant,239,2900
+orc,nature,humanoid,246,100
+orc war chief,nature,humanoid,246,1100
+orc eye of gruumsh,nature,humanoid,247,450
+orog,nature,humanoid,247,450
+owlbear,nature,monstrosity,249,700
+pegasus,nature,celestial,250,450
+peryton,nature,monstrosity,251,450
+pseudodragon,nature,monstrosity,254,50
+purple worm,nature,monstrosity,255,13000
+remorhaz,nature,monstrosity,258,7200
+young remorhaz,nature,monstrosity,258,1800
+roc,nature,monstrosity,260,7200
+sahuagin,nature,humanoid,263,100
+sahuagin priestess,nature,humanoid,264,450
+sahuagin baron,nature,humanoid,264,1800
+satyr,nature,fey,267,100
+scarecrow,nature,undead,268,200
+shambling mound,nature,plant,270,1800
+androsphinx,nature,monstrosity,281,18000
+gynosphinx,nature,monstrosity,282,7200
+sprite,nature,fey,283,50
+stirge,nature,monstrosity,284,25
+tarrasque,nature,monstrosity,286,155000
+thri-kreen,nature,humanoid,288,200
+treant,nature,plant,289,5000
+troll,nature,giant,291,1800
+unicorn,nature,celestial,294,1800
+water weird,nature,elemental,299,700
+will-o-wisp,nature,undead,301,450
+wyvern,nature,monstrosity,303,2300
+yeti,nature,monstrosity,305,700
+abominable yeti,nature,monstrosity,306,5000
+yuan-ti abomination,nature,monstrosity,308,2900
+yuan-ti malison,nature,monstrosity,309,700
+yuan-ti pureblood,nature,monstrosity,310,200
+bandit,nature,humanoid,343,25
+bandit captain,nature,humanoid,344,450
+scout,nature,humanoid,349,100
+magmin,other plane,elemental,212,100
+fire snake,other plane,elemental,265,200
+salamander,other plane,elemental,267,1800
+red slaad,other plane,aberration,276,1800
+slaad tadpole,other plane,aberration,276,25
+blue slaad,other plane,aberration,276,2900
+green slaad,other plane,aberration,277,3900
+grey slaad,other plane,aberration,277,5000
+death slaad,other plane,aberration,278,5900
+succubus,other plane,fiend,285,1100
+xorn,other plane,elemental,304,1800
+arcanaloth,other plane,fiend,313,8400
+mezzoloth,other plane,fiend,313,1800
+nycaloth,other plane,fiend,314,5000
+ultroloth,other plane,fiend,314,10000
+ankheg,underground,monstrosity,21,450
+basilisk,underground,monstrosity,24,700
+behir,underground,monstrosity,25,7200
+carrion crawler,underground,monstrosity,37,450
+cloaker,underground,aberration,41,3900
+darkmantle,underground,monstrosity,46,100
+drider,underground,monstrosity,120,2300
+duergar,underground,humanoid,122,200
+drow,underground,humanoid,128,50
+drow elite warrior,underground,humanoid,128,1800
+drow mage,underground,humanoid,129,2900
+drow priestess,underground,humanoid,129,3900
+ettercap,underground,monstrosity,131,450
+flumph,underground,aberration,135,25
+fomorian,underground,giant,136,3900
+gas spore,underground,plant,138,100
+shrieker,underground,plant,138,10
+violet fungus,underground,plant,138,50
+deep gnome,underground,humanoid,164,100
+grick,underground,monstrosity,173,450
+grick alpha,underground,monstrosity,173,2900
+grimlock,underground,humanoid,175,50
+hook horror,underground,monstrosity,189,700
+kuo-toa,underground,humanoid,199,50
+kuo-toa archpriest,underground,humanoid,200,2300
+kuo-toa whip,underground,humanoid,200,200
+myconid sprout,underground,plant,230,10
+spore servant,underground,plant,230,200
+myconid adult,underground,plant,232,100
+myconid sovereign,underground,plant,232,450
+nothic,underground,aberration,236,450
+otyugh,underground,aberration,248,1800
+piercer,underground,monstrosity,252,100
+quaggoth,underground,humanoid,256,450
+roper,underground,monstrosity,261,1800
+rust monster,underground,monstrosity,262,100
+troglodyte,underground,humanoid,290,50
+umber hulk,underground,monstrosity,292,1800
+aboleth,water,aberration,13,5900
+chuul,water,aberration,40,1100
+sea hag,water,fey,179,450
