@@ -3,6 +3,7 @@ import random
 
 from discord import Colour, Embed
 from discord.ext.commands import Cog, command
+
 from utils.helpers import dice_roller
 
 log = logging.getLogger('bot.' + __name__)
@@ -14,7 +15,7 @@ class RollingCog(Cog, name='Dice Rolling'):
         self.bot = bot
 
     @command(name='rngstat')
-    async def rng_stat(self, ctx, amount=None):
+    async def rng_stat(self, ctx, amount=None, dm=None):
         """Command that rolls up to 10 ability scores at a time"""
         rngstat_embed = Embed(colour=Colour.blurple())
         rngstat_embed.title = "Ability Scores"
@@ -38,7 +39,11 @@ class RollingCog(Cog, name='Dice Rolling'):
             desc += f'Roll {counter}' + " (" + ", ".join(rolls) + ") " + "= " + str(total) + "\n"
         rngstat_embed.description = desc
         rngstat_embed.set_footer(text='Use ;rngstat {optional amount} to roll up to 10 ability scores.')
-        return await ctx.send(embed=rngstat_embed)
+        if dm is not None:
+            dm = dm.lower()
+            if dm.startswith('d') or dm.startswith('p'):
+                return await ctx.author.send(embed=rngstat_embed)
+        await ctx.send(embed=rngstat_embed)
 
     @command(name='roll')
     async def roll_command(self, ctx, *request):
