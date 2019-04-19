@@ -8,7 +8,7 @@ log = logging.getLogger('bot.' + __name__)
 
 
 class CommandErrorHandler(commands.Cog):
-    """A error handler for the PythonDiscord server!"""
+    """A error handler for the tavern bot!"""
 
     def __init__(self, bot):
         self.bot = bot
