@@ -13,7 +13,7 @@ class DndTools(Cog, name='D&D Tools'):
 
     @command(name='currency')
     async def currency_command(self, ctx, *coins):
-        """Recalculate the given currency into the highest possible value.
+        """Recalculates the given currency into the highest possible value.
         ;currency 500sp will recalculate it into 5pp.
         Multiple currencies can be given."""
         cp = sum([int(coin[:-2]) for coin in coins if coin[-2:] == "cp"])
@@ -42,9 +42,11 @@ class DndTools(Cog, name='D&D Tools'):
             psize = int(psize)
             plevel = int(plevel)
         except ValueError:
-            return await ctx.send('Party size and level must be numbers between 1 and 20.')
-        if plevel and psize > 20:
-            return await ctx.send('Party size and level must be numbers between 1 and 20.')
+            return await ctx.send('Party size and level must be numbers.')
+        if plevel > 20:
+            return await ctx.send('Party level must be a number between 1 and 20.')
+        if psize > 10:
+            return await ctx.send('Party size must be a number between 1 and 20.')
         if difficulty in difficulties:
             if difficulty == 'easy':
                 difficulty = 1

@@ -2,7 +2,8 @@ import logging
 from time import perf_counter_ns
 
 from discord import Colour, Embed
-from discord.ext.commands import Cog, command
+from discord.ext.commands import Cog, command, cooldown
+from discord.ext.commands.cooldowns import BucketType
 
 from backends.srd_json import srd
 from utils import helpers
@@ -18,6 +19,7 @@ class SRDCog(Cog, name='SRD Information'):
         self.bot = bot
 
     @command(name='spell')
+    @cooldown(1, 2, BucketType.user)
     async def spell_command(self, ctx, *request):
         """Give information on a spell by name."""
         # TODO: use multipage embeds with reactions instead of continuation embeds
@@ -75,6 +77,7 @@ class SRDCog(Cog, name='SRD Information'):
                 await ctx.send(embed=embed)
 
     @command(name='condition')
+    @cooldown(1, 2, BucketType.user)
     async def condition_command(self, ctx, *request):
         """Give information on a condition by name."""
         request = ' '.join(request)
@@ -97,6 +100,7 @@ class SRDCog(Cog, name='SRD Information'):
         return await ctx.send(embed=embed)
 
     @command(name='feature')
+    @cooldown(1, 2, BucketType.user)
     async def feature_command(self, ctx, *request):
         """Give information on a feature by name."""
         request = ' '.join(request)
@@ -126,6 +130,7 @@ class SRDCog(Cog, name='SRD Information'):
             return await ctx.send(embed=embedtwo)
 
     @command(name='language')
+    @cooldown(1, 2, BucketType.user)
     async def language_command(self, ctx, *request):
         """Give information on a language by name."""
         request = ' '.join(request)
@@ -149,6 +154,7 @@ class SRDCog(Cog, name='SRD Information'):
         return await ctx.send(embed=embed)
 
     @command(name='school')
+    @cooldown(1, 2, BucketType.user)
     async def school_command(self, ctx, *request):
         """Give information on a school by name."""
         request = ' '.join(request)
@@ -171,6 +177,7 @@ class SRDCog(Cog, name='SRD Information'):
         return await ctx.send(embed=embed)
 
     @command(name='damagetype')
+    @cooldown(1, 2, BucketType.user)
     async def damagetype_command(self, ctx, *request):
         """Give information on a damage-type by name."""
         request = ' '.join(request)
@@ -194,6 +201,7 @@ class SRDCog(Cog, name='SRD Information'):
         return await ctx.send(embed=embed)
 
     @command(name='trait')
+    @cooldown(1, 2, BucketType.user)
     async def trait_command(self, ctx, *request):
         """Give information on a trait by name."""
         request = ' '.join(request)
@@ -218,6 +226,7 @@ class SRDCog(Cog, name='SRD Information'):
         return await ctx.send(embed=embed)
 
     @command(name='monster')
+    @cooldown(1, 2, BucketType.user)
     async def monster_command(self, ctx, *request):
         """Give information on a monster by name."""
         request = ' '.join(request)
@@ -252,6 +261,7 @@ class SRDCog(Cog, name='SRD Information'):
             return await ctx.send(embed=actiontwo)
 
     @command(name='equipment')
+    @cooldown(1, 2, BucketType.user)
     async def equipment_command(self, ctx, *request):
         """Give information on a equipment piece by name."""
         request = ' '.join(request)
