@@ -34,10 +34,14 @@ class SpecialCog(Cog, name='Special'):
         status_embed.title = 'Status'
         members = len(list(self.bot.get_all_members()))
         guilds = self.bot.guilds
-        guild_names = 'The Bot is running in the following Guilds:\n'
-        for guild in guilds:
-            guild_names += '**' + str(guild) + '** , '
-        guild_names = guild_names[:-3] + '.'
+        ids = self.bot.config['adminIDs']
+        if ctx.author.id in ids:
+            guild_names = 'The Bot is running in the following Guilds:\n'
+            for guild in guilds:
+                guild_names += '**' + str(guild) + '** , '
+            guild_names = guild_names[:-3] + '.'
+        else:
+            guild_names = ''
         uptime = datetime.datetime.now() - self.bot.start_time
         uptime = datetime.timedelta(days=uptime.days, seconds=uptime.seconds)
         date = 'Created on 18-11-2018'

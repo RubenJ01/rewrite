@@ -2,6 +2,13 @@
 The Tavern Bot is a bot that helps running d&d 5e on discord.
 It has various features that can make your live while roleplaying easyer.
 
+### Tools
+The bot contains various features that make it easyer to play d&d.
+Currently we have the following tools:
+* Encounter: Generates a random encounter based on the users inputs.The user can input: the size of the party, the average level of the party,the difficulty of the encounter and the environment it takes place in.
+* Currency: Recalculates the given currency into the highest possible value. ;currency 500sp will recalculate it into 5pp.
+Multiple currencies can be given.
+
 ### Lookups
 The bot contains lookup features for SRD content, we currently have lookup
 commands for the following:
