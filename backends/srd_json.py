@@ -29,6 +29,18 @@ LanguageInfo = namedtuple('LanguageInfo',
 SchoolInfo = namedtuple('SchoolInfo',
                         'name description')
 
+DamageInfo = namedtuple('DamageInfo',
+                        'name description')
+
+TraitInfo = namedtuple('TraitInfo',
+                       'name finalraces description')
+
+MonsterInfo = namedtuple('MonsterInfo',
+                         'name subhead attributes abilityscores features actions')
+
+EquipmentInfo = namedtuple('EquipmentInfo',
+                           'name context')
+
 
 def collapse(item) -> str:
     """Given a JSON-derived data structure, collapse all found strings into one.
@@ -120,6 +132,242 @@ def get_school_info(school: dict) -> SchoolInfo:
     return SchoolInfo(name, description)
 
 
+def get_damage_info(damage: dict) -> DamageInfo:
+    name = damage['name']
+    description = damage['desc']
+    description = '\n'.join(description)
+    return DamageInfo(name, description)
+
+
+def get_trait_info(trait: dict) -> TraitInfo:
+    name = trait['name']
+    races = trait['races']
+    finalraces = []
+    for values in races:
+        finalraces.append(values['name'])
+    finalraces = ', '.join(finalraces)
+    description = trait['desc']
+    description = '\n'.join(description)
+    return TraitInfo(name, finalraces, description)
+
+
+def get_monster_info(monster: dict) -> MonsterInfo:
+    # subheader for monster details
+    name = monster['name']
+    size = monster['size']
+    monstertype = monster['type']
+    alignment = monster['alignment']
+    subhead = f'*{size} {monstertype}, {alignment}*'
+    # monster attributes
+    armor_class = monster['armor_class']
+    hit_points = monster['hit_points']
+    hit_dice = monster['hit_dice']
+    speed = monster['speed']
+    attributes = f'**Armor Class** {armor_class} \n'
+    attributes += f'**Hit Points** {hit_points} ({hit_dice}) \n'
+    attributes += f'**Speed** {speed} \n'
+    # ability scores
+    strength = monster['strength']
+    dexterity = monster['dexterity']
+    constitution = monster['constitution']
+    intelligence = monster['intelligence']
+    wisdom = monster['wisdom']
+    charisma = monster['charisma']
+    abilityscores = f'**STR** {strength} **DEX** {dexterity} **CON** {constitution} \n'
+    abilityscores += f'**INT** {intelligence} **WIS** {wisdom} **CHA** {charisma}'
+    # saving throws
+    details = ''
+    saving_throws = []
+    if 'constitution_save' in monster:
+        con_save = f"Constitution +{str(monster['constitution_save'])}"
+        saving_throws.append(con_save)
+    if 'intelligence_save' in monster:
+        int_save = f"Intelligence +{str(monster['intelligence_save'])}"
+        saving_throws.append(int_save)
+    if 'wisdom_save' in monster:
+        wis_save = f"Wisdom +{str(monster['wisdom_save'])}"
+        saving_throws.append(wis_save)
+    if 'strength_save' in monster:
+        str_save = f"Strength +{str(monster['strength_save'])}"
+        saving_throws.append(str_save)
+    if 'charisma_save' in monster:
+        cha_save = f"Charisma +{str(monster['charisma_save'])}"
+        saving_throws.append(cha_save)
+    if 'dexterity_save' in monster:
+        dex_save = f"Dexterity +{str(monster['dexterity_save'])}"
+        saving_throws.append(dex_save)
+    if len(saving_throws) > 0:
+        saving_throws = ', '.join(saving_throws)
+        details = f'**Saving Throws** {saving_throws} \n'
+    # skills
+    skills = []
+    if 'acrobatics' in monster:
+        acrobatics = f"Acrobatics +{str(monster['acrobatics'])}"
+        skills.append(acrobatics)
+    if 'animal_handling' in monster:
+        animal_handling = f"Animal Handling +{str(monster['animal_handling'])}"
+        skills.append(animal_handling)
+    if 'acrobatics' in monster:
+        acrobatics = f"Acrobatics +{str(monster['acrobatics'])}"
+        skills.append(acrobatics)
+    if 'arcana' in monster:
+        arcana = f"Arcana +{str(monster['arcana'])}"
+        skills.append(arcana)
+    if 'athletics' in monster:
+        athletics = f"Athletics +{str(monster['athletics'])}"
+        skills.append(athletics)
+    if 'deception' in monster:
+        deception = f"Deception +{str(monster['deception'])}"
+        skills.append(deception)
+    if 'history' in monster:
+        history = f"History +{str(monster['history'])}"
+        skills.append(history)
+    if 'insight' in monster:
+        insight = f"Insight +{str(monster['insight'])}"
+        skills.append(insight)
+    if 'intimidation' in monster:
+        intimidation = f"Intimidation +{str(monster['intimidation'])}"
+        skills.append(intimidation)
+    if 'investigation' in monster:
+        investigation = f"Investigation +{str(monster['investigation'])}"
+        skills.append(investigation)
+    if 'medicine' in monster:
+        medicine = f"Medicine +{str(monster['medicine'])}"
+        skills.append(medicine)
+    if 'nature' in monster:
+        nature = f"Nature +{str(monster['nature'])}"
+        skills.append(nature)
+    if 'perception' in monster:
+        perception = f"Perception +{str(monster['perception'])}"
+        skills.append(perception)
+    if 'performance' in monster:
+        performance = f"Performance +{str(monster['performance'])}"
+        skills.append(performance)
+    if 'persuasion' in monster:
+        persuasion = f"Persuasion +{str(monster['persuasion'])}"
+        skills.append(persuasion)
+    if 'religion' in monster:
+        religion = f"Religion +{str(monster['religion'])}"
+        skills.append(religion)
+    if 'sleight_of_hand' in monster:
+        sleight_of_hand = f"Sleight of Hand +{str(monster['sleight_of_hand'])}"
+        skills.append(sleight_of_hand)
+    if 'stealth' in monster:
+        stealth = f"Stealth +{str(monster['stealth'])}"
+        skills.append(stealth)
+    if 'survival' in monster:
+        survival = f"Survival +{str(monster['survival'])}"
+        skills.append(survival)
+    if len(skills) > 0:
+        skills = ', '.join(skills)
+        details += f'**Skills** {skills} \n'
+    # vulnerabilities and stuff
+    if len(monster["damage_vulnerabilities"]) > 0:
+        damage_vulnerabilities = monster['damage_vulnerabilities']
+        details += f'**Damage Vulnerabilities** {damage_vulnerabilities} \n'
+    if len(monster["damage_resistances"]) > 0:
+        damage_resistances = monster['damage_resistances']
+        details += f'**Damage Resistances** {damage_resistances} \n'
+    if len(monster["damage_immunities"]) > 0:
+        damage_immunities = monster['damage_immunities']
+        details += f'**Damage Immunities** {damage_immunities} \n'
+    if len(monster["condition_immunities"]) > 0:
+        condition_immunities = monster['condition_immunities']
+        details += f'**Condition Immunities** {condition_immunities} \n'
+    senses = monster['senses']
+    details += f'**Senses** {senses} \n'
+    languages = monster['languages']
+    details += f'**Languages** {languages} \n'
+    challenge = monster['challenge_rating']
+    details += f'**Challenge** {str(challenge)}'
+    attributes += details
+    # features
+    features = []
+    special_abilities = monster['special_abilities']
+    for value in special_abilities:
+        actionname = f"**{value['name']}**"
+        features.append(actionname)
+        desc = value['desc']
+        features.append(desc)
+    features = '\n'.join(features)
+    actions = []
+    all_actions = monster['actions']
+    for value in all_actions:
+        specialname = f"**{value['name']}**"
+        actions.append(specialname)
+        desc = value['desc']
+        actions.append(desc)
+    actions = '\n'.join(actions)
+    if 'legendary_actions' in monster:
+        legendary_actions = []
+        legendaryactions = monster['legendary_actions']
+        for value in legendaryactions:
+            actionname = f"**{value['name']}**"
+            legendary_actions.append(actionname)
+            desc = value['desc']
+            legendary_actions.append(desc)
+        legendary_actions = '\n'.join(legendary_actions)
+        actions += f'\n __Legendary Actions__ \n {legendary_actions}'
+    return MonsterInfo(name, subhead, attributes, abilityscores, features, actions)
+
+
+def get_equipment_info(equipment: dict) -> EquipmentInfo:
+    name = equipment['name']
+    context = ''
+    # forming a proper subheader
+    subhead = ''
+    if 'category_range' in equipment:
+        category_range = equipment['category_range']
+        subhead += f'*{category_range}*'
+    if 'equipment_category' in equipment:
+        equipment_category = equipment['equipment_category']
+        subhead += f' *{equipment_category}*'
+    if 'gear_category' in equipment:
+        gear_category = equipment['gear_category']
+        subhead += f' *{gear_category}*'
+    if 'vehicle_category' in equipment:
+        vehicle_category = equipment['vehicle_category']
+        subhead += f' *{vehicle_category}*'
+    subhead += '\n'
+    context += subhead
+    # forming the description
+    description = ''
+    if 'cost' in equipment:
+        cost = f"**Cost** {equipment['cost']['quantity']} {equipment['cost']['unit']} \n"
+        description += cost
+    if 'damage' in equipment:
+        damage = f"**Damage** {equipment['damage']['dice_count']}d{equipment['damage']['dice_value']}"
+        damage += f"{equipment['damage']['damage_type']['name']} \n"
+        description += damage
+    if 'range' in equipment:
+        if equipment['range']['normal'] > 0:
+            equipmentrange = f"**Range** {equipment['range']['normal']} feet "
+        else:
+            equipmentrange = f"**Range** {equipment['range']['long']} feet "
+    if 'throw_range' in equipment:
+        throw_range = f"({equipment['throw_range']['normal']}/{equipment['throw_range']['long']})"
+        equipmentrange += throw_range
+        description += equipmentrange
+    if 'speed' in equipment:
+        speed = f"**Speed** {equipment['speed']['quantity']} {equipment['speed']['unit']} \n"
+        description += speed
+    if 'desc' in equipment:
+        desc = f"**Description** \n {''.join(equipment['desc'])} \n"
+        description += desc
+    if 'armor_class' in equipment:
+        armor_class = f"**AC** {equipment['armor_class']['base']}"
+        if equipment['armor_class']['dex_bonus']:
+            armor_class += f"+ dex modifier"
+        armor_class += '\n'
+        context += armor_class
+    if 'stealth_disadvantage' in equipment:
+        if equipment['stealth_disadvantage']:
+            disadv = f"This item gives you a disadvantage on stealth checks.\n"
+            context += disadv
+    context += description
+    return EquipmentInfo(name, context)
+
+
 class __SRD:
     """Contains the imported SRD data and methods to search it."""
     def __init__(self, data_path: Path):
@@ -180,6 +428,22 @@ class __SRD:
     def search_school(self, request: str) -> List['SchoolInfo']:
         results = self.search('magic-schools', 'name', request)
         return [get_school_info(result) for result in results]
+
+    def search_damage(self, request: str) -> List['DamageInfo']:
+        results = self.search('damage-types', 'name', request)
+        return [get_damage_info(result) for result in results]
+
+    def search_trait(self, request: str) -> List['TraitInfo']:
+        results = self.search('traits', 'name', request)
+        return [get_trait_info(result) for result in results]
+
+    def search_monster(self, request: str) -> List['MonsterInfo']:
+        results = self.search('monsters', 'name', request)
+        return [get_monster_info(result) for result in results]
+
+    def search_equipment(self, request: str) -> List['EquipmentInfo']:
+        results = self.search('equipment', 'name', request)
+        return [get_equipment_info(result) for result in results]
 
 
 srd = __SRD(SRDPATH)  # for export: for access to the SRD

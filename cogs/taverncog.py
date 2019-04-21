@@ -1,243 +1,61 @@
 import logging
 import random
+import yaml
 from pathlib import Path
 
 from discord import Colour, Embed, Member
-from discord.ext.commands import Cog, command, group
+from discord.ext.commands import Cog, command
 from discord.utils import get
 
-from helpers.checks import is_tavern
+from utils.checks import is_tavern
 
-GREET_FILE = Path('resources') / 'tavern_greetings.txt'  # messages for new Tavern members
-
+GREET_FILE = Path('resources') / 'tavern' / 'greetings.txt'  # messages for new Tavern members
+FAQ_FILE = Path('resources') / 'tavern' / 'faq.yaml'  # Tavern FAQ
+RULES_FILE = Path('resources') / 'tavern' / 'rules.yaml'  # Tavern rules
+RP_RULES_FILE = Path('resources') / 'tavern' / 'rp_rules.yaml'  # Tavern roleplaying rules
 log = logging.getLogger('bot.' + __name__)
 
 
 class TavernCog(Cog, name='Tavern'):
-
+    """These are all of the commands used in The Tavern."""
     def __init__(self, bot):
         self.bot = bot
-        self.role_id = 560407352826658837
-        self.faq = {
-            1: (
-                "I'm new to Dungeons and Dragons. Where should I start?",
-                "Typically, you won't be able to find one-on-one help through DMs. However, the "
-                "public #player-help and #dm-help channels to ask any questions you may have. "
-                "Youtube series' can also help you out. Several content creators have dedicated "
-                "entire playlists to the topic. The Lords recommend the How to Play D&D 5e series "
-                "from Don’t Stop Thinking: https://www.youtube.com/watch?v=OoW2CDgztKY&list=PLJmF"
-                "JXf3BXjwXkNFo_-iwtHb24AuJcXqx\n"
-                "There are also multiple resources listed in #resources, which can be searched "
-                "through."
-            ),
-            2: (
-                "Where can I find a session to join? Do you run games here?",
-                "Yes, we do run our own sessions. You can find requests posted under #party-up, "
-                "along with a format for those advertisements found within #party-up-talk.\n"
-                "Currently, we are in the process of recruiting official DMs, known as the "
-                "Queen's Guard, with the intention of establishing a regular weekly session.\n"
-                "If you would like to interview for the Guard, please PM a Captain."
-            ),
-            3: (
-                "Is there anything else that you do here?",
-                "Yes! Despite most of our traffic being related to 5th Edition D&D, all tabletop "
-                "games, and most video games, are welcome as well. For now, you can find these in "
-                "#other-rpgs-talk and #video-gaming."
-            ),
-            4: (
-                "Why can't I post images or embed links?",
-                "Due to malicious user activity, links and images have been heavily restricted in "
-                "many parts of the server. If you want to post a relevant link, ask a member of "
-                "Staff and we will be happy to assist you."
-            ),
-            5: (
-                "Where can I find [thing]? What is [channel] for?",
-                "You can find most relevant information within #tavern-menu."
-            ),
-            6: (
-                "Can I run a game here?",
-                "Of course! You may advertise your games in #party-up, no permissions necessary. "
-                "Just follow the format provided within the pins and you're home free. However, we "
-                "we do recommend that you apply for the Queen's Guard, the group of our approved "
-                "DMs within the Tavern server. You can apply for this position by PMing a Captain "
-                "of the Queen's Guard."
-            ),
-            7: (
-                "What do the Staff do?",
-                "Queen of the Tavern is the founder of the tavern. \n"
-                "Lords of the Tavern are Admins. In addition to the regular duties of an Innkeeper, each Lord brings "
-                "something unique to the Tavern. \n "
-                "Innkeepers have shown they are capable Moderators and are trusted with more responsibilities; given "
-                "the ability to create channels and roles, they can act more autonomously than Bartenders, "
-                "and help implement or temper the Lords’ ideas. \n "
-                "Bartenders are Moderators in the Tavern, and like any good Bartender, they are great with people. "
-                "They settle disputes that get out of hand, but more generally, they interact with the patrons, "
-                "providing a good face for the Tavern. \n "
-                "Advisors have no permissions or moderator abilities, they serve to help make decisions on moderation "
-                "issues, and exist as a step prior to becoming a mod. \n "
-            ),
-            8: (
-                "...how do I apply for staff here?",
-                "Staff applications are currently closed.\n"
-                # split is intentionally done so that it can be spotted in a crowd to change quickly
-                "As most rosters often do, the Staff roster is prone to change. If you would like "
-                "to show your interest in becoming a staff member, feel free to fill out the "
-                "application for the Advisors role, which can be found within #announcements.\n"
-                "Remember, we always are on the lookout for those with regular activity in the "
-                "server who show kindness, consideration, and helpfulness "
-            ),
-            9: (
-                "What is the Hall of Fame?",
-                "The Hall of Fame is just that - a hall of fame for those users who have "
-                "distinguished themselves from the crowd in some way. Users who are particularly "
-                "funny, helpful, knowledgeable, clearheaded, or otherwise may one day find that "
-                "the staff have voted to give them a golden hero’s crest."
-            ),
-            10: (
-                "What does [abbreviation] mean?",
-                "For more details check #faq."
-            ),
-            11: (
-                "How do I [do the thing] in Discord?",
-                "For more details check #faq."
-            )
-        }
-        self.rules = {
-            1: (
-                "No Malicious Behavior.",
-                "Do not enter the server with the intent to raid, brigade, or troll. Intentionally malicious users "
-                "will be immediately and permanently banned. Come on, people, it’s common sense. "
-            ),
-            2: (
-                "No Obscene Content.",
-                "This is a SFW server. Any form of porn/hentai/etc, including links or pics, is forbidden. Erotic "
-                "roleplay (ERP) is also strictly prohibited. If you must, take it to PMs and fade to black. "
-            ),
-            3: (
-                "No Spam.",
-                "Posting large numbers of superfluous messages for the purposes of cluttering a channel or "
-                "artificially boosting server rank is prohibited. Express yourself with quality, not by volume. "
-            ),
-            4: (
-                "No Links.",
-                "Posting of outside links has been disabled in most channels due to malicious user behaviour.  If you "
-                "would like to post a link and cannot, ping (@) an online member of Staff and we will be happy to "
-                "assist. "
-            ),
-            5: (
-                "No Advertising.",
-                "Refrain from advertising your own content (YouTube, Twitch, Discord, Social Media, etc) in a public "
-                "channel without written permission from the Staff. Exceptions may be made if it is specifically "
-                "related to the channel and discussion you are in (e.g.: if you are an artist in #music-arts-crafts; "
-                "answering a question in #player-help; if you have been approved for #streaming, etc). That said, "
-                "PMing links to other users who have asked for them is permitted. "
-            ),
-            6: (
-                "Be Civil.",
-                "You are free to engage in polite discussions and intellectual debates; in fact, we encourage it - "
-                "passionate users are the best! However, avoid sliding into public arguments that distract from the "
-                "topic. Do not insult or harangue other users, and do not return fire if you are insulted. Do not "
-                "engage with trolls: ignore trolling attempts and report them to staff.* "
-            ),
-            7: (
-                "No Bullying.",
-                "Banter and teasing are fine, as long as it’s in good fun. However, discrimination or hate speech "
-                "based on race, sex, gender, age, or sexuality is unacceptable. Racial slurs are specifically "
-                "prohibited. If you are being bullied/harassed (even in PMs), feel free to report it to any member of "
-                "Staff.* "
-            ),
-            8: (
-                "Complaints Are Welcome.",
-                "If you have a complaint about Staff or user behaviour, you are welcome to PM any online Staff at any "
-                "level. If your complaint pertains to a member of Staff, take it one level higher to a Bartender, "
-                "Innkeeper or Lord, as appropriate. If possible, bring evidence of misconduct, such as a screenshot, "
-                "since it will make our job significantly easier! If the evidence is edited/deleted, contact a Lord, "
-                "who can check the Deleted Messages Archive.* "
-            ),
-            9: (
-                "Respect Staff Decisions.",
-                "The Staff reserve the right to make decisions at their own discretion. Do not attempt to have one or "
-                "more other uninvolved Staff members change or reverse that decision. That said, if you are being "
-                "unfairly treated, please bring it to the attention of a higher Staff member, as per Rule 8. Not even "
-                "Staff are above the law.* "
-            ),
-            10: (
-                "No Impersonation.",
-                "Do not attempt to impersonate server Staff. The job is thankless and the Innkeeper pays us in Copper "
-                "Pieces, if at all. Don’t make our lives harder.* "
-            ),
-        }
-        self.rprules = {
-            1: (
-                "No ERP.",
-                "Any evidence of erotic roleplay will be punished, to allow as many players as possible to take part "
-                "in and enjoy the roleplaying experience here, we need to keep this age appropriate; any descriptions "
-                "of characters based purely on sexual characteristics are deemed inappropriate. Sexual harassment or "
-                "misbehaviour will result in an instant RP Ban. "
-            ),
-            2: (
-                "Respect.",
-                "Just treat fellow players with common decency, don't be cruel to anyone, especially if they're "
-                "asking for advice, at the same time, we understand that debates can break out but when they do keep "
-                "in mind that you are on a public platform and it's disrespectful to other players to be having large "
-                "debates. "
-            ),
-            3: (
-                "Keep OOC, OOC.",
-                "Out of character content should stay limited to the out of character channel, any content posted in "
-                "main hall and the other roleplaying channels should be deleted, and if you have to declare the "
-                "result from a roll or request another player make a roll just use the recommended format laid out "
-                "later on in the document. "
-            ),
-            4: (
-                "Approved Characters.",
-                "Please understand that in order to avoid any chaos created from having waves of unbalanced or unfair "
-                "characters you need to wait to have your character sheet approved by a Roleplay DM. To get your "
-                "character approved make sure you follow the character creation rules as laid out later on in the "
-                "document. "
-            ),
-            5: (
-                "Leave the DMing to the DMs.",
-                "Unless you ask a Roleplay DM, please leave DMing to the DMs; If there is an arc event going on and "
-                "you need a DM to help keep things going or make an event occur, just hop into an out of character "
-                "channel and ping the Roleplay DM you need or do a role ping for any Roleplay DM to come in. "
-            ),
-            6: (
-                "Avoid Spotlighting.",
-                "We understand you want your character to have a strong personality and that you want your character "
-                "to have character, but to keep things fair please avoid spotlighting (Trying to steal all the focus "
-                "on a scene) unless it's a specific arc that really is all about you, and even then, best to stay "
-                "respectful of your fellow players. "
-            ),
-            7: (
-                "Common Sense.",
-                "Unless any events spark new rules to be written here, that should be all the basic rules we need, "
-                "just use your common sense, be respectful, and remember to enjoy yourself while keeping things "
-                "enjoyable for others! "
-            ),
-            8: (
-                "RTFM.",
-                "Head on over here to the Public Google Drive for The Tavern and read the Player's Manual, "
-                "known as Rosegrove's Journal of Eden, once you've done that check out our stuff in the Rules, "
-                "Homebrew, and Resources folders, including such hits as Poisons, Mousefolk, Alchemists, "
-                "and much much more! https://drive.google.com/open?id=1IwfCygfjoQXQ5flXxeWbeG6pSgkBKC-V "
-            ),
-        }
+        self.announcement_role_id = bot.config['tavern']['announcement_role_id']
+        self.all_faq = self.load_faq()
+        self.rules = self.load_rules()
+        self.rprules = self.load_rprules()
 
-    @is_tavern()
+    def load_faq(self):
+        with open(FAQ_FILE, encoding='utf-8') as faq_file:
+            all_faq = yaml.safe_load(faq_file)
+        return all_faq
+
+    def load_rules(self):
+        with open(RULES_FILE, encoding='utf-8') as faq_file:
+            rules = yaml.safe_load(faq_file)
+        return rules
+
+    def load_rprules(self):
+        with open(RP_RULES_FILE, encoding='utf-8') as faq_file:
+            rprules = yaml.safe_load(faq_file)
+        return rprules
+
     @Cog.listener()
     async def on_member_join(self, member: Member):
         """Send a custom greeting to new members of The Tavern."""
-        log.debug(f'Sending greeting to new Tavern member {member}')
-        with open(GREET_FILE, 'r', encoding='utf-8') as f:
-            strings = f.readlines()
-        greeting = random.choice(strings)
-        message = 'Welcome to The Tavern, ' + member.mention + '. ' + greeting
-        channel = get(member.guild.channels, name='general')
-        if channel is not None:
-            await channel.send(message)
+        if member.guild.id in self.bot.config['tavern']['guilds']:
+            log.debug(f'Sending greeting to new Tavern member {member}')
+            with open(GREET_FILE, 'r', encoding='utf-8') as f:
+                strings = f.readlines()
+            greeting = random.choice(strings)
+            message = 'Welcome to The Tavern, ' + member.mention + '. ' + greeting
+            channel = get(member.guild.channels, name='general')
+            if channel is not None:
+                await channel.send(message)
+            else:
+                log.warning(f'Could not send greeting to {member} in guild {member.guild}: no #general')
         else:
-            log.warning(f'Could not send greeting to {member} in guild {member.guild}: no #general')
+            log.debug(f'Not sending greeting to new member {member} of {member.guild}')
 
     @command(name='tavern_help', aliases=['thelp'])
     async def tavern_help(self, ctx, cmd: str = "None"):
@@ -272,54 +90,66 @@ class TavernCog(Cog, name='Tavern'):
     async def faq_command(self, ctx, faq_num: int = None):
         """Command that contains a list of all the frequently asked questions in the Tavern.
         It allows users to see a list of all the faq questions and it allows them to get their details."""
-        faq_embed = Embed(colour=Colour.blurple())
-        desc = ''
-        if not faq_num or faq_num not in self.faq.keys():
-            faq_embed.title = 'Frequently Asked Questions'
-            for num, value in enumerate(self.faq.values()):
-                desc += f'**{num + 1}**: {value[0]}\n'
-            faq_embed.description = desc
-            faq_embed.set_footer(text='Use ;faq {faq_num} to get a specific FAQ')
-            return await ctx.send(embed=faq_embed)
-        faq_embed.title = self.faq[faq_num][0]
-        faq_embed.description = self.faq[faq_num][1]
-        return await ctx.send(embed=faq_embed)
+        no_of_faq = [i for i in range(1, len(self.all_faq) + 1)]
+        embed = Embed()
+        embed.colour = Colour.blurple()
+        if faq_num is None or faq_num not in no_of_faq:
+            if faq_num is not None and faq_num not in no_of_faq:
+                embed.title = f'FAQ no.{faq_num} does not exist!\nThe following FAQs are:'
+            else:
+                embed.title = "Frequently Asked Questions"
+
+            embed.description = ''
+            for index, faq in enumerate(self.all_faq, start=1):
+                embed.description += f'**{index}**. {faq["q"]}\n'
+            embed.set_footer(text='Use ;faq {faq_num} to get a specific FAQ')
+        else:
+            faq = self.all_faq[faq_num - 1]
+            embed.title = faq['q']
+            embed.description = ''
+            for faq_desc in faq['a']:
+                embed.description += faq_desc
+        await ctx.send(embed=embed)
 
     @is_tavern()
-    @command(name='rules')
-    async def rules_command(self, ctx, rules_num: int = None):
+    @command(name='rules', aliases=['rule'])
+    async def rules(self, ctx, rule_num: int = None):
         """Command that contains a list of all the rules in the Tavern.
         It allows users to see a list of all the rules and it allows them to get their details."""
-        rules_embed = Embed(colour=Colour.blurple())
-        desc = ''
-        if not rules_num or rules_num not in self.rules.keys():
-            rules_embed.title = 'The Tavern Rules'
-            for num, value in enumerate(self.rules.values()):
-                desc += f'**{num + 1}**: {value[0]}\n'
-            rules_embed.description = desc
-            rules_embed.set_footer(text='Use ;rules {rule_num} to get a specific rule')
-            return await ctx.send(embed=rules_embed)
-        rules_embed.title = self.rules[rules_num][0]
-        rules_embed.description = self.rules[rules_num][1]
-        return await ctx.send(embed=rules_embed)
+        rule_type = 'rules'
+        title = 'The Tavern Rules'
+        embed = self.any_rules_embed(rule_num, rule_type, title)
+        await ctx.send(embed=embed)
 
     @is_tavern()
-    @command(name='rprules')
-    async def rprules_command(self, ctx, rprules_num: int = None):
+    @command(name='rprules', aliases=['rprule'])
+    async def rp_rules(self, ctx, rule_num: int = None):
         """Command that contains a list of all the rprules for Eden.
         It allows users to see a list of all the rprules and it allows them to get their details."""
-        rprules_embed = Embed(colour=Colour.blurple())
-        desc = ''
-        if not rprules_num or rprules_num not in self.rprules.keys():
-            rprules_embed.title = 'Roleplaying Rules for Eden'
-            for num, value in enumerate(self.rprules.values()):
-                desc += f'**{num + 1}**: {value[0]}\n'
-            rprules_embed.description = desc
-            rprules_embed.set_footer(text='Use ;rprules {rprule_num} to get a specific rule')
-            return await ctx.send(embed=rprules_embed)
-        rprules_embed.title = self.rprules[rprules_num][0]
-        rprules_embed.description = self.rprules[rprules_num][1]
-        return await ctx.send(embed=rprules_embed)
+        rule_type = 'rprules'
+        title = 'Roleplaying Rules for Eden'
+        embed = self.any_rules_embed(rule_num, rule_type, title)
+        await ctx.send(embed=embed)
+
+    def any_rules_embed(self, rule_num, rule_type, title):
+        embed = Embed()
+        embed.colour = Colour.blurple()
+        if rule_num is None or rule_num not in list(getattr(self, rule_type)):
+            if rule_num is not None and rule_num not in list(getattr(self, rule_type).keys()):
+                embed.title = f'{rule_type[0:-1].capitalize()} no.{rule_num} does not exist!\n'
+                embed.title += 'The following {title} are:'
+            else:
+                embed.title = title
+            embed.description = ''
+            for key, value in getattr(self, rule_type).items():
+                embed.description += f'**{key}**. {value["rule"]}\n'
+            embed.set_footer(text='Use ;rules {rule_num} to get a specific rule')
+        else:
+            embed.title = list(getattr(self, rule_type).values())[rule_num - 1]['rule']
+            embed.description = ''
+            for exp in list(getattr(self, rule_type).values())[rule_num - 1]['explanation']:
+                embed.description += exp
+        return embed
 
     @is_tavern()
     @command(name='format')
@@ -372,26 +202,26 @@ class TavernCog(Cog, name='Tavern'):
         This command adds the announcement role.
         """
         user = ctx.author
-        announcement_role = get(ctx.guild.roles, id=self.role_id)
-        if self.role_id not in [role.id for role in ctx.message.author.roles]:
+        if self.announcement_role_id not in [role.id for role in ctx.message.author.roles]:
+            announcement_role = get(ctx.guild.roles, id=self.announcement_role_id)
             await user.add_roles(announcement_role)
-            await ctx.send("The Announcement role has been added !")
+            await ctx.send("The Announcements role has been added.")
         else:
-            await ctx.send("You already have the role !")
+            await ctx.send("You already have the Announcements role.")
 
     @is_tavern()
     @command(name="unsub", aliases=['unsubscribe'])
     async def remove_role(self, ctx):
         """
-        This command removes the announcement role.
+        This command removes the announcements role.
         """
         user = ctx.author
-        announcement_role = get(ctx.guild.roles, id=self.role_id)
-        if self.role_id not in [role.id for role in ctx.message.author.roles]:
-            await ctx.send("You do not have the Announcement role.")
+        if self.announcement_role_id not in [role.id for role in ctx.message.author.roles]:
+            await ctx.send("You do not have the Announcements role.")
         else:
+            announcement_role = get(ctx.guild.roles, id=self.announcement_role_id)
             await user.remove_roles(announcement_role)
-            await ctx.send("The Announcement role has been successfully removed !")
+            await ctx.send("The Announcements role has been successfully removed.")
 
 
 def setup(bot):

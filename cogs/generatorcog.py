@@ -19,12 +19,12 @@ paths = {
 
 
 class GeneratorCog(Cog, name='Generator'):
-
+    """These are all the commands that are used to generate things for d&d."""
     def __init__(self, bot):
         self.bot = bot
 
     @command(name='generate')
-    async def generator_command(self, ctx, generate=None, amount=None):
+    async def generator_command(self, ctx, generate=None, amount: int = None, dm=None):
         """All of the generate commands that are used to generate things, such as:
         characters, NPCs and names."""
         log.debug(f'generate request with type={generate} and amount={amount}')
@@ -47,6 +47,7 @@ class GeneratorCog(Cog, name='Generator'):
         with open(paths[final], 'r', encoding='utf-8') as f:
             strings = f.readlines()
         if amount is None:
+            message = random.choice(strings)
             return await ctx.send(random.choice(strings))
         try:
             iamount = int(amount)
@@ -55,7 +56,12 @@ class GeneratorCog(Cog, name='Generator'):
         else:
             if not 1 < iamount <= 5:
                 return await ctx.send(f'Please choose a number of {final}s between 2 and 5.')
-            return await ctx.send(''.join(random.choices(strings, k=iamount)))
+            message = ''.join(random.choices(strings, k=iamount))
+        if dm is not None:
+            dm = dm.lower()
+            if dm.startswith('d') or dm.startswith('p'):
+                return await ctx.author.send(message)
+        await ctx.send(message)
 
 
 def setup(bot):
