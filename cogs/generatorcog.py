@@ -60,6 +60,7 @@ class GeneratorCog(Cog, name='Generator'):
         if dm is not None:
             dm = dm.lower()
             if dm.startswith('d') or dm.startswith('p'):
+                await ctx.send("Sended the results your dm.")
                 return await ctx.author.send(message)
         await ctx.send(message)
 

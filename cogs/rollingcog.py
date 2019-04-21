@@ -42,6 +42,7 @@ class RollingCog(Cog, name='Dice Rolling'):
         if dm is not None:
             dm = dm.lower()
             if dm.startswith('d') or dm.startswith('p'):
+                await ctx.send("Sended the results your dm.")
                 return await ctx.author.send(embed=rngstat_embed)
         await ctx.send(embed=rngstat_embed)
 
