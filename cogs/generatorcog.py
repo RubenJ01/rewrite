@@ -2,6 +2,8 @@ import logging
 import random
 from pathlib import Path
 
+from backends.npc_gen import final_output
+
 from discord import Colour, Embed
 from discord.ext.commands import Cog, command
 
@@ -63,6 +65,14 @@ class GeneratorCog(Cog, name='Generator'):
                 await ctx.send("Sended the results your dm.")
                 return await ctx.author.send(message)
         await ctx.send(message)
+
+    @command(name='npc')
+    async def npc_command(self, ctx):
+        """Generates a random npc, based on P.89 of the Dungeon Masters Guide."""
+        desc = final_output()
+        embed = Embed(colour=Colour.blurple())
+        embed.add_field(name='Randomly generated npc.', value=desc, inline=True)
+        return await ctx.send(embed=embed)
 
 
 def setup(bot):
