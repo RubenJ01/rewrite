@@ -80,6 +80,7 @@ class SpecialCog(Cog, name='Special'):
             cogs.append(k)
         cogs.sort()
         cogs.remove('Tavern')
+        cogs.remove('ErrorHandler')
         if second_help is None:
             for cog_name in cogs:
                 cog = self.bot.get_cog(cog_name)

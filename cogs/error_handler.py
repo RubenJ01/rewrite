@@ -7,7 +7,7 @@ from discord.ext import commands
 log = logging.getLogger('bot.' + __name__)
 
 
-class CommandErrorHandler(commands.Cog):
+class CommandErrorHandler(commands.Cog, name='ErrorHandler'):
     """A error handler for the tavern bot!"""
 
     def __init__(self, bot):

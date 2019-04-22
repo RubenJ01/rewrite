@@ -60,7 +60,7 @@ def generate_flaw():
 
 
 def final_output():
-    desc =''
+    desc = ''
     appearance = generate_appearance()
     bond = generate_bond()
     flaw = generate_flaw()
@@ -71,8 +71,8 @@ def final_output():
     talent = generate_talent()
     desc += f"**History:** {history} "
     desc += f"**Appearance:** {appearance} "
-    desc += f"**Talent:** {talent} \n"
-    desc += f"**Mannerism:** {mannerism} \n"
+    desc += f"**Talent:** {talent} "
+    desc += f"**Mannerism:** {mannerism} "
     desc += f"**Interaction with others:** {interaction} \n"
     desc += f"**Ideal:** {ideal} "
     desc += f"**Bond:** {bond} "
