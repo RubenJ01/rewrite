@@ -25,7 +25,6 @@ class SpecialCog(Cog, name='Special'):
         invite_embed.set_footer(text='Use ;help to get a list of available commands.')
         await ctx.send(embed=invite_embed)
 
-    @is_admin()
     @command(name='status')
     async def status_command(self, ctx):
         """Get the current status of the bot."""
