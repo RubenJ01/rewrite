@@ -38,7 +38,6 @@ def _normalize_dice(dice_list: list):
     new_list = {}
     for die in dice_list:
         amount, die_type, *modifier = re.split(r'd|\s?[+-]', die)
-        print(amount, die_type, modifier)
         die_type = int(die_type)
         modifier = re.findall(r'[+-]\d+', die)
         if die_type == 1:
