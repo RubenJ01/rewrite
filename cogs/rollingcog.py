@@ -4,7 +4,7 @@ import random
 from discord import Colour, Embed
 from discord.ext.commands import Cog, command
 
-from utils.helpers import dice_roller
+from utils.helpers import roll_dice
 
 log = logging.getLogger('bot.' + __name__)
 
@@ -47,25 +47,25 @@ class RollingCog(Cog, name='Dice Rolling'):
         await ctx.send(embed=rngstat_embed)
 
     @command(name='roll')
-    async def roll_command(self, ctx, *request):
+    async def roll_command(self, ctx, *, request='1d20'):
         """Roll a numerous amount of dices. Format like: ;roll {dicetype} {modifier}.
         For example: ;roll 4d10 3d6 + 7. Multiple dices can be given."""
+
         try:
-            request = ' '.join(request)
-            values = dice_roller(request)
-            total = 0
-            output = []
-            for inner_dict in values.values():
-                rolls = inner_dict['rolls']
-                mod = inner_dict['modifier']
-                total += sum(int(roll) for roll in rolls)
-                if mod is not None:
-                    total += mod
-                    output.extend(rolls + [str(mod)])
-                if mod is None:
-                    output.extend(rolls)
-            return await ctx.send(
-                f"That dice expression resulted in: {', '.join(output)} which sums to {total}")
+            values = roll_dice(request)
+            desc = ''
+            for i, x in enumerate(values):
+                total = values[x][0] + values[x][1]
+                desc += f'**{len(values[x][0])} D{x}**: {values[x][0]}' \
+                    f'{" + **" + ", ".join([str(val) for val in values[x][1]]) + "**" if values[x][1] else ""}' \
+                    f' = **__{sum(total)}__**\n'
+
+            roll_embed = Embed(
+                title=f'🎲 {ctx.author} rolled! 🎲',
+                description=desc,
+                color=Colour.blurple())
+            roll_embed.set_thumbnail(url=ctx.author.avatar_url)
+            return await ctx.send(embed=roll_embed)
         except TypeError as InvalidDice:
             return await ctx.send(InvalidDice)
 

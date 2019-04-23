@@ -52,7 +52,7 @@ class SpecialCog(Cog, name='Special'):
         log.debug(status_embed.description)
         await ctx.send(embed=status_embed)
 
-    @command(name='basic')
+    @command(name='basic', aliases=['srd'])
     async def basic_rules(self, ctx):
         """Link to the basic rulebook for d&d 5e."""
         log.debug('Sending the basic rules.')

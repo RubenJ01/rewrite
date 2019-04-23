@@ -1,3 +1,4 @@
+import asyncio
 import logging
 import random
 
@@ -5,6 +6,7 @@ import aiohttp
 
 import discord
 from discord.ext import commands
+from collections import deque
 
 log = logging.getLogger('bot.' + __name__)
 
@@ -14,10 +16,16 @@ class DndReddit(commands.Cog, name='D&D Reddit'):
     def __init__(self, bot):
         self.bot = bot
         self.subreddits = bot.config['reddit']['subreddits']
+        self.img_cache = deque(maxlen=10)
+        self.cache_clear_task = bot.loop.create_task(self.clear_cache())
+
+    async def clear_cache(self):
+        self.img_cache.clear()
+        await asyncio.sleep(43200)  # clear cache every 12 hours
 
     async def fetch(self, session, url):
         params = {
-            'limit': 25
+            'limit': 50
         }
         headers = {
             'User-Agent': 'Iceman'
@@ -60,13 +68,17 @@ class DndReddit(commands.Cog, name='D&D Reddit'):
         upvote = self.bot.get_emoji(self.bot.config['reddit']['upvote_emoji_id'])
         downvote = self.bot.get_emoji(self.bot.config['reddit']['downvote_emoji_id'])
         comment = self.bot.get_emoji(self.bot.config['reddit']['comment_emoji_id'])
-        post = random.choice(posts)
-
+        while True:
+            post = random.choice(posts)
+            imageURL = post['data']['url']
+            if imageURL in self.img_cache:
+                continue
+            self.img_cache.append(imageURL)
+            break
         embed = discord.Embed()
         embed.colour = 0xf9f586
         embed.title = post['data']['title']
         embed.description = post['data']['selftext'][0:50]
-        imageURL = post['data']['url']
         embed.set_image(url=imageURL)
 
         embed.description += f'\n**{post["data"]["ups"]}** {upvote} '
