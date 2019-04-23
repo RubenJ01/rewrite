@@ -1,6 +1,8 @@
 import re
 from random import randint
 
+import re
+from random import randint
 from discord.ext.commands import when_mentioned_or
 
 
@@ -32,9 +34,33 @@ def split_text(text: str, length: int) -> list:
     return splits
 
 
-def dice_roller(dice: str):
+def _normalize_dice(dice_list: list):
+    new_list = {}
+    for die in dice_list:
+        amount, die_type, *modifier = re.split(r'd|\s?[+-]', die)
+        print(amount, die_type, modifier)
+        die_type = int(die_type)
+        modifier = re.findall(r'[+-]\d+', die)
+        if die_type == 1:
+            continue
+        if not die_type in new_list:
+            new_list[die_type] = {'amount': int(amount)}
+            if modifier:
+                new_list[die_type]['modifiers'] = [int(modifier[0])]
+            else:
+                new_list[die_type]['modifiers'] = []
+            continue
+        new_list[die_type]['amount'] += int(amount)
+        if new_list[die_type]['amount'] > 20:
+            new_list[die_type]['amount'] = 20
+        if modifier:
+            new_list[die_type]['modifiers'].append(int(modifier[0]))
+    return new_list
+
+
+def roll_dice(dice: str):
     if not isinstance(dice, str):
-        raise TypeError(f'Parameter `dice` must be of type `str`, not of {type(dice)}.')
+        raise TypeError(f'Parameter `dice` must be of class `str`, not of {type(dice)}.')
     dice.replace(',', '')
     mdice = re.findall(r'\d+d\d+\s?[+-]\d+', dice)
     for result in mdice:
@@ -44,17 +70,9 @@ def dice_roller(dice: str):
 
     if not dice:
         raise TypeError('Either dice were not passed, or invalid dice were passed to the function.')
-    total_dice = {}
-    for die in dice:
-        dice_vars = [int(x) for x in re.split(r'[d, \s\+]', die) if x]
-        if dice_vars[1] == 1:
-            if len(dice) == 1:
-                raise TypeError('Rolling D1s are not allowed.')
-            else:
-                continue
-        total_dice[die] = {'rolls': [str(randint(1, dice_vars[1])) for _ in range(dice_vars[0])],
-                           'modifier': None}
-        if len(dice_vars) > 2:
-            total_dice[die]['modifier'] = dice_vars[2]
-
+    total_dice = _normalize_dice(dice)
+    for k, v in total_dice.items():
+        temp_list = [[randint(1, k) for _ in range(v['amount'])]]
+        temp_list.append(v['modifiers'])
+        total_dice[k] = temp_list
     return total_dice
