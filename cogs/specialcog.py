@@ -1,11 +1,12 @@
 import datetime
 import logging
+import yaml
+from pathlib import Path
 
 from discord import Colour, Embed
 from discord.ext.commands import Bot, Cog, command
 
-from utils.checks import is_admin
-
+CONFIG_FILE = Path('config.yaml')
 log = logging.getLogger('bot.' + __name__)
 
 
@@ -66,6 +67,8 @@ class SpecialCog(Cog, name='Special'):
         """
         Show this message
         """
+        with open(CONFIG_FILE, 'r') as yaml_file:
+            config = yaml.safe_load(yaml_file)
         embed = Embed()
         embed.title = ':regional_indicator_h: :regional_indicator_e: :regional_indicator_l: :regional_indicator_p: '
         embed.colour = 0x68c290
@@ -86,9 +89,9 @@ class SpecialCog(Cog, name='Special'):
                 commands = cog.get_commands()
                 message = f'{cog.description}\nCommands under this category:\n**'
                 for cmd in commands:
-                    message += ';' + cmd.name + '\n'
+                    message += config["prefix"] + cmd.name + '\n'
                 embed.add_field(name=cog_name, value=message + '**', inline=False)
-            embed.set_footer(text="Use .help {category}/{command} for more information.")
+            embed.set_footer(text=f"Use {config['prefix']}help (category)/(command) for more information.")
         else:
             cogs_lowercase = [cog.lower() for cog in cogs]
             if second_help in cogs_lowercase:
