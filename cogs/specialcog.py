@@ -87,10 +87,11 @@ class SpecialCog(Cog, name='Special'):
             for cog_name in cogs:
                 cog = self.bot.get_cog(cog_name)
                 commands = cog.get_commands()
-                message = f'{cog.description}\nCommands under this category:\n**'
+                message = f'{cog.description}\nCommands under this category:\n'
                 for cmd in commands:
-                    message += config["prefix"] + cmd.name + '\n'
-                embed.add_field(name=cog_name, value=message + '**', inline=False)
+                    name = cmd.name
+                    message += f'**{config["prefix"]}{name}  :  **{cmd.help[0:40]}...\n'
+                embed.add_field(name=cog_name, value=message, inline=False)
             embed.set_footer(text=f"Use {config['prefix']}help (category)/(command) for more information.")
         else:
             cogs_lowercase = [cog.lower() for cog in cogs]
@@ -98,9 +99,10 @@ class SpecialCog(Cog, name='Special'):
                 index = cogs_lowercase.index(second_help)
                 cog = self.bot.get_cog(cogs[index])
                 commands = cog.get_commands()
-                message = f'{cog.description}\nCommands under this category:\n**'
+                message = f'{cog.description}\nCommands under this category:\n'
                 for cmd in commands:
-                    message += '.' + cmd.name + '\n'
+                    name = cmd.name
+                    message += f'**{config["prefix"]}{name} : **{cmd.help[0:40]}\n'
                 embed.add_field(name=cogs[index], value=message + '**', inline=False)
             elif second_help.lower() in cmd_names:
                 cmd = self.bot.get_command(second_help)
