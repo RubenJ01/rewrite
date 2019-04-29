@@ -90,7 +90,7 @@ class SpecialCog(Cog, name='Special'):
                 message = f'{cog.description}\nCommands under this category:\n'
                 for cmd in commands:
                     name = cmd.name
-                    message += f'**{config["prefix"]}{name}  :  ** *{cmd.help[0:40]}...*\n'
+                    message += f'**{config["prefix"]}{name}:  ** *{cmd.help[0:40]}...*\n'
                 embed.add_field(name=cog_name, value=message, inline=False)
             embed.set_footer(text=f"Use {config['prefix']}help (category)/(command) for more information.")
         else:
