@@ -1,4 +1,4 @@
-"""Load D&D 5e Systems Reference Document information from JSON files provided by dnd5eapi.co
+"""Load D&D 5e Systems Reference Document information from JSON files provided by dnd5eapi.com
 
 Import the 'srd' name from this module for access to the SRD."""
 
@@ -40,6 +40,9 @@ MonsterInfo = namedtuple('MonsterInfo',
 
 EquipmentInfo = namedtuple('EquipmentInfo',
                            'name context')
+
+ClassInfo = namedtuple('ClassInfo',
+                       'name hit_die proficiency equipment_text saving_throws')
 
 
 def collapse(item) -> str:
@@ -368,6 +371,109 @@ def get_equipment_info(equipment: dict) -> EquipmentInfo:
     return EquipmentInfo(name, context)
 
 
+def get_class_info(classinfo: dict) -> ClassInfo:
+    name = classinfo['name']
+    hit_die = classinfo['hit_die']
+    skillproficiencies = []
+    amount = classinfo['proficiency_choices'][0]['choose']
+    for value in classinfo['proficiency_choices'][0]['from']:
+        skillproficiencies.append(str(value['name'])[7:])
+    proficiency = f"You are proficient with the following items, in addition to any proficiencies provided by your " \
+                  f"race or background: \n "
+    proficiency += f"**Skills:** choose {amount} from {', '.join(skillproficiencies)}. \n"
+    equipmentproficiencies = []
+    for value in classinfo['proficiencies']:
+        equipmentproficiencies.append(value['name'])
+    proficiency += f"**Equipment:** {', '.join(equipmentproficiencies)}."
+    with open('resources/srd/5e-SRD-StartingEquipment.json') as f:
+        data = json.load(f)
+    for entry in data:
+        if entry['class']['name'] == name:
+            start_equip = []
+            for equip in entry['starting_equipment']:
+                start_equip.append(equip['item']['name'])
+            equipment_text = f"-{', '.join(start_equip)} \n"
+            first_choice = []
+            for equip in entry['choice_1'][0]['from']:
+                first_choice.append(equip['item']['name'])
+            firstsecond_choice = []
+            for equip in entry['choice_1'][1]['from']:
+                firstsecond_choice.append(equip['item']['name'])
+            amount = entry['choice_1'][0]['choose']
+            amount_two = entry['choice_1'][1]['choose']
+            equipment_text += f"-(a) Choose {amount} from: {', '.join(first_choice)} or (b) choose {amount_two} " \
+                              f"from {', '.join(firstsecond_choice)}. \n"
+            second_choice = []
+            for equip in entry['choice_2'][0]['from']:
+                second_choice.append(equip['item']['name'])
+            secondsecond_choice = []
+            for equip in entry['choice_2'][1]['from']:
+                secondsecond_choice.append(equip['item']['name'])
+            amount = entry['choice_2'][0]['choose']
+            amount_two = entry['choice_2'][1]['choose']
+            equipment_text += f"-(a) Choose {amount} from: {', '.join(second_choice)} or (b) choose {amount_two} " \
+                              f"from {', '.join(secondsecond_choice)}. \n"
+            if entry['choices_to_make'] > 2:
+                if len(entry['choice_3']) > 1:
+                    third_choice = []
+                    for equip in entry['choice_3'][0]['from']:
+                        third_choice.append(equip['item']['name'])
+                    thirdthird_choice = []
+                    for equip in entry['choice_3'][1]['from']:
+                        thirdthird_choice.append(equip['item']['name'])
+                    amount = entry['choice_3'][0]['choose']
+                    amount_two = entry['choice_3'][1]['choose']
+                    equipment_text += f"-(a) Choose {amount} from: {', '.join(third_choice)} or (b) choose " \
+                                      f" {amount_two} from {', '.join(thirdthird_choice)}. \n"
+                else:
+                    third_choice = []
+                    for equip in entry['choice_3'][0]['from']:
+                        third_choice.append(equip['item']['name'])
+                    amount = entry['choice_3'][0]['choose']
+                    equipment_text += f"-Choose {amount} from: {', '.join(third_choice)} \n"
+                if entry['choices_to_make'] > 3:
+                    if len(entry['choice_4']) > 1:
+                        fourth_choice = []
+                        for equip in entry['choice_4'][0]['from']:
+                            fourth_choice.append(equip['item']['name'])
+                        fourthfourth_choice = []
+                        for equip in entry['choice_4'][1]['from']:
+                            fourthfourth_choice.append(equip['item']['name'])
+                        amount = entry['choice_4'][0]['choose']
+                        amount_two = entry['choice_4'][1]['choose']
+                        equipment_text += f"-(a) Choose {amount} from: {', '.join(fourth_choice)} or (b) choose " \
+                                          f"{amount_two}from {', '.join(fourthfourth_choice)}. \n"
+                    else:
+                        fourth_choice = []
+                        for equip in entry['choice_4'][0]['from']:
+                            fourth_choice.append(equip['item']['name'])
+                        amount = entry['choice_4'][0]['choose']
+                        equipment_text += f"-Choose {amount} from: {', '.join(fourth_choice)} \n"
+                    if entry['choices_to_make'] > 4:
+                        if len(entry['choice_5']) > 1:
+                            fifth_choice = []
+                            for equip in entry['choice_5'][0]['from']:
+                                fifth_choice.append(equip['item']['name'])
+                                fifthfifth_choice = []
+                            for equip in entry['choice_5'][1]['from']:
+                                fifthfifth_choice.append(equip['item']['name'])
+                            amount = entry['choice_5'][0]['choose']
+                            amount_two = entry['choice_5'][1]['choose']
+                            equipment_text += f"-(a) Choose {amount} from: {', '.join(fifth_choice)} or (b) choose " \
+                                              f"{amount_two}from {', '.join(fifth_choice)}. \n"
+                        else:
+                            fifth_choice = []
+                            for equip in entry['choice_5'][0]['from']:
+                                fifth_choice.append(equip['item']['name'])
+                            amount = entry['choice_5'][0]['choose']
+                            equipment_text += f"-Choose {amount} from: {', '.join(fifth_choice)} \n"
+    saving_throws = []
+    for throw in classinfo['saving_throws']:
+        saving_throws.append(throw['name'])
+    saving_throws = ', '.join(saving_throws)
+    return ClassInfo(name, hit_die, proficiency, equipment_text, saving_throws)
+
+
 class __SRD:
     """Contains the imported SRD data and methods to search it."""
     def __init__(self, data_path: Path):
@@ -444,6 +550,10 @@ class __SRD:
     def search_equipment(self, request: str) -> List['EquipmentInfo']:
         results = self.search('equipment', 'name', request)
         return [get_equipment_info(result) for result in results]
+
+    def search_class(self, request: str) -> List['ClassInfo']:
+        results = self.search('classes', 'name', request)
+        return [get_class_info(result) for result in results]
 
 
 srd = __SRD(SRDPATH)  # for export: for access to the SRD
