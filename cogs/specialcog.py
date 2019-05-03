@@ -3,8 +3,14 @@ import logging
 import yaml
 from pathlib import Path
 
+from sqlalchemy import update
+
 from discord import Colour, Embed
-from discord.ext.commands import Bot, Cog, command
+from discord.ext.commands import Bot, Cog, command, has_permissions
+
+from utils.checks import is_admin
+from utils.database.db_functions import db_edit, cache_prefixes
+import utils.database as tables
 
 CONFIG_FILE = Path('config.yaml')
 log = logging.getLogger('bot.' + __name__)
@@ -14,6 +20,23 @@ class SpecialCog(Cog, name='Special'):
     """These are all the commands that don't fit into any of the other categories."""
     def __init__(self, bot: Bot):
         self.bot = bot
+
+    @Cog.listener()
+    async def on_guild_join(self, guild):
+        with open(CONFIG_FILE, 'r') as yaml_file:
+            config = yaml.safe_load(yaml_file)
+        guild_id = guild.id
+        table = tables.guild_settings
+        code = table.insert().values()
+        data = {
+            'guild_id': guild_id,
+            'prefix': config["prefix"]
+        }
+        bool = await db_edit(code, data)
+
+        tavern_support = self.bot.get_guild(546007130902233088)
+        channel = tavern_support.get_channel(573945620482490378)
+        await channel.send(f'**{guild.name}** guild has invited the Tavern Bot.')
 
     @command(name='invite')
     async def invite_command(self, ctx):
@@ -61,6 +84,46 @@ class SpecialCog(Cog, name='Special'):
         basic_embed.description = 'http://media.wizards.com/2018/dnd/downloads/DnD_BasicRules_2018.pdf'
         basic_embed.set_footer(text='Use ;help to get a list of available commands.')
         await ctx.send(embed=basic_embed)
+
+    @is_admin()
+    @command(name='dbappend')
+    async def append_to_db(self, ctx):
+        """
+        append all guilds to database.
+        """
+        with open(CONFIG_FILE, 'r') as yaml_file:
+            config = yaml.safe_load(yaml_file)
+        guilds = self.bot.guilds
+        for g in guilds:
+            guild_id = g.id
+            default_prefix = config["prefix"]
+            table = tables.guild_settings
+            db_code = table.insert().values()
+            data = {
+                'guild_id': guild_id,
+                'prefix': default_prefix
+            }
+            bool = await db_edit(db_code, data)
+            message = f'Append guild **name={g.name}** with **id={g.id}**...'
+            if bool is True:
+                message += '**OK**'
+            else:
+                message += '**FAILED**'
+            await ctx.send(message)
+
+    @has_permissions(administrator=True)
+    @command(name='prefix')
+    async def prefix(self, ctx, new_prefix):
+        """Use this command to change the prefix of your bot."""
+        table = tables.guild_settings
+        gid = ctx.guild.id
+        data = {'prefix': new_prefix}
+        bool = await db_edit(update(table).where(table.c.guild_id == gid).values(), data)
+        await cache_prefixes()
+        if bool is True:
+            await ctx.send(f"Prefix has been changed to {new_prefix}")
+        else:
+            await ctx.send(f"Prefix could not be changed to {new_prefix}")
 
     @command(name='help')
     async def new_help(self, ctx, second_help: str = None):

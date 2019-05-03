@@ -7,11 +7,16 @@ from pathlib import Path
 from discord import __version__ as discver, Activity, ActivityType
 from discord.ext.commands import Bot
 
+from utils.helpers import get_prefix
+from utils.database.db_functions import cache_prefixes
+
 CONFIG_FILE = Path('config.yaml')
 LOGDIR = Path('logs')
 
 
 # Set up logging
+
+
 def setup_logger() -> logging.Logger:
     """Create and return the root Logger object for the bot."""
     LOGDIR.mkdir(exist_ok=True)
@@ -50,7 +55,7 @@ bot = Bot(
         name=f'{config["prefix"]}help | D&D 5e',
         type=ActivityType.watching
     ),
-    command_prefix=config['prefix'],
+    command_prefix=get_prefix,
     pm_help=True
 )
 bot.config = config  # assign configuration to a bot attribute for access from cogs
@@ -62,6 +67,7 @@ bot.start_time = datetime.datetime.now()
 @bot.event
 async def on_ready():
     log.info(f"Connected as {bot.user}, using discord.py {discver}")
+    await cache_prefixes()
 
 
 def main():

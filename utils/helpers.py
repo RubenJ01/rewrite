@@ -1,17 +1,16 @@
 import re
 from random import randint
 
-import re
-from random import randint
-from discord.ext.commands import when_mentioned_or
+from utils.database.db_functions import guild_ids, guild_prefixes
 
 
-def prefix(bot, message):
-    prefixes = '.', '/t'
+def get_prefix(bot, message):
+    guild_id = message.guild.id
+    index = guild_ids.index(guild_id)
+    prefix = guild_prefixes[index]
     if not message.guild:
-        return prefixes[0]
-
-    return when_mentioned_or(*prefixes)(bot, message)
+        return bot.command_prefix
+    return prefix
 
 
 async def api_request(ctx, endpoint, value):
