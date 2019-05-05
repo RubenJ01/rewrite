@@ -1,13 +1,18 @@
 import re
+import yaml
 from random import randint
+from pathlib import Path
 
 from utils.database.db_functions import guild_ids, guild_prefixes
 
 
 def get_prefix(bot, message):
     guild_id = message.guild.id
-    index = guild_ids.index(guild_id)
-    prefix = guild_prefixes[index]
+    try:
+        index = guild_ids.index(guild_id)
+        prefix = guild_prefixes[index]
+    except ValueError:
+        prefix = bot.config['prefix']
     if not message.guild:
         return bot.command_prefix
     return prefix

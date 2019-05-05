@@ -12,7 +12,6 @@ from utils.checks import is_admin
 from utils.database.db_functions import db_edit, cache_prefixes
 import utils.database as tables
 
-CONFIG_FILE = Path('config.yaml')
 log = logging.getLogger('bot.' + __name__)
 
 
@@ -23,8 +22,7 @@ class SpecialCog(Cog, name='Special'):
 
     @Cog.listener()
     async def on_guild_join(self, guild):
-        with open(CONFIG_FILE, 'r') as yaml_file:
-            config = yaml.safe_load(yaml_file)
+        config = self.bot.config
         guild_id = guild.id
         table = tables.guild_settings
         code = table.insert().values()
@@ -86,13 +84,12 @@ class SpecialCog(Cog, name='Special'):
         await ctx.send(embed=basic_embed)
 
     @is_admin()
-    @command(name='dbappend')
+    @command(name='dbappend', hidden=True)
     async def append_to_db(self, ctx):
         """
         append all guilds to database.
         """
-        with open(CONFIG_FILE, 'r') as yaml_file:
-            config = yaml.safe_load(yaml_file)
+        config = self.bot.config
         guilds = self.bot.guilds
         for g in guilds:
             guild_id = g.id
@@ -130,15 +127,13 @@ class SpecialCog(Cog, name='Special'):
         """
         Show this message
         """
-        with open(CONFIG_FILE, 'r') as yaml_file:
-            config = yaml.safe_load(yaml_file)
+        config = self.bot.config
         embed = Embed()
         embed.title = ':regional_indicator_h: :regional_indicator_e: :regional_indicator_l: :regional_indicator_p: '
         embed.colour = 0x68c290
         cmd_names = []
         for cmd in self.bot.commands:
             cmd_names.append(cmd.name)
-
         cogs = []
         cogs_dict = self.bot.cogs
         for k in cogs_dict.keys():
@@ -149,14 +144,11 @@ class SpecialCog(Cog, name='Special'):
         if second_help is None:
             for cog_name in cogs:
                 cog = self.bot.get_cog(cog_name)
-                commands = cog.get_commands()
+                commands = [command for command in cog.get_commands() if not command.hidden]
                 message = f'{cog.description}\nCommands under this category:\n'
                 for cmd in commands:
                     name = cmd.name
-                    if name == 'dbappend':
-                        pass
-                    else:
-                        message += f'**{config["prefix"]}{name}  :  ** *{cmd.help[0:40]}...*\n'
+                    message += f'**{config["prefix"]}{name}  :  ** *{cmd.help[0:40]}...*\n'
                 embed.add_field(name=cog_name, value=message, inline=False)
             embed.set_footer(text=f"Use {config['prefix']}help (category)/(command) for more information.")
         else:
@@ -164,11 +156,11 @@ class SpecialCog(Cog, name='Special'):
             if second_help in cogs_lowercase:
                 index = cogs_lowercase.index(second_help)
                 cog = self.bot.get_cog(cogs[index])
-                commands = cog.get_commands()
+                commands = [command for command in cog.get_commands() if command.hidden is not True]
                 message = f'{cog.description}\nCommands under this category:\n'
                 for cmd in commands:
                     name = cmd.name
-                    message += f'**{config["prefix"]}{name} : **{cmd.help[0:40]}\n'
+                    message += f'**{config["prefix"]}{name} :** {cmd.help[0:40]}\n'
                 embed.add_field(name=cogs[index], value=message + '**', inline=False)
             elif second_help.lower() in cmd_names:
                 cmd = self.bot.get_command(second_help)
@@ -198,6 +190,17 @@ class SpecialCog(Cog, name='Special'):
 
             else:
                 return await ctx.send(f"{str(second_help)} command/category does not exist!")
+        await ctx.send(embed=embed)
+
+    @command(name='hiddencmds', hidden=True)
+    async def show_hidden_commands(self, ctx):
+        """View hidden commands."""
+        cmds = [cmd for cmd in self.bot.commands if cmd.hidden]
+        embed = Embed(colour=0x68c290)
+        embed.title = 'Hidden Commands'
+        embed.description = ''
+        for c in cmds:
+            embed.description += f'**{c.name}** - {c.help}\n'
         await ctx.send(embed=embed)
 
 
