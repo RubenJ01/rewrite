@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "64317ad2a96ea92c7d605dc0c059e6adf3dea7f54f3734b35192bd08df5e3dc2"
+            "sha256": "36b9e75ea4d189834024b970555270ec0ccd360509f299b9159ffa93d2ca89d7"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -127,6 +127,13 @@
             ],
             "version": "==4.5.2"
         },
+        "outcome": {
+            "hashes": [
+                "sha256:7357af9ba2a08fdff8c742818909c5d146fc1fe75aee4bddadaa4f8ad726d262",
+                "sha256:9d58c05db36a900ce60c6da0167d76e28869f64b338d60fa3a61841cfa54ac71"
+            ],
+            "version": "==1.0.0"
+        },
         "pyyaml": {
             "hashes": [
                 "sha256:1adecc22f88d38052fb787d959f003811ca858b799590a5eaa70e63dca50308c",
@@ -143,6 +150,34 @@
             ],
             "index": "pypi",
             "version": "==5.1"
+        },
+        "represent": {
+            "hashes": [
+                "sha256:293dfec8b2e9e2150a21a49bfec2cd009ecb600c8c04f9186d2ad222c3cef78a",
+                "sha256:6000c24f317dbf8b57a116ce4d7e4459fc5900af6a2915c9a2d74456bcc33d3c"
+            ],
+            "version": "==1.6.0"
+        },
+        "six": {
+            "hashes": [
+                "sha256:3350809f0555b11f552448330d0b52d5f24c91a322ea4a15ef22629740f3761c",
+                "sha256:d16a0141ec1a18405cd4ce8b4613101da75da0e9a7aec5bdd4fa804d0e0eba73"
+            ],
+            "version": "==1.12.0"
+        },
+        "sqlalchemy": {
+            "hashes": [
+                "sha256:91c54ca8345008fceaec987e10924bf07dcab36c442925357e5a467b36a38319"
+            ],
+            "version": "==1.3.3"
+        },
+        "sqlalchemy-aio": {
+            "hashes": [
+                "sha256:19d5d90221a20924128ca3bf0734b6a50045611e43151951766efe958e49378b",
+                "sha256:943a5bba8de36d0fd77c3edeac9657e4933201441ccbbbdb08f67fd4e118482b"
+            ],
+            "index": "pypi",
+            "version": "==0.14.0"
         },
         "websockets": {
             "hashes": [
