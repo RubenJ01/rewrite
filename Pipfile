@@ -10,6 +10,7 @@ pytest = "*"
 [packages]
 PyYAML = "*"
 discord-py = "*"
+buttons = "*"
 
 [requires]
 python_version = "3.7"
