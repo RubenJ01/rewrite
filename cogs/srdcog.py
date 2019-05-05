@@ -4,6 +4,7 @@ from time import perf_counter_ns
 from discord import Colour, Embed
 from discord.ext.commands import Cog, command, cooldown
 from discord.ext.commands.cooldowns import BucketType
+from discord.ext import buttons
 
 from backends.srd_json import srd
 from utils import helpers
@@ -11,6 +12,12 @@ from utils import helpers
 log = logging.getLogger('bot.' + __name__)
 
 PHB_COLOUR = Colour(0xeeeea0)
+
+
+class Paginator(buttons.Paginator):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
 
 class SRDCog(Cog, name='SRD Information'):
@@ -22,7 +29,7 @@ class SRDCog(Cog, name='SRD Information'):
     @cooldown(1, 2, BucketType.user)
     async def spell_command(self, ctx, *request):
         """Give information on a spell by name."""
-        # TODO: use multipage embeds with reactions instead of continuation embeds
+        extra_pages = []
         start_time = perf_counter_ns()
         request = ' '.join(request)
         log.debug(f'spell command called with request: {request}')
@@ -74,7 +81,10 @@ class SRDCog(Cog, name='SRD Information'):
                     embed.add_field(name="Components", value=spell.components, inline=True)
                     embed.add_field(name="Duration", value=spell.duration, inline=True)
                     embed.set_footer(text=f'Player\'s Handbook, page {spell.page}.')
-                await ctx.send(embed=embed)
+                extra_pages.append(embed)
+            embed = Paginator(embed=False, timeout=90, use_defaults=True,
+                              extra_pages=extra_pages, length=1)
+            await embed.start(ctx)
 
     @command(name='condition')
     @cooldown(1, 2, BucketType.user)
@@ -126,8 +136,9 @@ class SRDCog(Cog, name='SRD Information'):
         else:
             embed = Embed(title=feature.name, colour=PHB_COLOUR, description=content[:2048])
             embedtwo = Embed(title=f"{feature.name} *continued*", colour=PHB_COLOUR, description=content[2048:])
-            await ctx.send(embed=embed)
-            return await ctx.send(embed=embedtwo)
+            paginator = Paginator(embed=False, timeout=90, use_defaults=True,
+                                  extra_pages=[embed, embedtwo], length=1)
+            await paginator.start(ctx)
 
     @command(name='language')
     @cooldown(1, 2, BucketType.user)
@@ -244,21 +255,22 @@ class SRDCog(Cog, name='SRD Information'):
             monster = matches[0]
         else:
             monster = matches[monster_names_lower.index(request.lower())]
-        embed = Embed(colour=PHB_COLOUR)
-        embed.add_field(name=monster.name, value=monster.subhead, inline=False)
-        embed.add_field(name='Attributes', value=monster.attributes, inline=False)
-        embed.add_field(name='Ability Scores', value=monster.abilityscores, inline=False)
-        embed.add_field(name='Features', value=monster.features, inline=False)
-        await ctx.send(embed=embed)
         length = len(monster.actions)
+        stats = Embed(title=monster.name, value=monster.subhead, colour=PHB_COLOUR)
+        stats.add_field(name='Attributes', value=monster.attributes, inline=False)
+        stats.add_field(name='Ability Scores', value=monster.abilityscores, inline=False)
+        stats.add_field(name='Features', value=monster.features, inline=False)
         if length < 2048:
             action = Embed(title='Actions', colour=PHB_COLOUR, description=monster.actions)
-            return await ctx.send(embed=action)
+            embed = Paginator(embed=False, timeout=90, use_defaults=True,
+                              extra_pages=[stats, action], length=1)
+            await embed.start(ctx)
         else:
             action = Embed(title='Actions', colour=PHB_COLOUR, description=monster.actions[:2048])
             actiontwo = Embed(title=F"Actions *continued*", colour=PHB_COLOUR, description=monster.actions[2048:])
-            await ctx.send(embed=action)
-            return await ctx.send(embed=actiontwo)
+            embed = Paginator(embed=False, timeout=90, use_defaults=True,
+                              extra_pages=[stats, action, actiontwo], length=1)
+            await embed.start(ctx)
 
     @command(name='equipment')
     @cooldown(1, 2, BucketType.user)
@@ -288,6 +300,32 @@ class SRDCog(Cog, name='SRD Information'):
         embed = Embed(colour=PHB_COLOUR)
         embed.add_field(name=equipment.name, value=equipment.context, inline=False)
         embed.set_footer(text='Use ;equipment {type} to look up any of the equipment items.')
+        return await ctx.send(embed=embed)
+
+    @command(name='class')
+    @cooldown(1, 2, BucketType.user)
+    async def class_command(self, ctx, *request):
+        """Give information on a class by name."""
+        request = ' '.join(request)
+        log.debug(f'class command called with request: {request}')
+        if len(request) <= 2:
+            return await ctx.send('Request too short.')
+        matches = srd.search_class(request)
+        if len(matches) == 0:
+            return await ctx.send(f'Couldn\'t find any classes that match \'{request}\'.')
+        classinfo_names = [match.name for match in matches]
+        classinfo_names_lower = [match.name.lower() for match in matches]
+        if len(matches) > 1 and request.lower() not in classinfo_names_lower:
+            return await ctx.send(f'Could be: **{" - ".join(classinfo_names)}**.')
+        if request.lower() not in classinfo_names_lower:
+            classinfo = matches[0]
+        else:
+            classinfo = matches[classinfo_names_lower.index(request.lower())]
+        embed = Embed(colour=PHB_COLOUR, title=classinfo.name)
+        embed.add_field(name='Proficiencies', value=classinfo.proficiency, inline=False)
+        embed.add_field(name='Equipment', value=classinfo.equipment_text, inline=False)
+        embed.add_field(name='Hit Die', value=f'D{classinfo.hit_die}', inline=True)
+        embed.add_field(name='Saving Throws', value=classinfo.saving_throws, inline=True)
         return await ctx.send(embed=embed)
 
 
