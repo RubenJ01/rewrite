@@ -3,10 +3,15 @@ import logging
 import yaml
 from pathlib import Path
 
-from discord import Colour, Embed
-from discord.ext.commands import Bot, Cog, command
+from sqlalchemy import update
 
-CONFIG_FILE = Path('config.yaml')
+from discord import Colour, Embed
+from discord.ext.commands import Bot, Cog, command, has_permissions
+
+from utils.checks import is_admin
+from utils.database.db_functions import db_edit, cache_prefixes
+import utils.database as tables
+
 log = logging.getLogger('bot.' + __name__)
 
 
@@ -14,6 +19,22 @@ class SpecialCog(Cog, name='Special'):
     """These are all the commands that don't fit into any of the other categories."""
     def __init__(self, bot: Bot):
         self.bot = bot
+
+    @Cog.listener()
+    async def on_guild_join(self, guild):
+        config = self.bot.config
+        guild_id = guild.id
+        table = tables.guild_settings
+        code = table.insert().values()
+        data = {
+            'guild_id': guild_id,
+            'prefix': config["prefix"]
+        }
+        bool = await db_edit(code, data)
+
+        tavern_support = self.bot.get_guild(546007130902233088)
+        channel = tavern_support.get_channel(573945620482490378)
+        await channel.send(f'**{guild.name}** guild has invited the Tavern Bot.')
 
     @command(name='invite')
     async def invite_command(self, ctx):
@@ -62,20 +83,57 @@ class SpecialCog(Cog, name='Special'):
         basic_embed.set_footer(text='Use ;help to get a list of available commands.')
         await ctx.send(embed=basic_embed)
 
+    @is_admin()
+    @command(name='dbappend', hidden=True)
+    async def append_to_db(self, ctx):
+        """
+        append all guilds to database.
+        """
+        config = self.bot.config
+        guilds = self.bot.guilds
+        for g in guilds:
+            guild_id = g.id
+            default_prefix = config["prefix"]
+            table = tables.guild_settings
+            db_code = table.insert().values()
+            data = {
+                'guild_id': guild_id,
+                'prefix': default_prefix
+            }
+            bool = await db_edit(db_code, data)
+            message = f'Append guild **name={g.name}** with **id={g.id}**...'
+            if bool is True:
+                message += '**OK**'
+            else:
+                message += '**FAILED**'
+            await ctx.send(message)
+
+    @has_permissions(administrator=True)
+    @command(name='prefix')
+    async def prefix(self, ctx, new_prefix):
+        """Use this command to change the prefix of your bot."""
+        table = tables.guild_settings
+        gid = ctx.guild.id
+        data = {'prefix': new_prefix}
+        bool = await db_edit(update(table).where(table.c.guild_id == gid).values(), data)
+        await cache_prefixes()
+        if bool is True:
+            await ctx.send(f"Prefix has been changed to {new_prefix}")
+        else:
+            await ctx.send(f"Prefix could not be changed to {new_prefix}")
+
     @command(name='help')
     async def new_help(self, ctx, second_help: str = None):
         """
         Show this message
         """
-        with open(CONFIG_FILE, 'r') as yaml_file:
-            config = yaml.safe_load(yaml_file)
+        config = self.bot.config
         embed = Embed()
         embed.title = ':regional_indicator_h: :regional_indicator_e: :regional_indicator_l: :regional_indicator_p: '
         embed.colour = 0x68c290
         cmd_names = []
         for cmd in self.bot.commands:
             cmd_names.append(cmd.name)
-
         cogs = []
         cogs_dict = self.bot.cogs
         for k in cogs_dict.keys():
@@ -86,7 +144,7 @@ class SpecialCog(Cog, name='Special'):
         if second_help is None:
             for cog_name in cogs:
                 cog = self.bot.get_cog(cog_name)
-                commands = cog.get_commands()
+                commands = [command for command in cog.get_commands() if not command.hidden]
                 message = f'{cog.description}\nCommands under this category:\n'
                 for cmd in commands:
                     name = cmd.name
@@ -98,11 +156,11 @@ class SpecialCog(Cog, name='Special'):
             if second_help in cogs_lowercase:
                 index = cogs_lowercase.index(second_help)
                 cog = self.bot.get_cog(cogs[index])
-                commands = cog.get_commands()
+                commands = [command for command in cog.get_commands() if command.hidden is not True]
                 message = f'{cog.description}\nCommands under this category:\n'
                 for cmd in commands:
                     name = cmd.name
-                    message += f'**{config["prefix"]}{name} : **{cmd.help[0:40]}\n'
+                    message += f'**{config["prefix"]}{name} :** {cmd.help[0:40]}\n'
                 embed.add_field(name=cogs[index], value=message + '**', inline=False)
             elif second_help.lower() in cmd_names:
                 cmd = self.bot.get_command(second_help)
@@ -132,6 +190,17 @@ class SpecialCog(Cog, name='Special'):
 
             else:
                 return await ctx.send(f"{str(second_help)} command/category does not exist!")
+        await ctx.send(embed=embed)
+
+    @command(name='hiddencmds', hidden=True)
+    async def show_hidden_commands(self, ctx):
+        """View hidden commands."""
+        cmds = [cmd for cmd in self.bot.commands if cmd.hidden]
+        embed = Embed(colour=0x68c290)
+        embed.title = 'Hidden Commands'
+        embed.description = ''
+        for c in cmds:
+            embed.description += f'**{c.name}** - {c.help}\n'
         await ctx.send(embed=embed)
 
 
