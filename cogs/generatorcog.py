@@ -3,6 +3,7 @@ import random
 from pathlib import Path
 
 from backends.npc_gen import final_output
+from backends.name_gen import name_gen
 
 from discord import Colour, Embed
 from discord.ext.commands import Cog, command
@@ -22,6 +23,7 @@ paths = {
 
 class GeneratorCog(Cog, name='Generator'):
     """These are all the commands that are used to generate things for d&d."""
+
     def __init__(self, bot):
         self.bot = bot
 
@@ -73,6 +75,12 @@ class GeneratorCog(Cog, name='Generator'):
         embed = Embed(colour=Colour.blurple())
         embed.add_field(name='Randomly generated npc.', value=desc, inline=True)
         return await ctx.send(embed=embed)
+
+    @command(name='name')
+    async def name_generator(self, ctx, race, gender):
+        """Generates a random name for the race and gender the user submitted."""
+        result = name_gen(race, gender)
+        return await ctx.send(result)
 
 
 def setup(bot):
