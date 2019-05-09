@@ -16,12 +16,11 @@ async def db_query(query):
 
     conn = await engine.connect()
     try:
-        db_query = await conn.execute(query)
-        results = await db_query.fetchall()
+        database_query = await conn.execute(query)
+        results = await database_query.fetchall()
     except Exception as e:
         logger.error(f'{str(e)} FOR {query}')
-        results = None
-        return results
+        return None
     else:
         await conn.close()
         logger.info(f'Db Query: {query}')
@@ -34,7 +33,6 @@ async def db_edit(db_code, data=None):
         # threads, use file.
         'sqlite:///tavern.db', strategy=ASYNCIO_STRATEGY
     )
-    bool = True
     conn = await engine.connect()
     try:
         if data is not None:
@@ -42,13 +40,12 @@ async def db_edit(db_code, data=None):
         else:
             await conn.execute(db_code)
     except Exception as e:
-        bool = False
         logger.error(f'{str(e)} CODE : {db_code} + {data}')
-        return bool
+        return False
     else:
         await conn.close()
         logger.info(f'DbCode: {db_code} + {data}')
-        return bool
+        return True
 
 
 guild_ids = []

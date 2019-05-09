@@ -65,9 +65,13 @@ bot.start_time = datetime.datetime.now()
 
 
 @bot.event
+async def on_login():
+    await cache_prefixes()
+
+
+@bot.event
 async def on_ready():
     log.info(f"Connected as {bot.user}, using discord.py {discver}")
-    await cache_prefixes()
 
 
 def main():

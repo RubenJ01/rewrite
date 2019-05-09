@@ -1,7 +1,5 @@
 import datetime
 import logging
-import yaml
-from pathlib import Path
 
 from sqlalchemy import update
 
@@ -16,7 +14,7 @@ log = logging.getLogger('bot.' + __name__)
 
 
 class SpecialCog(Cog, name='Special'):
-    """These are all the commands that don't fit into any of the other categories."""
+    """Miscellaneous commands.."""
     def __init__(self, bot: Bot):
         self.bot = bot
 
