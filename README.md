@@ -1,4 +1,8 @@
 # Tavern Bot
+<a href="https://discordbots.org/bot/506541896630403080" >
+  <img src="https://discordbots.org/api/widget/506541896630403080.svg" alt="The Tavern Bot" />
+</a>
+
 A Discord bot for D&D 5th Edition, created for the Tavern Discord server, but available for any server. This is a rewrite of the original Tavern bot using the most recent version of the [discord.py](https://github.com/Rapptz/discord.py) library.
 
 ### What can it do currently?
