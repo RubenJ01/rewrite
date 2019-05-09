@@ -7,7 +7,7 @@ log = logging.getLogger('bot.' + __name__)
 
 
 class DndTools(Cog, name='D&D Tools'):
-    """These are all the commands that function as tools while playing D&D."""
+    """Various D&D tools."""
     def __init__(self, bot):
         self.bot = bot
 

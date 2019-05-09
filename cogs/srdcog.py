@@ -21,7 +21,7 @@ class Paginator(buttons.Paginator):
 
 
 class SRDCog(Cog, name='SRD Information'):
-    """These are all of the commands used to look up SRD content."""
+    """SRD content lookup cog."""
     def __init__(self, bot):
         self.bot = bot
 

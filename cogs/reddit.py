@@ -12,7 +12,7 @@ log = logging.getLogger('bot.' + __name__)
 
 
 class DndReddit(commands.Cog, name='D&D Reddit'):
-    """These are all the commands that have to do with the reddit part of the bot."""
+    """Fetches reddit posts."""
     def __init__(self, bot):
         self.bot = bot
         self.subreddits = bot.config['reddit']['subreddits']
