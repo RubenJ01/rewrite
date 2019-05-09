@@ -57,9 +57,11 @@ class DndTools(Cog, name='D&D Tools'):
             if difficulty == 'deadly':
                 difficulty = 4
         else:
-            return await ctx.send(f"Please choose from 1 of the following difficulties: **{' - '.join(difficulties)}**")
+            return await ctx.send(f"{difficulty} is not a valid difficulty. Please choose from 1 of the following "
+                                  f"difficulties: **{' - '.join(difficulties)}**")
         if environment not in environments:
-            return await ctx.send(f"Please choose from 1 of the following environments: **{' - '.join(environments)}**")
+            return await ctx.send(f"{environment} is not a valid environment. Please choose from 1 of the following "
+                                  f"environments: **{' - '.join(environments)}**")
         xp = calculate_xp(plevel, difficulty, psize)
         monsterdata = load_monsters()
         possiblemonsters = create_monster_list(monsterdata, environment)
