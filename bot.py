@@ -65,7 +65,7 @@ bot.start_time = datetime.datetime.now()
 
 
 @bot.event
-async def on_login():
+async def on_connect():
     await cache_prefixes()
 
 
