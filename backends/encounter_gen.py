@@ -4,6 +4,7 @@ import random
 
 
 def calculate_xp(plevel, difficulty, psize):
+    """Calculates the xp threshold for a given party"""
     plevel = int(plevel)
     difficulty = int(difficulty)
     psize = int(psize)
@@ -35,21 +36,29 @@ def calculate_xp(plevel, difficulty, psize):
 
 
 def load_monsters():
+    """Loads all the monsters from the monsters.csv file"""
     monsterFile = open('resources/csv/monsters.csv', 'r', newline='')
     monsterReader = csv.reader(monsterFile)
     monsterData = list(monsterReader)
     return monsterData
 
 
-def create_monster_list(monsterdata, environment):
+def create_monster_list(monsterdata, environment, check):
+    """Creates a list of possible monsters in a certain evironment"""
     possibleMonsters = []
-    for m in monsterdata:
-        if str(environment) in m[1]:
-            possibleMonsters.append(m)
+    if check == 0:
+        for m in monsterdata:
+            if str(environment) in m[1]:
+                possibleMonsters.append(m)
+    if check == 1:
+        """Runs the program without the environment option"""
+        for m in monsterdata:
+                possibleMonsters.append(m)
     return possibleMonsters
 
 
 def encounter_gen(possiblemonsters, xp):
+    """Creates the encounter based on the xp threshold and the list of possible monsters"""
     encounteredMonsters = []
     monsterCounter = 0
     xpMonsters = 0
@@ -77,6 +86,7 @@ def encounter_gen(possiblemonsters, xp):
 
 
 def final_encounter(encounter, xp):
+    """Creates the message that will be send to the user"""
     enc = f'Generated an encounter: \n'
     for m in encounter:
         enc += f"**{str(m[0].capitalize())}**, type: {str(m[2])}, XP value of: {str(m[4])} (MM pg. {m[3]}) \n"
