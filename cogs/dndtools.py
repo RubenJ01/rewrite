@@ -7,8 +7,7 @@ log = logging.getLogger('bot.' + __name__)
 
 
 class DndTools(Cog, name='D&D Tools'):
-    """These are all the commands that function as tools while playing D&D."""
-
+    """Various D&D tools."""
     def __init__(self, bot):
         self.bot = bot
 
@@ -30,15 +29,13 @@ class DndTools(Cog, name='D&D Tools'):
         gp = total % 10
         total = total // 10
         pp = total
-        # TODO only show the currencies that contain a value greater then zero
         return await ctx.send(f"Recalculated your currency into: {str(cp)}cp, {str(sp)}sp, {str(gp)}gp and {str(pp)}pp")
 
     @command(name='encounter')
-    async def encounter_command(self, ctx, psize, plevel, difficulty, environment=None):
+    async def encounter_command(self, ctx, psize, plevel, difficulty, environment):
         """Generates a random encounter based on the users inputs.
         The user can input: the size of the party, the average level of the party,
         the difficulty of the encounter and the environment it takes place in."""
-        check = 0
         difficulties = ['easy', 'medium', 'difficult', 'deadly']
         environments = ['city', 'dungeon', 'forest', 'nature', 'other plane', 'underground', 'water']
         try:
@@ -49,7 +46,7 @@ class DndTools(Cog, name='D&D Tools'):
         if plevel > 20:
             return await ctx.send('Party level must be a number between 1 and 20.')
         if psize > 10:
-            return await ctx.send('Party size must be a number between 1 and 10.')
+            return await ctx.send('Party size must be a number between 1 and 20.')
         if difficulty in difficulties:
             if difficulty == 'easy':
                 difficulty = 1
@@ -62,15 +59,12 @@ class DndTools(Cog, name='D&D Tools'):
         else:
             return await ctx.send(f"{difficulty} is not a valid difficulty. Please choose from 1 of the following "
                                   f"difficulties: **{' - '.join(difficulties)}**")
-        if environment is None:
-            check = 1
-        else:
-            if environment not in environments:
-                return await ctx.send(f"{environment} is not a valid environment. Please choose from 1 of the "
-                                      f"following environments: **{' - '.join(environments)}**")
+        if environment not in environments:
+            return await ctx.send(f"{environment} is not a valid environment. Please choose from 1 of the following "
+                                  f"environments: **{' - '.join(environments)}**")
         xp = calculate_xp(plevel, difficulty, psize)
         monsterdata = load_monsters()
-        possiblemonsters = create_monster_list(monsterdata, environment, check)
+        possiblemonsters = create_monster_list(monsterdata, environment)
         encounter = encounter_gen(possiblemonsters, xp)
         final = final_encounter(encounter, xp)
         return await ctx.send(final)

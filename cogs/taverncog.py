@@ -17,7 +17,7 @@ log = logging.getLogger('bot.' + __name__)
 
 
 class TavernCog(Cog, name='Tavern'):
-    """These are all of the commands used in The Tavern."""
+    """'The Tavern Server'-specific commands."""
     def __init__(self, bot):
         self.bot = bot
         self.announcement_role_id = bot.config['tavern']['announcement_role_id']
