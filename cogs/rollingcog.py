@@ -54,8 +54,10 @@ class RollingCog(Cog, name='Dice Rolling'):
         try:
             values = roll_dice(request)
             desc = ''
+            total_roll = 0
             for i, x in enumerate(values):
                 total = values[x][0] + values[x][1]
+                total_roll += sum(total)
                 desc += f'**{len(values[x][0])} D{x}**: {values[x][0]}' \
                     f'{" + **" + ", ".join([str(val) for val in values[x][1]]) + "**" if values[x][1] else ""}' \
                     f' = **__{sum(total)}__**\n'
@@ -65,6 +67,7 @@ class RollingCog(Cog, name='Dice Rolling'):
                 description=desc,
                 color=Colour.blurple())
             roll_embed.set_thumbnail(url=ctx.author.avatar_url)
+            roll_embed.set_footer(text=f'Total of all dice: {total_roll} 🎲'
             return await ctx.send(embed=roll_embed)
         except TypeError as InvalidDice:
             return await ctx.send(InvalidDice)
