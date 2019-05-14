@@ -28,11 +28,21 @@ class SpecialCog(Cog, name='Special'):
             'guild_id': guild_id,
             'prefix': config["prefix"]
         }
-        bool = await db_edit(code, data)
+        result_bool = await db_edit(code, data)
 
         tavern_support = self.bot.get_guild(546007130902233088)
         channel = tavern_support.get_channel(573945620482490378)
         await channel.send(f'**{guild.name}** guild has invited the Tavern Bot.')
+
+    @Cog.listener()
+    async def on_guild_remove(self, guild):
+        table = tables.guild_settings
+        guild_id = guild.id
+        code = table.delete().where(table.c.guild_id == guild_id)
+        result_bool = await db_edit(code)
+        tavern_support = self.bot.get_guild(546007130902233088)
+        channel = tavern_support.get_channel(573945620482490378)
+        await channel.send(f'**{guild.name}** guild has removed the Tavern Bot.')
 
     @command(name='invite')
     async def invite_command(self, ctx):

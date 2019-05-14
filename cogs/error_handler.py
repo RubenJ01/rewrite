@@ -32,6 +32,9 @@ class CommandErrorHandler(commands.Cog, name='ErrorHandler'):
             log.debug(f'{ctx.author} used {ctx.command} but arguments passed were many.')
             await ctx.send("Too many arguments were passed! Please try again.")
 
+        else:
+            raise error
+
 
 def setup(bot):
     bot.add_cog(CommandErrorHandler(bot))
