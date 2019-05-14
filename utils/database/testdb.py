@@ -14,10 +14,15 @@ async def query():
 
 async def edit():
     table = tables.guild_settings
-    # gid = 426566445124812813
-    # data = {'prefix': 'iceman'}
+    guild_id = 426566445124812813
+    # code = table.insert().values()
+    code = table.delete().where(table.c.guild_id == guild_id)
+    data = {
+        'guild_id': guild_id,
+    }
     # bool = await db_edit(update(table).where(table.c.guild_id == gid).values(), data)
-    print(bool)
+    result_bool = await db_edit(code)
+    print(result_bool)
     await query()
 
 table = tables.guild_settings
