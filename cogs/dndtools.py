@@ -80,6 +80,7 @@ class DndTools(Cog, name='D&D Tools'):
 
     @command('homebrew')
     async def homebrew_lookup(self, ctx, name):
+        """Lookup homebrew content from dandwiki."""
         link = []
         session = requests.Session()
         params = {
