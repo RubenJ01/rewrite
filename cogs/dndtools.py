@@ -1,7 +1,11 @@
 import logging
+import requests
 
 from backends.encounter_gen import calculate_xp, load_monsters, create_monster_list, encounter_gen, final_encounter
+
 from discord.ext.commands import Cog, command
+from discord import Embed, Colour
+
 
 log = logging.getLogger('bot.' + __name__)
 
@@ -10,6 +14,7 @@ class DndTools(Cog, name='D&D Tools'):
     """Various D&D tools."""
     def __init__(self, bot):
         self.bot = bot
+        self.url = 'https://www.dandwiki.com//w/api.php?'
 
     @command(name='currency')
     async def currency_command(self, ctx, *coins):
@@ -72,6 +77,25 @@ class DndTools(Cog, name='D&D Tools'):
         encounter = encounter_gen(possiblemonsters, xp)
         final = final_encounter(encounter, xp)
         return await ctx.send(final)
+
+    @command('homebrew')
+    async def homebrew_lookup(self, ctx, name):
+        link = []
+        session = requests.Session()
+        params = {
+            "action": "opensearch",
+            "format": "json",
+            "maxage": "0",
+            "search": name
+        }
+        request = session.get(url=self.url, params=params)
+        data = request.json()
+        links = dict(zip(data[1], data[3]))
+        for key in links:
+            encoded_link = links[key].replace(')', '\)').replace('(', '\(')
+            link.append(f"[{key}]({encoded_link})")
+        homebrew_embed = Embed(title=name, description='\n'.join(link), colour=Colour.blurple())
+        return await ctx.send(embed=homebrew_embed)
 
 
 def setup(bot):
