@@ -93,7 +93,7 @@ class DndTools(Cog, name='D&D Tools'):
         data = request.json()
         links = dict(zip(data[1], data[3]))
         for key in links:
-            encoded_link = links[key].replace(')', '\)').replace('(', '\(')
+            encoded_link = links[key].replace(')', '\\)').replace('(', '\\(')
             link.append(f"[{key}]({encoded_link})")
         homebrew_embed = Embed(title=name, description='\n'.join(link), colour=Colour.blurple())
         return await ctx.send(embed=homebrew_embed)

@@ -2,6 +2,8 @@
 import csv
 import random
 
+MONSTERS_CSV = 'resources/csv/monsters.csv'
+
 
 def calculate_xp(plevel, difficulty, psize):
     """Calculates the xp threshold for a given party"""
@@ -37,52 +39,49 @@ def calculate_xp(plevel, difficulty, psize):
 
 def load_monsters():
     """Loads all the monsters from the monsters.csv file"""
-    monsterFile = open('resources/csv/monsters.csv', 'r', newline='')
-    monsterReader = csv.reader(monsterFile)
-    monsterData = list(monsterReader)
-    return monsterData
+    with open(MONSTERS_CSV, 'r', newline='') as f:
+        return list(csv.reader(f))
 
 
 def create_monster_list(monsterdata, environment, check):
     """Creates a list of possible monsters in a certain evironment"""
-    possibleMonsters = []
+    possible_monsters = []
     if check == 0:
         for m in monsterdata:
             if str(environment) in m[1]:
-                possibleMonsters.append(m)
+                possible_monsters.append(m)
     if check == 1:
         """Runs the program without the environment option"""
         for m in monsterdata:
-                possibleMonsters.append(m)
-    return possibleMonsters
+            possible_monsters.append(m)
+    return possible_monsters
 
 
 def encounter_gen(possiblemonsters, xp):
     """Creates the encounter based on the xp threshold and the list of possible monsters"""
-    encounteredMonsters = []
-    monsterCounter = 0
-    xpMonsters = 0
-    xpLowerLimit = int(xp / 25)
-    while xpMonsters < (xp - (3 * xpLowerLimit)):
-        possibleMonsters = []
+    encountered_monsters = []
+    xp_monsters = 0
+    xp_lower_limit = int(xp / 25)
+    while xp_monsters < (xp - (3 * xp_lower_limit)):
+        possible_monsters = []
         for m in possiblemonsters:
-            if xpLowerLimit < int(m[4]) < (xp - xpMonsters):
-                possibleMonsters.append(m)
-        if not possibleMonsters:
-            return encounteredMonsters
-        r = random.randint(0, (len(possibleMonsters) - 1))
-        encounteredMonsters.append(possibleMonsters[r])
-        monsterCounter = len(encounteredMonsters)
-        xpMonsters = 0
-        for exp in encounteredMonsters:
-            xpMonsters += int(exp[4])
-        if monsterCounter == 2:
-            xpMonsters = int(xpMonsters * 1.5)
-        if 3 <= monsterCounter <= 6:
-            xpMonsters = xpMonsters * 2
-        if 7 <= monsterCounter <= 10:
-            xpMonsters = int(xpMonsters * 2.5)
-    return encounteredMonsters
+            if xp_lower_limit < int(m[4]) < (xp - xp_monsters):
+                possible_monsters.append(m)
+        if not possible_monsters:
+            return encountered_monsters
+        r = random.randint(0, (len(possible_monsters) - 1))
+        encountered_monsters.append(possible_monsters[r])
+        monster_counter = len(encountered_monsters)
+        xp_monsters = 0
+        for exp in encountered_monsters:
+            xp_monsters += int(exp[4])
+        if monster_counter == 2:
+            xp_monsters = int(xp_monsters * 1.5)
+        if 3 <= monster_counter <= 6:
+            xp_monsters = xp_monsters * 2
+        if 7 <= monster_counter <= 10:
+            xp_monsters = int(xp_monsters * 2.5)
+    return encountered_monsters
 
 
 def final_encounter(encounter, xp):

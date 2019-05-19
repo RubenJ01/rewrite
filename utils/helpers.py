@@ -1,7 +1,5 @@
 import re
-import yaml
 from random import randint
-from pathlib import Path
 
 from utils.database.db_functions import guild_ids, guild_prefixes
 
@@ -46,7 +44,7 @@ def _normalize_dice(dice_list: list):
         modifier = re.findall(r'[+-]\d+', die)
         if die_type == 1:
             continue
-        if not die_type in new_list:
+        if die_type not in new_list:
             new_list[die_type] = {'amount': int(amount)}
             if modifier:
                 new_list[die_type]['modifiers'] = [int(modifier[0])]

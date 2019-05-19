@@ -1,7 +1,5 @@
 import asyncio
 
-from sqlalchemy import update
-
 from utils.database.db_functions import db_query, db_edit
 import utils.database as tables
 
@@ -17,9 +15,9 @@ async def edit():
     guild_id = 426566445124812813
     # code = table.insert().values()
     code = table.delete().where(table.c.guild_id == guild_id)
-    data = {
-        'guild_id': guild_id,
-    }
+    # data = {
+    #     'guild_id': guild_id,
+    # }
     # bool = await db_edit(update(table).where(table.c.guild_id == gid).values(), data)
     result_bool = await db_edit(code)
     print(result_bool)
