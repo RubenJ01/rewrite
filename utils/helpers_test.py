@@ -1,6 +1,6 @@
 import pytest
 
-from helpers import split_text, dice_roller
+from helpers import split_text, roll_dice
 
 
 def test_split_text():
@@ -12,8 +12,8 @@ def test_split_text():
 
 
 def test_dice_roller():
-    with pytest.raises(TypeError):
-        roll = dice_roller('10d1')
-    roll = dice_roller('50d2')
-    dice = roll['50d2']['rolls']
-    assert all(die in dice for die in ('1', '2'))
+    roll = roll_dice('10d1')
+    assert roll == {}
+    roll = roll_dice('50d2')
+    dice = roll[2][0]
+    assert all(die in dice for die in (1, 2))
