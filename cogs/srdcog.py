@@ -128,7 +128,10 @@ class SRDCog(Cog, name='SRD Information'):
             feature = matches[0]
         else:
             feature = matches[feature_names_lower.index(request.lower())]
-        content = f'*Level {feature.level} {feature.featureclass} feature* \n'
+        if feature.level is None:
+            content = f'*{feature.featureclass} feature* \n'
+        else:
+            content = f'*Level {feature.level} {feature.featureclass} feature* \n'
         content += feature.description
         if len(content) < 2048:
             embed = Embed(title=feature.name, colour=PHB_COLOUR, description=content)

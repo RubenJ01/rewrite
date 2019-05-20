@@ -115,7 +115,7 @@ def get_condition_info(condition: dict) -> ConditionInfo:
 def get_feature_info(feature: dict) -> FeatureInfo:
     name = feature['name']
     featureclass = feature['class']['name']
-    level = feature['level']
+    level = feature.get('level')  # may be None
     description = feature['desc']
     description = '\n'.join(description)
     return FeatureInfo(name, featureclass, level, description)
