@@ -181,20 +181,20 @@ def get_monster_info(monster: dict) -> MonsterInfo:
     # saving throws
     details = ''
     saving_throws = []
-    for attr, name in (('strength_save', 'Strength'),
+    for attr, text in (('strength_save', 'Strength'),
                        ('dexterity_save', 'Dexterity'),
                        ('constitution_save', 'Constitution'),
                        ('intelligence_save', 'Intelligence'),
                        ('wisdom_save', 'Wisdom'),
                        ('charisma_save', 'Charisma')):
         if attr in monster:
-            saving_throws.append(f'{name} +{str(monster[attr])}')
+            saving_throws.append(f'{text} +{str(monster[attr])}')
     if len(saving_throws) > 0:
         saving_throws = ', '.join(saving_throws)
         details = f'**Saving Throws** {saving_throws} \n'
     # skills
     skills = []
-    for attr, name in (('acrobatics', 'Acrobatics'),
+    for attr, text in (('acrobatics', 'Acrobatics'),
                        ('animal_handling', 'Animal Handling'),
                        ('arcana', 'Arcana'),
                        ('athletics', 'Athletics'),
@@ -213,7 +213,7 @@ def get_monster_info(monster: dict) -> MonsterInfo:
                        ('stealth', 'Stealth'),
                        ('survival', 'Survival')):
         if attr in monster:
-            skills.append(f'{name} +{str(monster[attr])}')
+            skills.append(f'{text} +{str(monster[attr])}')
     if len(skills) > 0:
         skills = ', '.join(skills)
         details += f'**Skills** {skills} \n'
