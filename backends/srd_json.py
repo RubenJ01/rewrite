@@ -239,21 +239,23 @@ def get_monster_info(monster: dict) -> MonsterInfo:
     attributes += details
     # features
     features = []
-    special_abilities = monster['special_abilities']
-    for value in special_abilities:
-        actionname = f"**{value['name']}**"
-        features.append(actionname)
-        desc = value['desc']
-        features.append(desc)
-    features = '\n'.join(features)
+    if 'special_abilities' in monster:
+        special_abilities = monster['special_abilities']
+        for value in special_abilities:
+            actionname = f"**{value['name']}**"
+            features.append(actionname)
+            desc = value['desc']
+            features.append(desc)
+        features = '\n'.join(features)
     actions = []
-    all_actions = monster['actions']
-    for value in all_actions:
-        specialname = f"**{value['name']}**"
-        actions.append(specialname)
-        desc = value['desc']
-        actions.append(desc)
-    actions = '\n'.join(actions)
+    if 'actions' in monster:
+        all_actions = monster['actions']
+        for value in all_actions:
+            specialname = f"**{value['name']}**"
+            actions.append(specialname)
+            desc = value['desc']
+            actions.append(desc)
+        actions = '\n'.join(actions)
     if 'legendary_actions' in monster:
         legendary_actions = []
         legendaryactions = monster['legendary_actions']
