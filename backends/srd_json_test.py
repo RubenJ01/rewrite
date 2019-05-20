@@ -16,6 +16,22 @@ def test_list_to_paragraphs():
     assert output == 'One.\n\u2001Two.'
 
 
+def test_all_info_lookups():
+    lookups = (('spells', get_spell_info),
+               ('conditions', get_condition_info),
+               ('features', get_feature_info),
+               ('languages', get_language_info),
+               ('magic-schools', get_school_info),
+               ('damage-types', get_damage_info),
+               ('traits', get_trait_info),
+               ('monsters', get_monster_info),
+               ('equipment', get_equipment_info),
+               ('classes', get_class_info))
+    for resource, info_lookup in lookups:
+        for item in srd.raw[resource]:
+            info_lookup(item)
+
+
 def test_srd_spell_search():
     for raw_spell in srd.raw['spells']:
         name = raw_spell['name'].lower()
@@ -29,6 +45,8 @@ def test_srd_spell_search():
 
 
 def test_get_spell_info():
+    for spell in srd.raw['spells']:
+        info = get_spell_info(spell)
     spells = srd.search('spells', 'name', 'magic missile')
     info = get_spell_info(spells[0])
     assert info.name == 'Magic Missile'
@@ -39,8 +57,3 @@ def test_get_spell_info():
     spells = srd.search('spells', 'name', 'identify')
     info = get_spell_info(spells[0])
     assert info.subhead == '1st-level divination (ritual)'
-
-
-def test_get_monster_info():
-    for monster in srd.raw['monsters']:
-        info = get_monster_info(monster)
