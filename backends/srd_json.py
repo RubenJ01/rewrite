@@ -181,86 +181,39 @@ def get_monster_info(monster: dict) -> MonsterInfo:
     # saving throws
     details = ''
     saving_throws = []
-    if 'constitution_save' in monster:
-        con_save = f"Constitution +{str(monster['constitution_save'])}"
-        saving_throws.append(con_save)
-    if 'intelligence_save' in monster:
-        int_save = f"Intelligence +{str(monster['intelligence_save'])}"
-        saving_throws.append(int_save)
-    if 'wisdom_save' in monster:
-        wis_save = f"Wisdom +{str(monster['wisdom_save'])}"
-        saving_throws.append(wis_save)
-    if 'strength_save' in monster:
-        str_save = f"Strength +{str(monster['strength_save'])}"
-        saving_throws.append(str_save)
-    if 'charisma_save' in monster:
-        cha_save = f"Charisma +{str(monster['charisma_save'])}"
-        saving_throws.append(cha_save)
-    if 'dexterity_save' in monster:
-        dex_save = f"Dexterity +{str(monster['dexterity_save'])}"
-        saving_throws.append(dex_save)
+    for attr, name in (('strength_save', 'Strength'),
+                       ('dexterity_save', 'Dexterity'),
+                       ('constitution_save', 'Constitution'),
+                       ('intelligence_save', 'Intelligence'),
+                       ('wisdom_save', 'Wisdom'),
+                       ('charisma_save', 'Charisma')):
+        if attr in monster:
+            saving_throws.append(f'{name} +{str(monster[attr])}')
     if len(saving_throws) > 0:
         saving_throws = ', '.join(saving_throws)
         details = f'**Saving Throws** {saving_throws} \n'
     # skills
     skills = []
-    if 'acrobatics' in monster:
-        acrobatics = f"Acrobatics +{str(monster['acrobatics'])}"
-        skills.append(acrobatics)
-    if 'animal_handling' in monster:
-        animal_handling = f"Animal Handling +{str(monster['animal_handling'])}"
-        skills.append(animal_handling)
-    if 'acrobatics' in monster:
-        acrobatics = f"Acrobatics +{str(monster['acrobatics'])}"
-        skills.append(acrobatics)
-    if 'arcana' in monster:
-        arcana = f"Arcana +{str(monster['arcana'])}"
-        skills.append(arcana)
-    if 'athletics' in monster:
-        athletics = f"Athletics +{str(monster['athletics'])}"
-        skills.append(athletics)
-    if 'deception' in monster:
-        deception = f"Deception +{str(monster['deception'])}"
-        skills.append(deception)
-    if 'history' in monster:
-        history = f"History +{str(monster['history'])}"
-        skills.append(history)
-    if 'insight' in monster:
-        insight = f"Insight +{str(monster['insight'])}"
-        skills.append(insight)
-    if 'intimidation' in monster:
-        intimidation = f"Intimidation +{str(monster['intimidation'])}"
-        skills.append(intimidation)
-    if 'investigation' in monster:
-        investigation = f"Investigation +{str(monster['investigation'])}"
-        skills.append(investigation)
-    if 'medicine' in monster:
-        medicine = f"Medicine +{str(monster['medicine'])}"
-        skills.append(medicine)
-    if 'nature' in monster:
-        nature = f"Nature +{str(monster['nature'])}"
-        skills.append(nature)
-    if 'perception' in monster:
-        perception = f"Perception +{str(monster['perception'])}"
-        skills.append(perception)
-    if 'performance' in monster:
-        performance = f"Performance +{str(monster['performance'])}"
-        skills.append(performance)
-    if 'persuasion' in monster:
-        persuasion = f"Persuasion +{str(monster['persuasion'])}"
-        skills.append(persuasion)
-    if 'religion' in monster:
-        religion = f"Religion +{str(monster['religion'])}"
-        skills.append(religion)
-    if 'sleight_of_hand' in monster:
-        sleight_of_hand = f"Sleight of Hand +{str(monster['sleight_of_hand'])}"
-        skills.append(sleight_of_hand)
-    if 'stealth' in monster:
-        stealth = f"Stealth +{str(monster['stealth'])}"
-        skills.append(stealth)
-    if 'survival' in monster:
-        survival = f"Survival +{str(monster['survival'])}"
-        skills.append(survival)
+    for attr, name in (('acrobatics', 'Acrobatics'),
+                       ('animal_handling', 'Animal Handling'),
+                       ('arcana', 'Arcana'),
+                       ('athletics', 'Athletics'),
+                       ('deception', 'Deception'),
+                       ('history', 'History'),
+                       ('insight', 'Insight'),
+                       ('intimidation', 'Intimidation'),
+                       ('investigation', 'Investigation'),
+                       ('medicine', 'Medicine'),
+                       ('nature', 'Nature'),
+                       ('perception', 'Perception'),
+                       ('performance', 'Performance'),
+                       ('persuasion', 'Persuasion'),
+                       ('religion', 'Religion'),
+                       ('sleight_of_hand', 'Sleight of Hand'),
+                       ('stealth', 'Stealth'),
+                       ('survival', 'Survival')):
+        if attr in monster:
+            skills.append(f'{name} +{str(monster[attr])}')
     if len(skills) > 0:
         skills = ', '.join(skills)
         details += f'**Skills** {skills} \n'
