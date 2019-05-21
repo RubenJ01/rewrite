@@ -3,7 +3,7 @@
 import random as r
 
 
-def name(race: str, gender: str) -> str:
+def name_gen(race: str, gender: str) -> str:
     race = race.lower()
     gender = gender.lower()
     output = ""
