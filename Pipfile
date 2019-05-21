@@ -12,6 +12,7 @@ PyYAML = "*"
 discord-py = "*"
 sqlalchemy-aio = "*"
 buttons = "*"
+aiohttp = "*"
 
 [requires]
 python_version = "3.7"

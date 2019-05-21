@@ -1,5 +1,5 @@
+import json
 import logging
-import requests
 
 from backends.encounter_gen import calculate_xp, load_monsters, create_monster_list, encounter_gen, final_encounter
 
@@ -14,7 +14,8 @@ class DndTools(Cog, name='D&D Tools'):
     """Various D&D tools."""
     def __init__(self, bot):
         self.bot = bot
-        self.url = 'https://www.dandwiki.com//w/api.php?'
+        self.aiohttp_session = bot.aiohttp_session
+        self.homebrew_url = 'https://www.dandwiki.com/w/api.php'
 
     @command(name='currency')
     async def currency_command(self, ctx, *coins):
@@ -82,15 +83,15 @@ class DndTools(Cog, name='D&D Tools'):
     async def homebrew_lookup(self, ctx, name):
         """Lookup homebrew content from dandwiki."""
         link = []
-        session = requests.Session()
         params = {
             "action": "opensearch",
             "format": "json",
             "maxage": "0",
             "search": name
         }
-        request = session.get(url=self.url, params=params)
-        data = request.json()
+        async with self.aiohttp_session.get(self.homebrew_url, params=params) as resp:
+            log.debug(f"Issued homebrew API request to {resp.url}")
+            data = json.loads(await resp.text())
         links = dict(zip(data[1], data[3]))
         for key in links:
             encoded_link = links[key].replace(')', '\\)').replace('(', '\\(')
@@ -101,4 +102,4 @@ class DndTools(Cog, name='D&D Tools'):
 
 def setup(bot):
     bot.add_cog(DndTools(bot))
-    log.debug('Reddit cog loaded.')
+    log.debug('Loaded')

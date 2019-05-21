@@ -1,3 +1,4 @@
+import aiohttp
 import datetime
 import logging
 import yaml
@@ -59,7 +60,7 @@ bot = Bot(
     pm_help=True
 )
 bot.config = config  # assign configuration to a bot attribute for access from cogs
-
+bot.aiohttp_session = aiohttp.ClientSession()  # same for the global aiohttp session
 bot.remove_command('help')
 bot.start_time = datetime.datetime.now()
 
