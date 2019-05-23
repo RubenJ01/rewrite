@@ -38,7 +38,7 @@ class DndTools(Cog, name='D&D Tools'):
         return await ctx.send(f"Recalculated your currency into: {str(cp)}cp, {str(sp)}sp, {str(gp)}gp and {str(pp)}pp")
 
     @command(name='encounter')
-    async def encounter_command(self, ctx, psize, plevel, difficulty, environment=None):
+    async def encounter_command(self, ctx, psize, plevel, difficulty, environment=None, dm=None):
         """Generates a random encounter based on the users inputs.
         The user can input: the size of the party, the average level of the party,
         the difficulty of the encounter and the environment it takes place in."""
@@ -77,6 +77,11 @@ class DndTools(Cog, name='D&D Tools'):
         possiblemonsters = create_monster_list(monsterdata, environment, check)
         encounter = encounter_gen(possiblemonsters, xp)
         final = final_encounter(encounter, xp)
+        if dm is not None:
+            dm = dm.lower()
+            if dm.startswith('d') or dm.startswith('p'):
+                await ctx.send("Sended the results your dm.")
+                return await ctx.author.send(final)
         return await ctx.send(final)
 
     @command('homebrew')
