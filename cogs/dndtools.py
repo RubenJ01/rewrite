@@ -1,7 +1,7 @@
 import json
 import logging
 
-from backends.encounter_gen import calculate_xp, load_monsters, create_monster_list, encounter_gen, final_encounter
+from backends.encounter_gen import calculate_xp, encounter_gen, final_encounter
 
 from discord.ext.commands import Cog, command
 from discord import Embed, Colour
@@ -42,7 +42,6 @@ class DndTools(Cog, name='D&D Tools'):
         """Generates a random encounter based on the users inputs.
         The user can input: the size of the party, the average level of the party,
         the difficulty of the encounter and the environment it takes place in."""
-        check = 0
         difficulties = ['easy', 'medium', 'difficult', 'deadly']
         environments = ['city', 'dungeon', 'forest', 'nature', 'other plane', 'underground', 'water']
         try:
@@ -50,38 +49,25 @@ class DndTools(Cog, name='D&D Tools'):
             plevel = int(plevel)
         except ValueError:
             return await ctx.send('Party size and level must be numbers.')
-        if plevel > 20:
+        if psize < 1 or psize > 10:
+            return await ctx.send('Party size must be a number between 1 and 10.')
+        if plevel < 1 or plevel > 20:
             return await ctx.send('Party level must be a number between 1 and 20.')
-        if psize > 10:
-            return await ctx.send('Party size must be a number between 1 and 20.')
         if difficulty in difficulties:
-            if difficulty == 'easy':
-                difficulty = 1
-            if difficulty == 'medium':
-                difficulty = 2
-            if difficulty == 'difficult':
-                difficulty = 3
-            if difficulty == 'deadly':
-                difficulty = 4
+            diff_level = difficulties.index(difficulty) + 1
         else:
-            return await ctx.send(f"{difficulty} is not a valid difficulty. Please choose from 1 of the following "
-                                  f"difficulties: **{' - '.join(difficulties)}**")
-        if environment is None:
-            check = 1
-        else:
+            return await ctx.send(f"\"{difficulty}\" is not a valid difficulty. Please choose one of: "
+                                  f"**{' - '.join(difficulties)}**")
+        if environment is not None:
             if environment not in environments:
-                return await ctx.send(f"{environment} is not a valid environment. Please choose from 1 of the following"
-                                      f" environments: **{' - '.join(environments)}**")
-        xp = calculate_xp(plevel, difficulty, psize)
-        monsterdata = load_monsters()
-        possiblemonsters = create_monster_list(monsterdata, environment, check)
-        encounter = encounter_gen(possiblemonsters, xp)
+                return await ctx.send(f"\"{environment}\" is not a valid environment. Please choose one of: "
+                                      f"**{' - '.join(environments)}**")
+        xp = calculate_xp(plevel, psize, diff_level)
+        encounter = encounter_gen(environment, xp)
         final = final_encounter(encounter, xp)
-        if dm is not None:
-            dm = dm.lower()
-            if dm.startswith('d') or dm.startswith('p'):
-                await ctx.send("Sended the results your dm.")
-                return await ctx.author.send(final)
+        if dm is not None and dm.lower() in ('dm', 'pm'):
+            await ctx.author.send(final)
+            return await ctx.send("Sent results by DM.")
         return await ctx.send(final)
 
     @command('homebrew')

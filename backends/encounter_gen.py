@@ -4,12 +4,14 @@ import random
 
 MONSTERS_CSV = 'resources/csv/monsters.csv'
 
+with open(MONSTERS_CSV, 'r', newline='') as f:
+    monsters = list(csv.reader(f))
 
-def calculate_xp(plevel, difficulty, psize):
-    """Calculates the xp threshold for a given party"""
-    plevel = int(plevel)
-    difficulty = int(difficulty)
-    psize = int(psize)
+
+def calculate_xp(plevel: int, psize: int, difficulty: int) -> int:
+    """Calculates the xp threshold for a given party.
+
+    difficulty is in range 1-4 for easy, medium, difficult, and deadly."""
     thresholds = [
         [25, 50, 75, 100],
         [50, 100, 150, 200],
@@ -37,40 +39,24 @@ def calculate_xp(plevel, difficulty, psize):
     return xp
 
 
-def load_monsters():
-    """Loads all the monsters from the monsters.csv file"""
-    with open(MONSTERS_CSV, 'r', newline='') as f:
-        return list(csv.reader(f))
-
-
-def create_monster_list(monsterdata, environment, check):
-    """Creates a list of possible monsters in a certain evironment"""
-    possible_monsters = []
-    if check == 0:
-        for m in monsterdata:
-            if str(environment) in m[1]:
-                possible_monsters.append(m)
-    if check == 1:
-        """Runs the program without the environment option"""
-        for m in monsterdata:
-            possible_monsters.append(m)
-    return possible_monsters
-
-
-def encounter_gen(possiblemonsters, xp):
+def encounter_gen(environment: str, xp: int):
     """Creates the encounter based on the xp threshold and the list of possible monsters"""
     encountered_monsters = []
+    if environment is not None:
+        env_monsters = [m for m in monsters if m[1] == environment]  # filter monsters by requested environment
+    else:
+        env_monsters = monsters
     xp_monsters = 0
     xp_lower_limit = int(xp / 25)
-    while xp_monsters < (xp - (3 * xp_lower_limit)):
-        possible_monsters = []
-        for m in possiblemonsters:
-            if xp_lower_limit < int(m[4]) < (xp - xp_monsters):
-                possible_monsters.append(m)
-        if not possible_monsters:
+    while xp_monsters <= (xp - (3 * xp_lower_limit)):
+        candidates = []
+        for monster in env_monsters:
+            if xp_lower_limit <= int(monster[4]) <= (xp - xp_monsters):
+                candidates.append(monster)
+        if not candidates:
             return encountered_monsters
-        r = random.randint(0, (len(possible_monsters) - 1))
-        encountered_monsters.append(possible_monsters[r])
+        r = random.randint(0, (len(candidates) - 1))
+        encountered_monsters.append(candidates[r])
         monster_counter = len(encountered_monsters)
         xp_monsters = 0
         for exp in encountered_monsters:
@@ -85,7 +71,7 @@ def encounter_gen(possiblemonsters, xp):
 
 
 def final_encounter(encounter, xp):
-    """Creates the message that will be send to the user"""
+    """Creates the message that will be sent to the user"""
     enc = f'Generated an encounter: \n'
     for m in encounter:
         enc += f"**{str(m[0].capitalize())}**, type: {str(m[2])}, XP value of: {str(m[4])} (MM pg. {m[3]}) \n"
