@@ -1,19 +1,19 @@
-import pytest
+"""Pytest tests for helpers.py"""
 
-from helpers import split_text, roll_dice
+import helpers as m
 
 
 def test_split_text():
     text = 'testtesttest'
-    split = split_text(text, 3)
+    split = m.split_text(text, 3)
     assert split == ['tes', 'tte', 'stt', 'est']
-    split = split_text(text, 7)
+    split = m.split_text(text, 7)
     assert split == ['testtes', 'ttest']
 
 
 def test_dice_roller():
-    roll = roll_dice('10d1')
+    roll = m.roll_dice('10d1')
     assert roll == {}
-    roll = roll_dice('50d2')
+    roll = m.roll_dice('50d2')
     dice = roll[2][0]
     assert all(die in dice for die in (1, 2))
