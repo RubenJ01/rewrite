@@ -73,7 +73,6 @@ class DndTools(Cog, name='D&D Tools'):
     @command('homebrew')
     async def homebrew_lookup(self, ctx, name):
         """Lookup homebrew content from dandwiki."""
-        link = []
         params = {
             "action": "opensearch",
             "format": "json",
@@ -84,6 +83,7 @@ class DndTools(Cog, name='D&D Tools'):
             log.debug(f"Issued homebrew API request to {resp.url}")
             data = json.loads(await resp.text())
         links = dict(zip(data[1], data[3]))
+        link = []
         for key in links:
             encoded_link = links[key].replace(')', '\\)').replace('(', '\\(')
             link.append(f"[{key}]({encoded_link})")

@@ -34,20 +34,21 @@ def calculate_xp(plevel: int, psize: int, difficulty: int) -> int:
         [2400, 4900, 7300, 10900],
         [2800, 5700, 8500, 12700]
     ]
-    xp = thresholds[(plevel - 1)][(difficulty - 1)]
+    xp = thresholds[plevel - 1][difficulty - 1]
     xp = (xp * psize)
     return xp
 
 
 def encounter_gen(environment: str, xp: int):
     """Creates the encounter based on the xp threshold and the list of possible monsters"""
-    encountered_monsters = []
     if environment is not None:
         env_monsters = [m for m in monsters if m[1] == environment]  # filter monsters by requested environment
+
     else:
         env_monsters = monsters
     xp_monsters = 0
     xp_lower_limit = int(xp / 25)
+    encountered_monsters = []
     while xp_monsters <= (xp - (3 * xp_lower_limit)):
         candidates = []
         for monster in env_monsters:
