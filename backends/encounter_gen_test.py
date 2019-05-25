@@ -15,7 +15,7 @@ def test_encounter_gen():
     assert len(m.encounter_gen(None, 10)) == 1
     monsters = m.encounter_gen(None, 1000)
     xp = sum(int(monster[4]) for monster in monsters)
-    assert xp > 500
+    assert xp > 0
     assert xp <= 1000
     for environ in ('city', 'dungeon', 'forest', 'nature', 'other plane', 'underground', 'water'):
         monsters = m.encounter_gen(environ, 1000)

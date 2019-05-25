@@ -2,3 +2,4 @@ logs/
 resources/srd/
 config.yaml
 venv/
+tavern.db
