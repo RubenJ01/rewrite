@@ -1,12 +1,10 @@
 import asyncio
 import logging
 import random
-
-import aiohttp
+from collections import deque
 
 import discord
 from discord.ext import commands
-from collections import deque
 
 log = logging.getLogger('bot.' + __name__)
 
@@ -92,6 +90,5 @@ class DndReddit(commands.Cog, name='D&D Reddit'):
 
 
 def setup(bot):
-    bot.http_session = aiohttp.ClientSession()
     bot.add_cog(DndReddit(bot))
     log.debug('Loaded')
