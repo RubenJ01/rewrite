@@ -10,14 +10,15 @@ from discord.ext.commands import Cog, command
 
 log = logging.getLogger('bot.' + __name__)
 
+r = Path('resources')
 paths = {
-    "bond": Path('resources') / 'bonds.txt',  # list of bonds
-    "flaw": Path('resources') / 'flaws.txt',  # list of flaws
-    "ideal": Path('resources') / 'ideals.txt',  # list of ideals
-    "trait": Path('resources') / 'traits.txt',  # list of traits
-    "townname": Path('resources') / 'townnames.txt',  # list of town names
-    "quest": Path('resources') / 'quests.txt',  # list of quests
-    "backstory": Path('resources') / 'backstorys.txt',  # list of backstory's
+    "bond": r / 'bonds.txt',  # list of bonds
+    "flaw": r / 'flaws.txt',  # list of flaws
+    "ideal": r / 'ideals.txt',  # list of ideals
+    "trait": r / 'traits.txt',  # list of traits
+    "townname": r / 'townnames.txt',  # list of town names
+    "quest": r / 'quests.txt',  # list of quests
+    "backstory": r / 'backstorys.txt',  # list of backstories
 }
 
 
@@ -40,20 +41,19 @@ class GeneratorCog(Cog, name='Generator'):
         desc = ''
         num = 0
         if generate not in commands:  # user requested an invalid option; show help
-            generator_embed.title = 'All of the Generator Commands'
+            generator_embed.title = 'All of the generator commands'
             for _ in commands:
                 desc += f'**{commands[num]}** \n'
                 num = num + 1
             generator_embed.description = desc
-            help = 'Use ;generate {command} {optional amount} to use one of the above commands.'
-            generator_embed.set_footer(text=help)
+            msg = 'Use ;generate {command} {optional amount} to use one of the above commands.'
+            generator_embed.set_footer(text=msg)
             return await ctx.send(embed=generator_embed)
 
         final = str.casefold(generate)
         with open(paths[final], 'r', encoding='utf-8') as f:
             strings = f.readlines()
         if amount is None:
-            message = random.choice(strings)
             return await ctx.send(random.choice(strings))
         try:
             iamount = int(amount)
@@ -64,10 +64,9 @@ class GeneratorCog(Cog, name='Generator'):
                 return await ctx.send(f'Please choose a number of {final}s between 2 and 5.')
             message = ''.join(random.choices(strings, k=iamount))
         if dm is not None:
-            dm = dm.lower()
-            if dm.startswith('d') or dm.startswith('p'):
-                await ctx.send("Sended the results your dm.")
-                return await ctx.author.send(message)
+            if dm is not None and dm.lower() in ('dm', 'pm'):
+                await ctx.author.send(message)
+                return await ctx.send("Sent results by DM.")
         await ctx.send(message)
 
     @command(name='npc')
