@@ -158,6 +158,7 @@ class SpecialCog(Cog, name='Special'):
                     name = cmd.name
                     message += f'**{config["prefix"]}{name}:  ** *{cmd.help[0:40]}...*\n'
                 embed.add_field(name=cog_name, value=message, inline=False)
+                embed.add_field(name='Support Server', value='https://discord.gg/UJPzg8x', inline=False)
             embed.set_footer(text=f"Use {config['prefix']}help (category)/(command) for more information.")
         else:
             cogs_lowercase = [cog.lower() for cog in cogs]
