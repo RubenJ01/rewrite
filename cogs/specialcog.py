@@ -121,7 +121,7 @@ class SpecialCog(Cog, name='Special'):
     @command(name='help')
     async def new_help(self, ctx, second_help: str = None):
         """
-        Show this message
+        Shows this message
         """
         embed = Embed(
             title=':regional_indicator_h: :regional_indicator_e: :regional_indicator_l: :regional_indicator_p: ',
