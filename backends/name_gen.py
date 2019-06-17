@@ -28,5 +28,5 @@ def name_gen(race: str, gender: str) -> str:
         if race == "human" and syllables == 1:
             output += "i"
             
-        output = "This is written with IPA symbols", output
+        output = "This is written with IPA symbols", output+ " ,search IPA from more information"
         return output
