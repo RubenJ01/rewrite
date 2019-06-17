@@ -30,4 +30,5 @@ def name_gen(race: str, gender: str) -> str:
                 output += "y"
             else:
                 output += "ie"
+        output = "this is written with IPA symbols", output
         return output
