@@ -26,16 +26,16 @@ elf:
     tones: {'˥':1, '˦':2, '˧':4, '˨':5, '˩':10, '':5}
 human:
   m:
-    onset: {'': 10, g: 5, d: 8, t: 4, k: 6, p: 2, b: 5, n: 5, m: 5, s: 5, l: 5, w: 5, r: 6, h: 3, j: 6}
-    nucleus: {a: 12, e: 10, i: 8, o: 10, u: 9}
-    coda: {w: 5, s: 5, r: 5, h: 1, l: 5, p: 3, rl: 1}
+    onset: {'':20, 'm':4, 'n':4, 'p':10, 'b':9, 't':10, 'd':9}
+    nucleus: {'a':10, 'i':10, 'o':4}
+    coda: {'':1}
     syl: [2, 4, 1]
 gnome:
   m:
-    onset: {'': 10, g: 9, n: 7, k: 6, p: 5, m: 5, d: 5}
-    nucleus: {a: 5, o: 10}  # TODO
+    onset: {'':10, 'p':4, 't':4, 'k':4, 'b':8, 'd':8, 'g':8, 'pʰ':2, 'tʰ':2, 'kʰ':2, 'bʰ':4, 'dʰ':4, 'gʰ':4}
+    nucleus: {a: 5, o: 10, 'ɑ':5}  # TODO
     coda: {}
-    syl: [0]  # TODO
+    syl: [6,3,1]  # TODO
 # halfling:
 # half-orc:
 # dragonborn:
