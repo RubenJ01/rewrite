@@ -14,7 +14,6 @@ class DndTools(Cog, name='D&D Tools'):
     """Various D&D tools."""
     def __init__(self, bot):
         self.bot = bot
-        self.aiohttp_session = bot.aiohttp_session
         self.homebrew_url = 'https://www.dandwiki.com/w/api.php'
 
     @command(name='currency')
@@ -79,7 +78,7 @@ class DndTools(Cog, name='D&D Tools'):
             "maxage": "0",
             "search": name
         }
-        async with self.aiohttp_session.get(self.homebrew_url, params=params) as resp:
+        async with self.bot.aiohttp_session.get(self.homebrew_url, params=params) as resp:
             log.debug(f"Issued homebrew API request to {resp.url}")
             data = json.loads(await resp.text())
         links = dict(zip(data[1], data[3]))
