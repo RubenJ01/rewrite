@@ -20,14 +20,21 @@ def name_gen(race: str, gender: str) -> str:
     for syllable in range(syllables):
         output += r.choices(list(table['onset'].keys()),
                             weights=table['onset'].values())[0]
-        output += r.choices(list(table['nucleus'].keys()),
-                            weights=table['nucleus'].values())[0]
+        if race != "elf":
+            output += r.choices(list(table['nucleus'].keys()),
+                                weights=table['nucleus'].values())[0]
+        else:
+            for x in range(0,3):
+                output += r.choices(list(table['nucleus'].keys()),
+                                    weights=table['nucleus'].values())[0]
+                for y in range(0,3):
+                    output += r.choices(list(tabel['tones'].keys()),
+                                        weights=table[tones].values())[0]
         output += r.choices(list(table['coda'].keys()),
                             weights=table['coda'].values())[0]
         # special postfix for short human names
         if race == "human" and syllables == 1:
-            if r.randint(1, 2) == 1:
-                output += "y"
-            else:
-                output += "ie"
+            output += "i"
+            
+        output = "This is written with IPA symbols", output+ " ,search IPA from more information"
         return output
