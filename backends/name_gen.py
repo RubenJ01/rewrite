@@ -18,7 +18,7 @@ def name_gen(race: str, gender: str) -> str:
                           weights=table['syl'])[0]
     output = ""
     for syllable in range(syllables):
-        for onset in range(0,table['syllable structures'].keys()):
+        for onset in range(0,table['syllable_structures'].keys()):
             output += r.choices(list(table['onset'].keys()),
                                 weights=table['onset'].values())[0]
         
@@ -29,7 +29,7 @@ def name_gen(race: str, gender: str) -> str:
                 for tone in range(0,tabel['vowels'].keys()):
                     output += r.choices(list(tabel['tones'].keys()),
                                         weights=table[tones].values())[0]
-        for coda in range(0,table['syllable structures'].values()):
+        for coda in range(0,table['syllable_structures'].values()):
             output += r.choices(list(table['coda'].keys()),
                                 weights=table['coda'].values())[0]
         # special postfix for short human names
