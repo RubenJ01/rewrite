@@ -37,7 +37,7 @@ def name_gen(race: str, gender: str) -> str:
             output += r.choices(list(table['coda'].keys()),
                                 weights=table['coda'].values())[0]
         # special postfix for short human names
-        if race == "human" and syllables == 1:
+        if race == "human" and syllables =< 2:
             output += "i"
             
         output = "This is written with IPA symbols", output+ " ,search IPA(International Phonetic Alphabet) from more information"
