@@ -18,19 +18,20 @@ def name_gen(race: str, gender: str) -> str:
                           weights=table['syl'])[0]
     output = ""
     for syllable in range(syllables):
-        output += r.choices(list(table['onset'].keys()),
-                            weights=table['onset'].values())[0]
+        for onset in range(0,table['syllable structures'].keys()):
+            output += r.choices(list(table['onset'].keys()),
+                                weights=table['onset'].values())[0]
         
-        for x in range(0,table['repeat'].keys()):
+        for vowel in range(0,table['vowels'].keys()):
             output += r.choices(list(table['nucleus'].keys()),
                                 weights=table['nucleus'].values())[0]
                 
-                for y in range(0,tabel['repeat'].keys()):
+                for tone in range(0,tabel['vowels'].keys()):
                     output += r.choices(list(tabel['tones'].keys()),
                                         weights=table[tones].values())[0]
-        
-        output += r.choices(list(table['coda'].keys()),
-                            weights=table['coda'].values())[0]
+        for coda in range(0,table['syllable structures'].values()):
+            output += r.choices(list(table['coda'].keys()),
+                                weights=table['coda'].values())[0]
         # special postfix for short human names
         if race == "human" and syllables == 1:
             output += "i"
