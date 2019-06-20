@@ -44,9 +44,45 @@ gnome:
     tones: {'':1}
     repeat:{2:0}
     syl: [6,3,1]
-# halfling:
+#halfling:
+#    onset: {}
+#    nucleus: {}
+#    coda: {}
+#    tones: {}
+#    repeat:{}
+#    syl: []
 # half-orc:
+#    onset: {}
+#    nucleus: {}
+#   coda: {}
+#    tones: {}
+#    repeat:{}
+#    syl: []
 # dragonborn:
+#    onset: {}
+#    nucleus: {}
+#    coda: {}
+#    tones: {}
+#    repeat:{}
+#    syl: []
 # tiefling:
+#    onset: {}
+#    nucleus: {}
+#    coda: {}
+#    tones: {}
+#    repeat:{}
+#    syl: []
 # goblin:
+#    onset: {}
+#    nucleus: {}
+#    coda: {}
+#    tones: {}
+#    repeat:{}
+#    syl: []
 # orc:
+#    onset: {}
+#    nucleus: {}
+#    coda: {}
+#    tones: {}
+#    repeat:{}
+#    syl: []
