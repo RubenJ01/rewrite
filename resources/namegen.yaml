@@ -71,8 +71,8 @@ human:
     syl: [2, 4, 1]
 gnome:
   m:
-    onset: {'':10, 'p':4, 't':4, 'k':4, 'b':8, 'd':8, 'g':8, 'pʰ':2, 'tʰ':2, 'kʰ':2, 'bʰ':4, 'dʰ':4, 'gʰ':4}
-    nucleus: {a: 1, 'i':1, 'ɪ':1, 'ə':5, 'ɑ':10, 'u':10, 'ʌ':10}
+    onset: {'':10, 'p':0, 't':0, 'k':0, 'b':2, 'd':2, 'g':2, 'pʰ':0, 'tʰ':0, 'kʰ':0, 'bʰ':1, 'dʰ':1, 'gʰ':1}
+    nucleus: {a: 0, 'i':0, 'ɪ':0, 'ə':5, 'ɑ':10, 'u':10, 'ʌ':10}
     coda: {'':5, 'm':0, 'n':20}
     tones: {'':1}
     vowels:{2:0}
@@ -80,8 +80,8 @@ gnome:
     syllable_structures: {1:1}
     syl: [6,3,1]
   f:
-    onset: {'':10, 'p':8, 't':8, 'k':8, 'b':4, 'd':4, 'g':4, 'pʰ':4, 'tʰ':4, 'kʰ':4, 'bʰ':2, 'dʰ':2, 'gʰ':2}
-    nucleus: {a: 10, 'i':10, 'ɪ':10, 'ə':5, 'ɑ':1, 'u':1, 'ʌ':1}
+    onset: {'':10, 'p':2, 't':2, 'k':2, 'b':0, 'd':0, 'g':0, 'pʰ':1, 'tʰ':1, 'kʰ':1, 'bʰ':0 'dʰ':0, 'gʰ':0}
+    nucleus: {a: 10, 'i':10, 'ɪ':10, 'ə':5, 'ɑ':0, 'u':0, 'ʌ':0}
     coda: {'':5, 'm':20, 'n':0}
     tones: {'':1}
     vowels:{2:0}
@@ -90,48 +90,49 @@ gnome:
     syl: [6,3,1]
 halfling:
   m:
-    onset: {}
-    nucleus: {}
-    coda: {}
-    tones: {}
-    vowels:{}
-    length: {'':1, ':':1, '˘':1, 'ˑ':1}
-    syllable_structures: {1:1}
-    syl: []
+    onset: {'': 20, 'm':10, 'n':10, 's':6, 'z':6,, 'f':6, 'v':6, 'ɹ':6, 'l':6}
+    nucleus:{'i':10, 'a':10, 'ə':1, 'ʊ':6, 'ʌ':8, 'ɑ':6, 'u':7, 'o':5}
+    coda: {'': 20, 'm':10, 'n':10, 's':6, 'z':6,, 'f':6, 'v':6, 'ɹ':6, 'l':6}
+    tones: {'':0}
+    vowels:{3:3}
+    length: {'':5, ':':10, '˘':5}
+    syllable_structures: {2:2}
+    syl: [1,0]
   f:
-    onset: {}
-    nucleus: {}
-    coda: {}
-    tones: {}
-    vowels:{}
-    length: {'':1, ':':1, '˘':1, 'ˑ':1}
-    syllable_structures: {1:1}
-    syl: []
+    onset: {'': 20, 'm':10, 'n':10, 's':6, 'z':6,, 'f':6, 'v':6, 'ɹ':6, 'l':6}
+    nucleus:{'i':10, 'a':10, 'ə':1, 'ʊ':6, 'ʌ':8, 'ɑ':6, 'u':7, 'o':5}
+    coda: {'': 20, 'm':10, 'n':10, 's':6, 'z':6,, 'f':6, 'v':6, 'ɹ':6, 'l':6}
+    tones: {'':0}
+    vowels:{3:3}
+    length: {'':5, ':':10, '˘':5}
+    syllable_structures: {2:2}
+    syl: [0,1]
 half-orc:
   m:
-    onset: {}
+     onset: {}
     nucleus: {}
     coda: {}
-    tones: {}
+    tones: {'˥':1, '˦':1, '˧':1, '˨':1, '˩':1, '':1}
     vowels:{}
     length: {'':1, ':':1, '˘':1, 'ˑ':1}
     syllable_structures: {1:1}
     syl: []
   f:
-    onset: {}
+     onset: {}
     nucleus: {}
     coda: {}
-    tones: {}
-    syllable_structures: {1:1}
+    tones: {'˥':1, '˦':1, '˧':1, '˨':1, '˩':1, '':1}
     vowels:{}
     length: {'':1, ':':1, '˘':1, 'ˑ':1}
+    syllable_structures: {1:1}
     syl: []
    f:
     onset: {}
     nucleus: {}
     coda: {}
-    tones: {}
-    vowels:{'':1, ':':1, '˘':1, 'ˑ':1}
+    tones: {'˥':1, '˦':1, '˧':1, '˨':1, '˩':1, '':1}
+    vowels:{}
+    length: {'':1, ':':1, '˘':1, 'ˑ':1}
     syllable_structures: {1:1}
     syl: []
 tiefling:
@@ -139,7 +140,7 @@ tiefling:
     onset: {}
     nucleus: {}
     coda: {}
-    tones: {}
+    tones: {'˥':1, '˦':1, '˧':1, '˨':1, '˩':1, '':1}
     vowels:{}
     length: {'':1, ':':1, '˘':1, 'ˑ':1}
     syllable_structures: {1:1}
@@ -148,7 +149,7 @@ tiefling:
     onset: {}
     nucleus: {}
     coda: {}
-    tones: {}
+    tones: {'˥':1, '˦':1, '˧':1, '˨':1, '˩':1, '':1}
     vowels:{}
     length: {'':1, ':':1, '˘':1, 'ˑ':1}
     syllable_structures: {1:1}
@@ -158,7 +159,7 @@ goblin:
     onset: {}
     nucleus: {}
     coda: {}
-    tones: {}
+    tones: {'˥':1, '˦':1, '˧':1, '˨':1, '˩':1, '':1}
     vowels:{}
     length: {'':1, ':':1, '˘':1, 'ˑ':1}
     syllable_structures: {1:1}
@@ -167,7 +168,7 @@ goblin:
     onset: {}
     nucleus: {}
     coda: {}
-    tones: {}
+    tones: {'˥':1, '˦':1, '˧':1, '˨':1, '˩':1, '':1}
     vowels:{}
     length: {'':1, ':':1, '˘':1, 'ˑ':1}
     syllable_structures: {1:1}
@@ -177,16 +178,16 @@ orc:
     onset: {}
     nucleus: {}
     coda: {}
-    tones: {}
+    tones: {'˥':1, '˦':1, '˧':1, '˨':1, '˩':1, '':1}
     vowels:{}
     length: {'':1, ':':1, '˘':1, 'ˑ':1}
     syllable_structures: {1:1}
     syl: []
   f:
-    onset: {}
+     onset: {}
     nucleus: {}
     coda: {}
-    tones: {}
+    tones: {'˥':1, '˦':1, '˧':1, '˨':1, '˩':1, '':1}
     vowels:{}
     length: {'':1, ':':1, '˘':1, 'ˑ':1}
     syllable_structures: {1:1}
