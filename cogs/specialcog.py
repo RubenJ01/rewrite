@@ -19,6 +19,7 @@ class SpecialCog(Cog, name='Special'):
         self.bot = bot
         self.config = self.bot.config
 
+
     @Cog.listener()
     async def on_guild_join(self, guild):
         code = tables.guild_settings.insert().values()
@@ -74,7 +75,7 @@ class SpecialCog(Cog, name='Special'):
     async def basic_rules(self, ctx):
         """Link to the basic rulebook for D&D 5e."""
         basic_embed = Embed(
-            description='**The basic rules for Dungeons and Dragons can be found at the following link:\n'
+            description='**The basic rules for Dungeons and Dragons can be found at the following link:**\n'
                         'http://media.wizards.com/2018/dnd/downloads/DnD_BasicRules_2018.pdf',
             colour=Colour.blurple())
         basic_embed.set_footer(text='Use ;help to get a list of available commands.')
@@ -137,7 +138,7 @@ class SpecialCog(Cog, name='Special'):
                 for cmd in commands:
                     message += f'**{self.config["prefix"]}{cmd.name}:  ** *{cmd.help[0:40]}...*\n'
                 embed.add_field(name=cog_name, value=message, inline=False)
-                embed.add_field(name='Support Server', value='https://discord.gg/UJPzg8x', inline=False)
+            embed.add_field(name='Support Server', value='https://discord.gg/UJPzg8x', inline=False)
             embed.set_footer(text=f"Use {self.config['prefix']}help (category)/(command) for more information.")
         else:
             cogs_lowercase = [cog.lower() for cog in cogs]
