@@ -18,20 +18,20 @@ def name_gen(race: str, gender: str) -> str:
                           weights=table['syl'])[0]
     output = ""
     for syllable in range(syllables):
-        for onset in range(0,table['syllable_structures'].keys()):
+        for onset in range(0,table['syllable_structures'][0]):
             output += r.choices(list(table['onset'].keys()),
                                 weights=table['onset'].values())[0]
         
-        for vowel in range(0,table['vowels'].keys()):
+        for vowel in range(0,table['vowels'][0]):
             output += r.choices(list(table['nucleus'].keys()),
                                 weights=table['nucleus'].values())[0]
             output += r.choices(list(table['length'].keys()),
                                 weights=table['length'].values())[0]
-            for tone in range(0,table['vowels'].keys()):
+            for tone in range(0,table['vowels'][1]):
                 output += r.choices(list(table['tones'].keys()),
                                     weights=table['tones'].values())[0]
 
-        for coda in range(0,table['syllable_structures'].values()):
+        for coda in range(0,table['syllable_structures'][1]):
             output += r.choices(list(table['coda'].keys()),
                                 weights=table['coda'].values())[0]
         
