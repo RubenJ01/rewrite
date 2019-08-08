@@ -1,6 +1,4 @@
-"""Random fantasy name generator"""
-
-import random as r
+import random as r #ɂ/Ɂ
 import yaml
 from pathlib import Path
 
@@ -12,7 +10,7 @@ with open(NAMEFILE) as f:
 
 
 def name_gen(race: str, gender: str) -> str:
-    table = data[race.lower()][gender.lower()]
+    table = data[race.lower()][gender.lower()[0]]
     # choose number of syllables based on provided probability weights
     syllables = r.choices(range(1, len(table['syl']) + 1),
                           weights=table['syl'])[0]
@@ -39,5 +37,5 @@ def name_gen(race: str, gender: str) -> str:
         if race == "human" and syllables <= 2:
             output += "i"
             
-        output = "This is written with IPA symbols", output+ " ,search IPA(International Phonetic Alphabet) from more information"
+        output += " This is written with IPA symbols, search IPA(International Phonetic Alphabet) from more information "
         return output
