@@ -132,7 +132,7 @@ tiefling:
     nucleus: {'':5,'u':10,'o':10,'ʊ':10,'ɔ':10,'ɒ':10}
     coda: {'':20,'ʋ':10,'ɦ':10,'ɻ':10}
     tones: {'':0}
-    vowels: [2:0]
+    vowels: [2,0]
     length: {'':1}
     syllable_structures: [1,1]
     syl: [99,1]
@@ -141,7 +141,7 @@ tiefling:
     nucleus: {'':5,'a':10,'æ':10,'ɛ':10,'e':10,'ɪ':10,'i':10}
     coda: {'':20,'ʋ':10,'ɦ':10,'ɻ':10}
     tones: {'':0}
-    vowels: [2:0]
+    vowels: [2,0]
     length: {'':1}
     syllable_structures: [1,1]
     syl: [99,1]
