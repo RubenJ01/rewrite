@@ -1,6 +1,4 @@
-"""Random fantasy name generator"""
-
-import random as r
+import random as r #ɂ/Ɂ
 import yaml
 from pathlib import Path
 
@@ -12,34 +10,32 @@ with open(NAMEFILE) as f:
 
 
 def name_gen(race: str, gender: str) -> str:
-    table = data[race.lower()][gender.lower()]
+    table = data[race.lower()][gender.lower()[0]]
     # choose number of syllables based on provided probability weights
     syllables = r.choices(range(1, len(table['syl']) + 1),
                           weights=table['syl'])[0]
     output = ""
     for syllable in range(syllables):
-        for onset in range(0,table['syllable_structures'].keys()):
+        for onset in range(0,table['syllable_structures'][0]):
             output += r.choices(list(table['onset'].keys()),
                                 weights=table['onset'].values())[0]
         
-        for vowel in range(0,table['vowels'].keys()):
+        for vowel in range(0,table['vowels'][0]):
             output += r.choices(list(table['nucleus'].keys()),
                                 weights=table['nucleus'].values())[0]
             output += r.choices(list(table['length'].keys()),
                                 weights=table['length'].values())[0]
-                
-                for tone in range(0,table['vowels'].keys()):
-                    output += r.choices(list(table['tones'].keys()),
-                                        weights=table['tones'].values())[0]
-            
-            
-        
-        for coda in range(0,table['syllable_structures'].values()):
+            for tone in range(0,table['vowels'][1]):
+                output += r.choices(list(table['tones'].keys()),
+                                    weights=table['tones'].values())[0]
+
+        for coda in range(0,table['syllable_structures'][1]):
             output += r.choices(list(table['coda'].keys()),
                                 weights=table['coda'].values())[0]
+        
         # special postfix for short human names
         if race == "human" and syllables <= 2:
             output += "i"
             
-        output = "This is written with IPA symbols", output+ " ,search IPA(International Phonetic Alphabet) from more information"
+        output += " This is written with IPA symbols, search IPA(International Phonetic Alphabet) from more information "
         return output

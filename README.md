@@ -10,6 +10,7 @@ We've implemented lookups into the D&D 5e System Reference Document and some hel
 
 #### _Contributors_
 * **Lead**: Ruben#0069: https://github.com/RubenJ01
+* **Help**: willdda117: https://github.com/willdda117
 * **Help**: syntaxaire#9672: https://github.com/syntaxaire
 * **Help**: Refisio#9732: https://github.com/Refisio
 * **Help**: Iceman#6508: https://github.com/RohanJnr

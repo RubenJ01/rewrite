@@ -17,37 +17,37 @@ dwarf:
     nucleus: {'u':10, 'ə':10, 'ʌ':5}
     coda: {'':1}
     tones: {'':1}
-    vowels: {1:0}
+    vowels: [1,0]
     length: {'':10, ':':1}
-    syllable_structures: {1:1}
+    syllable_structures: [1,1]
     syl: [10, 2]
-   f:
+  f:
     onset: {'':10, 'p':2, 't':2, 'k':2, 'b':8, 'd':8, 'g':8, 'pʰ':2, 'tʰ':3, 'kʰ':2, 'bʰ':4, 'dʰ':4, 'gʰ':2,}
     nucleus: {'u':10, 'ə':10, 'ʌ':5}
     coda: {'':1}
     tones: {'':1}
-    vowels: {1:0}
+    vowels: [1,0]
     length: {'':1, ':':10}
-    syllable_structures: {1:1}
+    syllable_structures: [1,1]
     syl: [10, 2]
 elf:
   m:
     onset: {'': 20, 'm':10, 'ɱ':2, 'n':10, 'ŋ':10, 's':6, 'z':6, 'ʃ':6, 'ʒ':6, 'f':6, 'v':6, 'θ':6, 'ð':6, 'ɹ':6, 'l':6}
-    nucleus:{'i':10, 'e':5, 'ɛ':3, 'a':10, 'ɪ':9, 'ə':1, 'ɜ':4, 'ʉ':8, 'ʊ':6, 'ʌ':8, 'ɑ':6, 'u':7, 'o':5, 'ɔ':3}
-    coda: {'': 20, 'm':10, 'ɱ':2, 'n':10, 'ŋ':10, 's':6, 'z':6, 'ʃ':6, 'ʒ':6, 'f':6, 'v':6, 'θ':6, 'ð':6, 'ɹ':6, 'l':6}
-    tones: {'˥':1, '˦':10, '˧':40, '˨':50, '˩':100, '':50}
-    vowels: {3:3}
+    nucleus: {'i':10, 'e':5, 'ɛ':3, 'a':10, 'ɪ':9, 'ə':1, 'ɜ':4, 'ʉ':8, 'ʊ':6, 'ʌ':8, 'ɑ':6, 'u':7, 'o':5, 'ɔ':3}
+    coda: {'':20, 'm':10, 'ɱ':2, 'n':10, 'ŋ':10, 's':6, 'z':6, 'ʃ':6, 'ʒ':6, 'f':6, 'v':6, 'θ':6, 'ð':6, 'ɹ':6, 'l':6}
+    tones: {'˥':1, '˦':10, '˧':40, '˨':60, '˩':100, '':50}
+    vowels: [3,3]
     length: {'':5, ':':5, '˘':10, 'ˑ':7}
-    syllable_structures: {2:2}
+    syllable_structures: [2,2]
     syl: [60, 5, 5, 5, 5, 5, 5, 5, 1]
   f:
     onset: {'': 20, 'm':10, 'ɱ':2, 'n':10, 'ŋ':10, 's':6, 'z':6, 'ʃ':6, 'ʒ':6, 'f':6, 'v':6, 'θ':6, 'ð':6, 'ɹ':6, 'l':6}
-    nucleus:{'i':10, 'e':5, 'ɛ':3, 'a':10, 'ɪ':9, 'ə':1, 'ɜ':4, 'ʉ':8, 'ʊ':6, 'ʌ':8, 'ɑ':6, 'u':7, 'o':5, 'ɔ':3}
+    nucleus: {'i':10, 'e':5, 'ɛ':3, 'a':10, 'ɪ':9, 'ə':1, 'ɜ':4, 'ʉ':8, 'ʊ':6, 'ʌ':8, 'ɑ':6, 'u':7, 'o':5, 'ɔ':3}
     coda: {'': 20, 'm':10, 'ɱ':2, 'n':10, 'ŋ':10, 's':6, 'z':6, 'ʃ':6, 'ʒ':6, 'f':6, 'v':6, 'θ':6, 'ð':6, 'ɹ':6, 'l':6}
     tones: {'˥':100, '˦':50, '˧':40, '˨':10, '˩':1, '':50}
-    vowels: {3:3}
+    vowels: [3,3]
     length: {'':5, ':':10, '˘':5, 'ˑ':7}
-    syllable_structures: {2:2}
+    syllable_structures: [2,2]
     syl: [100, 90, 80, 70, 60, 50, 25, 5, 1]
     
 human:
@@ -56,18 +56,18 @@ human:
     nucleus: {'a':10, 'i':10, 'o':4}
     coda: {'':1}
     tones: {'':1}
-    vowels: {1:0}
+    vowels: [1,0]
     length: {'':1, '˘':1}
-    syllable_structures: {1:1}
+    syllable_structures: [1,1]
     syl: [2, 4, 1]
   f:
     onset: {'':20, 'm':4, 'n':4, 'p':10, 'b':9, 't':10, 'd':9}
     nucleus: {'a':10, 'i':10, 'o':4}
     coda: {'':1}
     tones: {'':1}
-    vowels: {1:0}
+    vowels: [1,0]
     length: {'':1, '˘':1}
-    syllable_structures: {1:1}
+    syllable_structures: [1,1]
     syl: [2, 4, 1]
 gnome:
   m:
@@ -75,111 +75,111 @@ gnome:
     nucleus: {a: 0, 'i':0, 'ɪ':0, 'ə':5, 'ɑ':10, 'u':10, 'ʌ':10}
     coda: {'':5, 'm':0, 'n':20}
     tones: {'':1}
-    vowels: {2:0}
+    vowels: [2,0]
     length: {'':1, ':':10, '˘':1}
-    syllable_structures: {1:1}
+    syllable_structures: [1,1]
     syl: [6,3,1]
   f:
     onset: {'':10, 'p':2, 't':2, 'k':2, 'b':0, 'd':0, 'g':0, 'pʰ':1, 'tʰ':1, 'kʰ':1, 'bʰ':0 'dʰ':0, 'gʰ':0}
     nucleus: {a: 10, 'i':10, 'ɪ':10, 'ə':5, 'ɑ':0, 'u':0, 'ʌ':0}
     coda: {'':5, 'm':20, 'n':0}
     tones: {'':1}
-    vowels: {2:0}
+    vowels: [2,0]
     length: {'':1}
-    syllable_structures: {1:1}
+    syllable_structures: [1,1]
     syl: [6,3,1]
 halfling:
   m:
-    onset: {'': 20, 'm':10, 'n':10, 's':6, 'z':6,, 'f':6, 'v':6, 'ɹ':6, 'l':6}
-    nucleus:{'i':10, 'a':10, 'ə':1, 'ʊ':6, 'ʌ':8, 'ɑ':6, 'u':7, 'o':5}
-    coda: {'': 20, 'm':10, 'n':10, 's':6, 'z':6,, 'f':6, 'v':6, 'ɹ':6, 'l':6}
+    onset: {'': 20, 'm':10, 'n':10, 's':6, 'z':6, 'f':6, 'v':6, 'ɹ':6, 'l':6}
+    nucleus: {'i':10, 'a':10, 'ə':1, 'ʊ':6, 'ʌ':8, 'ɑ':6, 'u':7, 'o':5}
+    coda: {'': 20, 'm':10, 'n':10, 's':6, 'z':6, 'f':6, 'v':6, 'ɹ':6, 'l':6}
     tones: {'':0}
-    vowels: {1:0}
+    vowels: [1,0]
     length: {'':5, ':':10, '˘':5}
-    syllable_structures: {2:1}
-    syl: [1]
+    syllable_structures: [2,1]
+    syl: [1,0]
   f:
-    onset: {'': 20, 'm':10, 'n':10, 's':6, 'z':6,, 'f':6, 'v':6, 'ɹ':6, 'l':6}
-    nucleus:{'i':10, 'a':10, 'ə':1, 'ʊ':6, 'ʌ':8, 'ɑ':6, 'u':7, 'o':5}
-    coda: {'': 20, 'm':10, 'n':10, 's':6, 'z':6,, 'f':6, 'v':6, 'ɹ':6, 'l':6}
+    onset: {'': 20, 'm':10, 'n':10, 's':6, 'z':6, 'f':6, 'v':6, 'ɹ':6, 'l':6}
+    nucleus: {'i':10, 'a':10, 'ə':1, 'ʊ':6, 'ʌ':8, 'ɑ':6, 'u':7, 'o':5}
+    coda: {'': 20, 'm':10, 'n':10, 's':6, 'z':6, 'f':6, 'v':6, 'ɹ':6, 'l':6}
     tones: {'':0}
-    vowels: {1:0}
+    vowels: [1,0]
     length: {'':5, ':':10, '˘':5}
-    syllable_structures: {2:1}
+    syllable_structures: [2,1]
     syl: [0,1]
 half-orc:
   m:
     onset: {'':10, 'n':1}
-    nucleus:{'ə':1,'ɑ':1,'v':1}
+    nucleus: {'ə':1,'ɑ':1,'v':1}
     coda: {'':1,'θ':5,'ð':5,'ɬ':3,'ɮ':3}
     tones: {'':0}
-    vowels: {1:0}
+    vowels: [1,0]
     length: {'':1}
-    syllable_structures: {1:1}
+    syllable_structures: [1,1]
     syl: [1]
   f:
     onset: {'':10, 'n':1}
-    nucleus:{'ə':1,'ɑ':1,'v':1}
+    nucleus: {'ə':1,'ɑ':1,'v':1}
     coda: {'':1,'θ':5,'ð':5,'ɬ':3,'ɮ':3}
     tones: {'':0}
-    vowels: {1:0}
+    vowels: [1,0]
     length: {'':1}
-    syllable_structures: {1:1}
+    syllable_structures: [1,1]
     syl: [1]
 tiefling:
   m:
-    onset: {}
-    nucleus: {}
-    coda: {}
-    tones: {'˥':1, '˦':1, '˧':1, '˨':1, '˩':1, '':1}
-    vowels: {}
-    length: {'':1, ':':1, '˘':1, 'ˑ':1}
-    syllable_structures: {1:1}
-    syl: []
+    onset: {'':1,'ʘ':10,'ǀ':10,'!':10,'ǂ':10,'ɠ':5,'ɗ':5,'ɓ':5,'ʙ':3,'ʙ̥':3,'ʀ':3}
+    nucleus: {'':5,'u':10,'o':10,'ʊ':10,'ɔ':10,'ɒ':10}
+    coda: {'':20,'ʋ':10,'ɦ':10,'ɻ':10}
+    tones: {'':0}
+    vowels: [2:0]
+    length: {'':1}
+    syllable_structures: [1,1]
+    syl: [99,1]
   f:
-    onset: {}
-    nucleus: {}
-    coda: {}
-    tones: {'˥':1, '˦':1, '˧':1, '˨':1, '˩':1, '':1}
-    vowels: {}
-    length: {'':1, ':':1, '˘':1, 'ˑ':1}
-    syllable_structures: {1:1}
-    syl: []
+    onset: {'':1,'ʘ':10,'ǀ':10,'!':10,'ǂ':10,'ɠ':5,'ɗ':5,'ɓ':5,'ʙ':3,'ʙ̥':3,'ʀ':3}
+    nucleus: {'':5,'a':10,'æ':10,'ɛ':10,'e':10,'ɪ':10,'i':10}
+    coda: {'':20,'ʋ':10,'ɦ':10,'ɻ':10}
+    tones: {'':0}
+    vowels: [2:0]
+    length: {'':1}
+    syllable_structures: [1,1]
+    syl: [99,1]
 goblin:
-  m:
-    onset: {}
-    nucleus: {}
-    coda: {}
-    tones: {'˥':1, '˦':1, '˧':1, '˨':1, '˩':1, '':1}
-    vowels: {}
-    length: {'':1, ':':1, '˘':1, 'ˑ':1}
-    syllable_structures: {1:1}
-    syl: []
+ m:
+    onset: {'':10, 'p':8, 't':8, 'k':8, 'b':4, 'd':4, 'g':4, 'pʰ':4, 'tʰ':4, 'kʰ':4, 'bʰ':2, 'dʰ':2, 'gʰ':2, "p'":4, "t'":4, "k'":4}
+    nucleus: {'ə':1,'ɑ':1,'v':1}
+    coda: {'':1,'θ':5,'ð':5,'ɬ':3,'ɮ':3}
+    tones: {'':1}
+    vowels: [1,0]
+    length: {'':10, ':':1}
+    syllable_structures: [1,1]
+    syl: [10, 2]
   f:
-    onset: {}
-    nucleus: {}
-    coda: {}
-    tones: {'˥':1, '˦':1, '˧':1, '˨':1, '˩':1, '':1}
-    vowels: {}
-    length: {'':1, ':':1, '˘':1, 'ˑ':1}
-    syllable_structures: {1:1}
-    syl: []
+    onset: {'':10, 'p':2, 't':2, 'k':2, 'b':8, 'd':8, 'g':8, 'pʰ':2, 'tʰ':3, 'kʰ':2, 'bʰ':4, 'dʰ':4, 'gʰ':2,}
+    nucleus: {'ə':1,'ɑ':1,'v':1}
+    coda: {'':1,'θ':5,'ð':5,'ɬ':3,'ɮ':3}
+    tones: {'':1}
+    vowels: [1,0]
+    length: {'':1, ':':10}
+    syllable_structures: [1,1]
+    syl: [10, 2]
 orc:
   m:
-    onset: {}
-    nucleus: {}
-    coda: {}
-    tones: {'˥':1, '˦':1, '˧':1, '˨':1, '˩':1, '':1}
-    vowels: {}
-    length: {'':1, ':':1, '˘':1, 'ˑ':1}
-    syllable_structures: {1:1}
-    syl: []
+    onset: {'':1}
+    nucleus: {'ə':1,'ɑ':1,'v':1}
+    coda: {'':1,'θ':5,'ð':5,'ɬ':3,'ɮ':3,'n':1}
+    tones: {'':0}
+    vowels: [1,0]
+    length: {'':1}
+    syllable_structures: [1,1]
+    syl: [1]
   f:
-    onset: {}
-    nucleus: {}
-    coda: {}
-    tones: {'˥':1, '˦':1, '˧':1, '˨':1, '˩':1, '':1}
-    vowels: {}
-    length: {'':1, ':':1, '˘':1, 'ˑ':1}
-    syllable_structures: {1:1}
-    syl: []
+    onset: {'':1}
+    nucleus: {'ə':1,'ɑ':1,'v':1}
+    coda: {'':1,'θ':5,'ð':5,'ɬ':3,'ɮ':3,'n':1}
+    tones: {'':0}
+    vowels: [1,0]
+    length: {'':1}
+    syllable_structures: [1,1]
+    syl: [1]
