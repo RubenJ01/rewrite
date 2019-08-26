@@ -19,7 +19,6 @@ class SpecialCog(Cog, name='Special'):
         self.bot = bot
         self.config = self.bot.config
 
-
     @Cog.listener()
     async def on_guild_join(self, guild):
         code = tables.guild_settings.insert().values()
