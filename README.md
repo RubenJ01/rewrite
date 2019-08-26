@@ -9,8 +9,8 @@ A Discord bot for D&D 5th Edition, created for the Tavern Discord server, but av
 We've implemented lookups into the D&D 5e System Reference Document and some helpful tabletop utility commands. As a work in progress, several cogs still have to be rewritten, commands need to be fleshed out, and Pythonic style returned to the inner modules.
 
 #### _Contributors_
-* **Lead**: Ruben#0069: https://github.com/RubenJ01
-* **Help**: willdda117: https://github.com/willdda117
+* **Lead**: Ruben#1459: https://github.com/RubenJ01
+* **Help**: willdda117#2904: https://github.com/willdda117
 * **Help**: syntaxaire#9672: https://github.com/syntaxaire
 * **Help**: Refisio#9732: https://github.com/Refisio
 * **Help**: Iceman#6508: https://github.com/RohanJnr
