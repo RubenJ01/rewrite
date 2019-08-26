@@ -101,7 +101,7 @@ class SpecialCog(Cog, name='Special'):
                 pass  # An error is already passed by the db_edit function
         await ctx.send(f'{guilds_added} guilds added to the Guilds database.')
 
-    @has_permissions(manage_server=True)
+    @has_permissions(manage_guild=True)
     @command(name='prefix')
     async def change_prefix(self, ctx, new_prefix):
         """Use this command to change the prefix of your bot."""
