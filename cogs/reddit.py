@@ -53,7 +53,7 @@ class DndReddit(commands.Cog, name='D&D Reddit'):
             embed.description += '```'
             return await ctx.send(embed=embed)
 
-        session = self.bot.http_session
+        session = self.bot.aiohttp_session
         data = await self.fetch(session, f'https://www.reddit.com/r/{subreddit}/hot/.json')
 
         try:
