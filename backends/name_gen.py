@@ -5,7 +5,7 @@ from pathlib import Path
 # description of namegen data format is in this file:
 NAMEFILE = Path('resources') / 'namegen.yaml'
 
-with open(NAMEFILE) as f:
+with open(NAMEFILE, encoding='utf8') as f:
     data = yaml.safe_load(f)
 
 
@@ -37,5 +37,6 @@ def name_gen(race: str, gender: str) -> str:
         if race == "human" and syllables <= 2:
             output += "i"
 
+        print(output)
         output += " This is written with IPA symbols; search IPA(International Phonetic Alphabet) for more information "
         return output
