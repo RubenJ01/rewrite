@@ -76,6 +76,12 @@ class GeneratorCog(Cog, name='Generator'):
         embed.add_field(name='Randomly generated npc.', value=desc, inline=True)
         return await ctx.send(embed=embed)
 
+    # @command(name='name')
+    # async def name_generator(self, ctx, race, gender):
+    #   """Generates a random name for the race and gender the user submitted."""
+    #    result = name_gen(race, gender)
+    #    return await ctx.send(result)
+
 
 def setup(bot):
     bot.add_cog(GeneratorCog(bot))
