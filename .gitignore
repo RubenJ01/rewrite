@@ -3,3 +3,5 @@ resources/srd/
 config.yaml
 venv/
 tavern.db
+.idea
+/__pycache__
