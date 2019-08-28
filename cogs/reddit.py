@@ -6,6 +6,8 @@ from collections import deque
 import discord
 from discord.ext import commands
 
+from utils.database.db_functions import guild_subreddits
+
 log = logging.getLogger('bot.' + __name__)
 
 
@@ -39,19 +41,19 @@ class DndReddit(commands.Cog, name='D&D Reddit'):
 
         Gets a post from r/dndmemes by default.
         """
+        subreddit_list = []
         subreddit = subreddit.lower()
+        for guild in guild_subreddits:
+            if guild["guild_id"] == ctx.guild.id:
+                current_guild = guild
+                subreddits = current_guild["subreddits"]
+                subreddit_list = subreddits.split(",")
+                break
 
-        if subreddit not in self.subreddits:
-            embed = discord.Embed()
-            embed.title = 'Please choose from this list of subreddits:'
-            embed.colour = discord.Colour.blue()
-            embed.description = '```'
-
-            for sr in self.subreddits:
-                embed.description += sr + '\n'
-
-            embed.description += '```'
-            return await ctx.send(embed=embed)
+        if subreddit not in self.subreddits and subreddit not in subreddit_list:
+            await ctx.send("Subreddit forbidden")
+            await ctx.send("Use the subreddit view command to see avilable subreddits.")
+            return await ctx.send_help("subreddit")
 
         session = self.bot.aiohttp_session
         data = await self.fetch(session, f'https://www.reddit.com/r/{subreddit}/hot/.json')
