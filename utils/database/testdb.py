@@ -5,7 +5,7 @@ import utils.database as tables
 
 
 async def query():
-    table = tables.guild_settings
+    table = tables.subreddits
     result = await db_query(table.select())
     print(result)
 
@@ -32,4 +32,4 @@ data = {
 
 loop = asyncio.get_event_loop()
 # loop.run_until_complete(edit(code, data))
-loop.run_until_complete(edit())
+loop.run_until_complete(query())

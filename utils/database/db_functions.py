@@ -51,15 +51,35 @@ async def db_edit(db_code, data=None):
 guild_ids = []
 guild_prefixes = []
 
+guild_subreddits = []
+
 
 async def cache_prefixes():
     """Caches all the prefix of all guilds from the database"""
     logger.info("caching prefixes from database...")
     guild_ids.clear()
     guild_prefixes.clear()
+    guild_subreddits.clear()
     table = tables.guild_settings
     guilds = await db_query(table.select())
     for guild in guilds:
         guild_ids.append(guild[0])
         guild_prefixes.append(guild[1])
     logger.info("caching prefixes from database...DONE")
+
+
+async def cache_subreddits():
+    """cache all subreddits of all guilds from the database"""
+    logger.info("caching subreddits from database...")
+    guild_subreddits.clear()
+    table = tables.subreddits
+    subreddits = await db_query(table.select())
+    for sr in subreddits:
+        guild = sr[0]
+        subreddits = sr[1]
+        sr_dict = {
+            "guild_id": guild,
+            "subreddits": subreddits
+        }
+        guild_subreddits.append(sr_dict)
+    logger.info("caching subreddits from database...DONE")

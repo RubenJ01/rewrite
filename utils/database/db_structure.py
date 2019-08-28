@@ -2,18 +2,10 @@ import asyncio
 
 from sqlalchemy_aio import ASYNCIO_STRATEGY
 
-from sqlalchemy import (
-    Column, BigInteger, MetaData, Table, String, create_engine)
+from sqlalchemy import create_engine
 from sqlalchemy.schema import CreateTable
 
-
-metadata = MetaData()
-
-guild_settings = Table(
-    'guild_settings', metadata,
-    Column('guild_id', BigInteger, primary_key=True),
-    Column('prefix', String(10)),
-)
+from utils.database import guild_settings, subreddits
 
 
 async def main():
@@ -25,6 +17,7 @@ async def main():
 
     # Create the table
     await engine.execute(CreateTable(guild_settings))
+    await engine.execute(CreateTable(subreddits))
 
     conn = await engine.connect()
 
