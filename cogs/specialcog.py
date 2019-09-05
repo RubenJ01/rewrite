@@ -4,6 +4,7 @@ import logging
 from sqlalchemy import update
 
 from discord import Colour, Embed
+from discord.ext import buttons
 from discord.ext.commands import Bot, Cog, command, has_permissions, MissingPermissions
 
 from utils.checks import is_admin
@@ -13,8 +14,15 @@ import utils.database as tables
 log = logging.getLogger('bot.' + __name__)
 
 
+class Paginator(buttons.Paginator):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+
 class SpecialCog(Cog, name='Special'):
     """Miscellaneous commands."""
+
     def __init__(self, bot: Bot):
         self.bot = bot
         self.config = self.bot.config
@@ -119,66 +127,24 @@ class SpecialCog(Cog, name='Special'):
             return await ctx.send(f'Could not change the prefix for the server.\n{error}')
 
     @command(name='help')
-    async def new_help(self, ctx, second_help: str = None):
-        """
-        Shows this message
-        """
-        embed = Embed(
-            title=':regional_indicator_h: :regional_indicator_e: :regional_indicator_l: :regional_indicator_p: ',
-            colour=0x68c290
-        )
-        cmd_names = [cmd.name for cmd in self.bot.commands]
-        cogs = sorted([cog for cog in self.bot.cogs.keys() if cog not in ['Tavern', 'ErrorHandler']])
-        if not second_help:
-            for cog_name in cogs:
-                cog = self.bot.get_cog(cog_name)
-                commands = [cmd for cmd in cog.get_commands() if not cmd.hidden]
-                message = f'{cog.description}\nCommands under this category:\n'
-                for cmd in commands:
-                    message += f'**{self.config["prefix"]}{cmd.name}:  ** *{cmd.help[0:40]}...*\n'
-                embed.add_field(name=cog_name, value=message, inline=False)
-            embed.add_field(name='Support Server', value='https://discord.gg/UJPzg8x', inline=False)
-            embed.set_footer(text=f"Use {self.config['prefix']}help (category)/(command) for more information.")
-        else:
-            cogs_lowercase = [cog.lower() for cog in cogs]
-            if second_help in cogs_lowercase:
-                index = cogs_lowercase.index(second_help)
-                cog = self.bot.get_cog(cogs[index])
-                commands = [command for command in cog.get_commands() if command.hidden is not True]
-                message = f'{cog.description}\nCommands under this category:\n'
-                for cmd in commands:
-                    name = cmd.name
-                    message += f'**{self.config["prefix"]}{name} :** {cmd.help[0:40]}\n'
-                embed.add_field(name=cogs[index], value=message + '**', inline=False)
-            elif second_help.lower() in cmd_names:
-                cmd = self.bot.get_command(second_help)
-                embed.add_field(name=cmd.name, value=cmd.help, inline=False)
-                value = ''
-                if cmd.aliases:
-                    for alias in cmd.aliases:
-                        value += f'{str(alias)}, '
-                    value = value[0:-2]
-                    value = value + '.'
-                else:
-                    value = None
-                embed.add_field(name="Aliases", value=f'*{value}*', inline=False)
-                params_list = list(cmd.params.keys())
-                req_params = []
-                for value in params_list:
-                    req_params.append(value)
-                req_params.remove('self')
-                req_params.remove('ctx')
-                param_message = 'Required parameters are:\n**'
-                if req_params:
-                    for parm in req_params:
-                        param_message += parm + '\n'
-                    embed.add_field(name='Usage', value=param_message + '**', inline=False)
-                else:
-                    embed.add_field(name='Usage', value=param_message + 'None**', inline=False)
-
-            else:
-                return await ctx.send(f"{str(second_help)} command/category does not exist!")
-        await ctx.send(embed=embed)
+    async def help_(self, ctx):
+        cogs = sorted([cog for cog in self.bot.cogs.keys() if cog not in ['ErrorHandler', 'Tavern']])
+        pages = []
+        page = 1
+        for cog_name in cogs:
+            cog = self.bot.get_cog(cog_name)
+            commands = [cmd for cmd in cog.get_commands() if not cmd.hidden or cmd.name == 'help']
+            message = cog.description + '\n'
+            for cmd in commands:
+                message += f' \n  **{self.config["prefix"]}{cmd}** \n *{cmd.help}*'
+            help_embed = Embed(title=cog_name, colour=Colour.blurple(), description=message)
+            help_embed.set_footer(text=f'Page: {page}/{len(cogs)}')
+            help_embed.set_author(name=f'{ctx.author}', icon_url=ctx.author.avatar_url)
+            pages.append(help_embed)
+            page = page + 1
+        embed = Paginator(embed=False, timeout=90, use_defaults=True,
+                          extra_pages=pages, length=1)
+        await embed.start(ctx)
 
     @is_admin()
     @command(name='hiddencmds', aliases=['hiddens'], hidden=True)
