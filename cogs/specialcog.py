@@ -138,7 +138,11 @@ class SpecialCog(Cog, name='Special'):
                 commands = [cmd for cmd in cog.get_commands() if not cmd.hidden or cmd.name == 'help']
                 message = cog.description + '\n'
                 for cmd in commands:
-                    message += f' \n  **{self.config["prefix"]}{cmd}** \n *{cmd.help}*'
+                    if cmd.name == 'subreddit':
+                        for sub_cmd in cmd.walk_commands():
+                            message += f' \n  **{self.config["prefix"]}{sub_cmd}** \n *{sub_cmd.help}*'
+                    else:
+                        message += f' \n  **{self.config["prefix"]}{cmd}** \n *{cmd.help}*'
                 help_embed = Embed(title=cog_name, colour=Colour.blurple(), description=message)
                 help_embed.set_footer(text=f'Page: {page}/{len(cogs)}')
                 help_embed.set_author(name=f'{ctx.author}', icon_url=ctx.author.avatar_url)
