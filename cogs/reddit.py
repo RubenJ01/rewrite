@@ -38,7 +38,6 @@ class DndReddit(commands.Cog, name='D&D Reddit'):
     async def get_reddit(self, ctx, subreddit='dndmemes'):
         """
         Fetch reddit posts by using this command.
-
         Gets a post from r/dndmemes by default.
         """
         subreddit_list = []
