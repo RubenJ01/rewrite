@@ -57,6 +57,7 @@ class SpecialCog(Cog, name='Special'):
             title='Invite link for The Tavern Bot',
             description=self.config['invite'],
             colour=Colour.blurple())
+        invite_embed.set_author(name=f'{ctx.author}', icon_url=ctx.author.avatar_url)
         invite_embed.set_footer(text='Use ;help to get a list of available commands.')
         await ctx.send(embed=invite_embed)
 
@@ -75,6 +76,7 @@ class SpecialCog(Cog, name='Special'):
              f'Uptime: {uptime}\n{date}'
              ]
         )
+        status_embed.set_author(name=f'{ctx.author}', icon_url=ctx.author.avatar_url)
         status_embed.set_footer(text='Use ;help to get a list of available commands.')
         await ctx.send(embed=status_embed)
 

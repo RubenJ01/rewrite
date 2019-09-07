@@ -65,6 +65,7 @@ class SRDCog(Cog, name='SRD Information'):
             embed.add_field(name="Components", value=spell.components, inline=True)
             embed.add_field(name="Duration", value=spell.duration, inline=True)
             embed.set_footer(text=f'Player\'s Handbook, page {spell.page}.')
+            embed.set_author(name=f'{ctx.author}', icon_url=ctx.author.avatar_url)
             return await ctx.send(embed=embed)
         else:
             for i, description in enumerate(descriptions):
@@ -81,6 +82,7 @@ class SRDCog(Cog, name='SRD Information'):
                     embed.add_field(name="Components", value=spell.components, inline=True)
                     embed.add_field(name="Duration", value=spell.duration, inline=True)
                     embed.set_footer(text=f'Player\'s Handbook, page {spell.page}.')
+                    embed.set_author(name=f'{ctx.author}', icon_url=ctx.author.avatar_url)
                 extra_pages.append(embed)
             embed = Paginator(embed=False, timeout=90, use_defaults=True,
                               extra_pages=extra_pages, length=1)
@@ -107,6 +109,7 @@ class SRDCog(Cog, name='SRD Information'):
             condition = matches[condition_names_lower.index(request.lower())]
         embed = Embed(colour=PHB_COLOUR)
         embed.add_field(name=condition.name, value=condition.description, inline=True)
+        embed.set_author(name=f'{ctx.author}', icon_url=ctx.author.avatar_url)
         return await ctx.send(embed=embed)
 
     @command(name='feature')
@@ -135,10 +138,12 @@ class SRDCog(Cog, name='SRD Information'):
         content += feature.description
         if len(content) < 2048:
             embed = Embed(title=feature.name, colour=PHB_COLOUR, description=content)
+            embed.set_author(name=f'{ctx.author}', icon_url=ctx.author.avatar_url)
             return await ctx.send(embed=embed)
         else:
             embed = Embed(title=feature.name, colour=PHB_COLOUR, description=content[:2048])
             embedtwo = Embed(title=f"{feature.name} *continued*", colour=PHB_COLOUR, description=content[2048:])
+            embedtwo.set_author(name=f'{ctx.author}', icon_url=ctx.author.avatar_url)
             paginator = Paginator(embed=False, timeout=90, use_defaults=True,
                                   extra_pages=[embed, embedtwo], length=1)
             await paginator.start(ctx)
@@ -165,6 +170,7 @@ class SRDCog(Cog, name='SRD Information'):
         embed = Embed(colour=PHB_COLOUR)
         content = f'{language.name} is a {language.languagetype} language spoken mainly by {language.typicalspeakers}'
         embed.add_field(name=language.name, value=content, inline=False)
+        embed.set_author(name=f'{ctx.author}', icon_url=ctx.author.avatar_url)
         return await ctx.send(embed=embed)
 
     @command(name='school')
@@ -188,6 +194,7 @@ class SRDCog(Cog, name='SRD Information'):
             school = matches[school_names_lower.index(request.lower())]
         embed = Embed(colour=PHB_COLOUR)
         embed.add_field(name=school.name, value=school.description, inline=False)
+        embed.set_author(name=f'{ctx.author}', icon_url=ctx.author.avatar_url)
         return await ctx.send(embed=embed)
 
     @command(name='damagetype')
@@ -212,6 +219,7 @@ class SRDCog(Cog, name='SRD Information'):
         embed = Embed(colour=PHB_COLOUR)
         embed.add_field(name=damage.name, value=damage.description, inline=False)
         embed.set_footer(text='Use ;damagetype {type} to look up any of the damage types.')
+        embed.set_author(name=f'{ctx.author}', icon_url=ctx.author.avatar_url)
         return await ctx.send(embed=embed)
 
     @command(name='trait')
@@ -237,6 +245,7 @@ class SRDCog(Cog, name='SRD Information'):
         embed.add_field(name=trait.name, value=trait.description, inline=False)
         embed.add_field(name='Races', value=f'The following races can get this trait: {trait.finalraces}', inline=False)
         embed.set_footer(text='Use ;trait {type} to look up any of the traits.')
+        embed.set_author(name=f'{ctx.author}', icon_url=ctx.author.avatar_url)
         return await ctx.send(embed=embed)
 
     @command(name='monster')
@@ -263,14 +272,18 @@ class SRDCog(Cog, name='SRD Information'):
         stats.add_field(name='Attributes', value=monster.attributes, inline=False)
         stats.add_field(name='Ability Scores', value=monster.abilityscores, inline=False)
         stats.add_field(name='Features', value=monster.features, inline=False)
+        stats.set_author(name=f'{ctx.author}', icon_url=ctx.author.avatar_url)
         if length < 2048:
             action = Embed(title='Actions', colour=PHB_COLOUR, description=monster.actions)
+            action.set_author(name=f'{ctx.author}', icon_url=ctx.author.avatar_url)
             embed = Paginator(embed=False, timeout=90, use_defaults=True,
                               extra_pages=[stats, action], length=1)
             await embed.start(ctx)
         else:
             action = Embed(title='Actions', colour=PHB_COLOUR, description=monster.actions[:2048])
+            action.set_author(name=f'{ctx.author}', icon_url=ctx.author.avatar_url)
             actiontwo = Embed(title=F"Actions *continued*", colour=PHB_COLOUR, description=monster.actions[2048:])
+            actiontwo.set_author(name=f'{ctx.author}', icon_url=ctx.author.avatar_url)
             embed = Paginator(embed=False, timeout=90, use_defaults=True,
                               extra_pages=[stats, action, actiontwo], length=1)
             await embed.start(ctx)
@@ -303,6 +316,7 @@ class SRDCog(Cog, name='SRD Information'):
         embed = Embed(colour=PHB_COLOUR)
         embed.add_field(name=equipment.name, value=equipment.context, inline=False)
         embed.set_footer(text='Use ;equipment {type} to look up any of the equipment items.')
+        embed.set_author(name=f'{ctx.author}', icon_url=ctx.author.avatar_url)
         return await ctx.send(embed=embed)
 
     @command(name='class')
@@ -329,6 +343,7 @@ class SRDCog(Cog, name='SRD Information'):
         embed.add_field(name='Equipment', value=classinfo.equipment_text, inline=False)
         embed.add_field(name='Hit Die', value=f'D{classinfo.hit_die}', inline=True)
         embed.add_field(name='Saving Throws', value=classinfo.saving_throws, inline=True)
+        embed.set_author(name=f'{ctx.author}', icon_url=ctx.author.avatar_url)
         return await ctx.send(embed=embed)
 
 

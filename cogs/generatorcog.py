@@ -46,6 +46,7 @@ class GeneratorCog(Cog, name='Generator'):
                 num = num + 1
             generator_embed.description = desc
             msg = 'Use ;generate {command} {optional amount} to use one of the above commands.'
+            generator_embed.set_author(name=f'{ctx.author}', icon_url=ctx.author.avatar_url)
             generator_embed.set_footer(text=msg)
             return await ctx.send(embed=generator_embed)
 
@@ -74,6 +75,7 @@ class GeneratorCog(Cog, name='Generator'):
         desc = final_output()
         embed = Embed(colour=Colour.blurple())
         embed.add_field(name='Randomly generated npc.', value=desc, inline=True)
+        embed.set_author(name=f'{ctx.author}', icon_url=ctx.author.avatar_url)
         return await ctx.send(embed=embed)
 
     @command(name='name')

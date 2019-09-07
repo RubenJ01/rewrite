@@ -199,6 +199,7 @@ class DndReddit(commands.Cog, name='D&D Reddit'):
         embed.description += f'\n**{post["data"]["num_comments"]}** {comment} '
 
         embed.set_footer(text=f'Posted by {post["data"]["author"]} in r/{subreddit}.')
+        embed.set_author(name=f'{ctx.author}', icon_url=ctx.author.avatar_url)
         embed.url = post['data']['url']
 
         await ctx.send(embed=embed)

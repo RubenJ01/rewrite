@@ -87,6 +87,7 @@ class DndTools(Cog, name='D&D Tools'):
             encoded_link = links[key].replace(')', '\\)').replace('(', '\\(')
             link.append(f"[{key}]({encoded_link})")
         homebrew_embed = Embed(title=name, description='\n'.join(link), colour=Colour.blurple())
+        homebrew_embed.set_author(name=f'{ctx.author}', icon_url=ctx.author.avatar_url)
         return await ctx.send(embed=homebrew_embed)
 
 
