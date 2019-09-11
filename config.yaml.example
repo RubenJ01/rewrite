@@ -9,6 +9,7 @@ prefix: ";"
 invite: ""  # invite link for the bot
 
 load_extensions:
+  - cogs.events
   - cogs.generatorcog
   - cogs.rollingcog
   - cogs.specialcog
