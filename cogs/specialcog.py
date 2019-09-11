@@ -1,6 +1,5 @@
 import datetime
 import logging
-
 from sqlalchemy import update
 
 from discord import Colour, Embed
@@ -26,28 +25,6 @@ class SpecialCog(Cog, name='Special'):
     def __init__(self, bot: Bot):
         self.bot = bot
         self.config = self.bot.config
-
-    @Cog.listener()
-    async def on_guild_join(self, guild):
-        code = tables.guild_settings.insert().values()
-        data = {
-            'guild_id': guild.id,
-            'prefix': self.config["prefix"]
-        }
-        await db_edit(code, data)
-        tavern_support = self.bot.get_guild(546007130902233088)
-        channel = tavern_support.get_channel(573945620482490378)
-        await channel.send(f'**{guild.name}** guild has invited the Tavern Bot.')
-
-    @Cog.listener()
-    async def on_guild_remove(self, guild):
-        table = tables.guild_settings
-        guild_id = guild.id
-        code = table.delete().where(table.c.guild_id == guild_id)
-        await db_edit(code)
-        tavern_support = self.bot.get_guild(546007130902233088)
-        channel = tavern_support.get_channel(573945620482490378)
-        await channel.send(f'**{guild.name}** guild has removed the Tavern Bot.')
 
     @command(name='invite')
     async def invite_command(self, ctx):

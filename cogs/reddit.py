@@ -46,7 +46,6 @@ class DndReddit(commands.Cog, name='D&D Reddit'):
     @subreddit.command(name="enable")
     async def enable_feature(self, ctx):
         """A command to enable specific subreddits feature."""
-
         code = tables.subreddits.insert().values()
         data = {
             'guild_id': ctx.guild.id,
@@ -57,6 +56,17 @@ class DndReddit(commands.Cog, name='D&D Reddit'):
             await ctx.send("Feature has been enabled!")
         else:
             await ctx.send("Feature has already been enabled!")
+
+    @subreddit.command(name="enable")
+    async def enable_feature(self, ctx):
+        """A command to disable specific subreddits feature."""
+        table = tables.subreddits
+        code = table.delete().where(table.c.guild_id == ctx.guild.id)
+        result = await db_edit(code)
+        if result:
+            await ctx.send("Feature has been disabled!")
+        else:
+            await ctx.send("Feature has already been disabled!")
 
     @subreddit.command(name="add")
     async def add_subreddit(self, ctx, subreddit: str):
