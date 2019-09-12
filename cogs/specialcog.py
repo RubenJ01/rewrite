@@ -107,7 +107,7 @@ class SpecialCog(Cog, name='Special'):
 
     @command(name='help')
     async def help_(self, ctx, second_help: str = None):
-        cogs = sorted([cog for cog in self.bot.cogs.keys() if cog not in ['ErrorHandler', 'Tavern']])
+        cogs = sorted([cog for cog in self.bot.cogs.keys() if cog not in ['ErrorHandler', 'Tavern', 'Events']])
         pages = []
         page = 1
         cmd_names = [cmd.name for cmd in self.bot.commands]

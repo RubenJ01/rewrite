@@ -11,7 +11,7 @@ import utils.database as tables
 log = logging.getLogger('bot.' + __name__)
 
 
-class Events(Cog):
+class Events(Cog, name="Events"):
     """A cog to handle all events."""
     def __init__(self, bot):
         self.bot = bot
