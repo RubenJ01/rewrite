@@ -58,7 +58,7 @@ class DndReddit(commands.Cog, name='D&D Reddit'):
             await ctx.send("Feature has already been enabled!")
 
     @subreddit.command(name="disable")
-    async def enable_feature(self, ctx):
+    async def disable_feature(self, ctx):
         """A command to disable specific subreddits feature."""
         table = tables.subreddits
         code = table.delete().where(table.c.guild_id == ctx.guild.id)
