@@ -1,12 +1,15 @@
+import asyncio
+from datetime import datetime
 import logging
 import json
 from pathlib import Path
 
-from discord import Colour, Embed
+from discord import Colour, Embed, File
 from discord.ext.commands import Cog
 
-from utils.database.db_functions import db_edit, cache_prefixes
 import utils.database as tables
+from utils.database.db_functions import db_edit, backup_database
+
 
 log = logging.getLogger('bot.' + __name__)
 
@@ -17,6 +20,21 @@ class Events(Cog, name="Events"):
         self.bot = bot
         self.config = self.bot.config
         self.used_commands = {}
+
+    async def backup_background_task(self):
+        """Backup database and send the backup file in channel every 24 hours"""
+        await self.bot.wait_until_ready()
+        while True:
+            await self.send_file()
+            await asyncio.sleep(24*60*60)
+
+    async def send_file(self):
+        """Sends backup db file to channel"""
+        guild = self.bot.get_guild(546007130902233088)
+        channel = guild.get_channel(622835562516054028)
+        p = Path("utils", "database", "backup.txt")
+        await backup_database()
+        await channel.send(content=f"**{datetime.utcnow()} UTC**", file=File(fp=p.open()))
 
     @Cog.listener()
     async def on_guild_join(self, guild):
@@ -68,5 +86,7 @@ class Events(Cog, name="Events"):
 
 
 def setup(bot):
+    loop = asyncio.get_event_loop()
+    loop.create_task(Events(bot).backup_background_task())
     bot.add_cog(Events(bot))
     log.debug("Events cog loaded.")

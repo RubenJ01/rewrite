@@ -1,6 +1,7 @@
 import aiohttp
 import datetime
 import logging
+import subprocess
 import yaml
 
 from pathlib import Path
@@ -16,7 +17,6 @@ LOGDIR = Path('logs')
 
 
 # Set up logging
-
 
 def setup_logger() -> logging.Logger:
     """Create and return the root Logger object for the bot."""
@@ -44,6 +44,13 @@ def setup_logger() -> logging.Logger:
 
 log = setup_logger()
 
+
+# Run db_structure.py to make sure all tables are created.
+
+async def update_database_tables():
+    log.info("Running db_structure.py ...")
+    subprocess.run(["python", "utils/database/db_structure.py"])
+    log.info("Done running db_structure.py")
 
 # Load configuration
 with open(CONFIG_FILE, 'r') as yaml_file:
@@ -74,6 +81,7 @@ async def on_connect():
 @bot.event
 async def on_ready():
     log.info(f"Connected as {bot.user}, using discord.py {discver}")
+    await update_database_tables()
 
 
 def main():

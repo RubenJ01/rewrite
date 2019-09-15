@@ -1,4 +1,5 @@
 import logging
+from pathlib import Path
 
 from sqlalchemy_aio import ASYNCIO_STRATEGY
 from sqlalchemy import create_engine
@@ -83,3 +84,21 @@ async def cache_subreddits():
         }
         guild_subreddits.append(sr_dict)
     logger.info("caching subreddits from database...DONE")
+
+
+async def backup_database():
+    logger.info("Backing up database...")
+    guild_settings = await db_query(tables.guild_settings.select())
+    subreddits = await db_query(tables.subreddits.select())
+    p = Path("utils", "database", "backup.txt")
+    with p.open(mode="w") as f:
+        f.write("Guild Settings Table:\n")
+
+        for guild in guild_settings:
+            f.write(f"{guild} \n")
+
+        f.write("Subreddits Table:\n")
+
+        for guild in subreddits:
+            f.write(f"{guild} \n")
+    logger.info("Backing up database...DONE")
