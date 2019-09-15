@@ -16,14 +16,24 @@ async def main():
     )
 
     # Create the table
-
-    # await engine.execute(CreateTable(guild_settings))
-    await engine.execute(CreateTable(subreddits))
+    try:
+        await engine.execute(CreateTable(guild_settings))
+    except Exception as e:
+        if isinstance(e, exc.OperationalError):
+            print("Ignoring table already exists error.")
+        else:
+            raise e
+    try:
+        await engine.execute(CreateTable(subreddits))
+    except Exception as e:
+        if isinstance(e, exc.OperationalError):
+            print("Ignoring table already exists error.")
+        else:
+            raise e
 
     conn = await engine.connect()
 
     await conn.close()
-
 
 loop = asyncio.get_event_loop()
 loop.run_until_complete(main())
