@@ -319,33 +319,6 @@ class SRDCog(Cog, name='SRD Information'):
         embed.set_author(name=f'{ctx.author}', icon_url=ctx.author.avatar_url)
         return await ctx.send(embed=embed)
 
-    @command(name='class')
-    @cooldown(1, 2, BucketType.user)
-    async def class_command(self, ctx, *request):
-        """Give information on a class by name."""
-        request = ' '.join(request)
-        log.debug(f'class command called with request: {request}')
-        if len(request) <= 2:
-            return await ctx.send('Request too short.')
-        matches = srd.search_class(request)
-        if len(matches) == 0:
-            return await ctx.send(f'Couldn\'t find any classes that match \'{request}\'.')
-        classinfo_names = [match.name for match in matches]
-        classinfo_names_lower = [match.name.lower() for match in matches]
-        if len(matches) > 1 and request.lower() not in classinfo_names_lower:
-            return await ctx.send(f'Could be: **{" - ".join(classinfo_names)}**.')
-        if request.lower() not in classinfo_names_lower:
-            classinfo = matches[0]
-        else:
-            classinfo = matches[classinfo_names_lower.index(request.lower())]
-        embed = Embed(colour=PHB_COLOUR, title=classinfo.name)
-        embed.add_field(name='Proficiencies', value=classinfo.proficiency, inline=False)
-        embed.add_field(name='Equipment', value=classinfo.equipment_text, inline=False)
-        embed.add_field(name='Hit Die', value=f'D{classinfo.hit_die}', inline=True)
-        embed.add_field(name='Saving Throws', value=classinfo.saving_throws, inline=True)
-        embed.set_author(name=f'{ctx.author}', icon_url=ctx.author.avatar_url)
-        return await ctx.send(embed=embed)
-
 
 def setup(bot):
     bot.add_cog(SRDCog(bot))

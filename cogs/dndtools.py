@@ -34,7 +34,7 @@ class DndTools(Cog, name='D&D Tools'):
         gp = total % 10
         total = total // 10
         pp = total
-        return await ctx.send(f"Recalculated your currency into: {str(cp)}cp, {str(sp)}sp, {str(gp)}gp and {str(pp)}pp")
+        return await ctx.send(f"Recalculated your currency into: {str(cp)}:copper_piece:, {str(sp)}:silver_piece: , {str(gp)}:gold_piece:  and {str(pp)}:platinum_piece:")
 
     @command(name='encounter')
     async def encounter_command(self, ctx, psize, plevel, difficulty, environment=None, dm=None):
