@@ -34,7 +34,11 @@ class DndTools(Cog, name='D&D Tools'):
         gp = total % 10
         total = total // 10
         pp = total
-        return await ctx.send(f"Recalculated your currency into: {str(cp)}:copper_piece:, {str(sp)}:silver_piece: , {str(gp)}:gold_piece:  and {str(pp)}:platinum_piece:")
+        silver_piece = self.bot.get_emoji(self.bot.config['currency']['silver_piece_id'])
+        gold_piece = self.bot.get_emoji(self.bot.config['currency']['gold_piece_id'])
+        copper_piece = self.bot.get_emoji(self.bot.config['currency']['copper_piece_id'])
+        platinum_piece = self.bot.get_emoji(self.bot.config['currency']['platinum_piece_id'])
+        return await ctx.send(f"Recalculated your currency into: {str(cp)}{copper_piece}, {str(sp)}{silver_piece} , {str(gp)}{gold_piece}  and {str(pp)}{platinum_piece}")
 
     @command(name='encounter')
     async def encounter_command(self, ctx, psize, plevel, difficulty, environment=None, dm=None):

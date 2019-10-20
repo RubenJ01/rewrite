@@ -32,6 +32,13 @@ reddit:
   downvote_emoji_id: 565550586146324500
   comment_emoji_id: 565577972812349498
 
+#cog: dndtools
+currency:
+  silver_piece_id: 621811910240894997
+  gold_piece_id: 609094717585489937
+  copper_piece_id: 609095347070828547
+  platinum_piece_id: 609095137028472832
+
 # cog: taverncog
 tavern:
   # guilds to consider part of The Tavern
