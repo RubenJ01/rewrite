@@ -22,8 +22,8 @@
 
   -`pipenv shell`
   
-##### 4.Env vars
-- Go into the folder **rewrite** create a file called **config.yaml**
+##### 4.Config vars
+- Go into the folder **rewrite** and create a file called **config.yaml**
 - Copy everything from **config.yaml.example** into your **config.yaml**.
 - Replace the token value with your own bot token and you can change the prefix according to your comforts.
   
