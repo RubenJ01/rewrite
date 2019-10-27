@@ -94,6 +94,18 @@ class DndTools(Cog, name='D&D Tools'):
         homebrew_embed.set_author(name=f'{ctx.author}', icon_url=ctx.author.avatar_url)
         return await ctx.send(embed=homebrew_embed)
 
+    @command(name='convertfm', aliases=['convertmf', 'fm', 'mf'])
+    async def convert_length_units(self, ctx, number: int) -> None:
+        """
+        Convert Feet to meter or vice versa.
+        arguments:
+        - number
+        """
+        in_feet = number*3.28
+        in_meter = number/3.38
+        message = f"```{number} Feet = {'%.2f'%in_meter} Meter\n{number} Meter = {'%.2f'%in_feet} Feet```"
+        await ctx.send(message)
+
 
 def setup(bot):
     bot.add_cog(DndTools(bot))
